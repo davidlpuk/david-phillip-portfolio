@@ -1,54 +1,168 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Briefcase, Users, TrendingUp, Star } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 /**
- * DESIGN PHILOSOPHY: Sophisticated Minimalism with Data Narrative
- * - Clean geometric grids with strategic data storytelling
- * - Neutral palette (off-white, charcoal, deep slate) with accent color
- * - Typography: Playfair Display (headlines) + Outfit (body)
- * - Metrics are the visual hero; whitespace is a design material
+ * Portfolio Home Page - Refactored Design
+ * Based on: https://noble-cause-027906.framer.app
+ *
+ * Design System:
+ * - Background: #FAF5E6 (cream/beige)
+ * - Text: Black with subtle grays
+ * - Typography: Manrope Variable (headings), Inter (body), EB Garamond (accents)
+ * - Layout: 1200px max width, centered
+ * - Animations: Fade in on scroll, ticker for logos
  */
 
-// Counter animation component
-function Counter({ target, duration = 2000 }: { target: number; duration?: number }) {
-  const [count, setCount] = useState(0);
+// Metric Card Component with fade-in animation
+function MetricCard({ value, label, delay = 0 }: { value: string; label: string; delay?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
 
-  useEffect(() => {
-    let start = 0;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [target, duration]);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.5, delay }}
+      className="flex flex-col gap-2"
+    >
+      <h2 className="text-3xl md:text-4xl font-semibold text-[#52504B]" style={{ fontFamily: "Manrope, sans-serif" }}>
+        {value}
+      </h2>
+      <p className="text-base opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>
+        {label}
+      </p>
+    </motion.div>
+  );
+}
 
-  return <span>{count}</span>;
+// Service Card Component
+function ServiceCard({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="bg-gradient-to-b from-[#D6D2C7] to-transparent p-6 rounded-lg">
+      <h5 className="text-xl font-semibold mb-3" style={{ fontFamily: "Mona Sans, sans-serif" }}>
+        {title}
+      </h5>
+      <p className="text-sm leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+        {description}
+      </p>
+    </div>
+  );
+}
+
+// Tag Component
+function Tag({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="inline-flex items-center px-4 py-2 rounded-full bg-black/6 text-sm" style={{ fontFamily: "Mona Sans, sans-serif" }}>
+      {children}
+    </div>
+  );
+}
+
+// Case Study Card Component
+function CaseStudyCard({
+  logo,
+  company,
+  title,
+  role,
+  tags,
+  image,
+  challenge,
+  myRole,
+  outcome,
+  bgColor = "bg-gradient-to-b from-[#F7F3E9] to-[#D6D2C7]"
+}: {
+  logo: string;
+  company: string;
+  title: string;
+  role: string;
+  tags: string[];
+  image: string;
+  challenge: string;
+  myRole: string;
+  outcome: string;
+  bgColor?: string;
+}) {
+  return (
+    <div className={`sticky top-0 ${bgColor} px-16 py-32`}>
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+        {/* Left Column */}
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <img src={logo} alt={`${company} logo`} className="h-10 opacity-70" />
+            <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>{company}</p>
+            <h2 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "EB Garamond, serif" }}>
+              {title}
+            </h2>
+          </div>
+
+          <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>{role}</p>
+
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag, idx) => (
+              <Tag key={idx}>{tag}</Tag>
+            ))}
+          </div>
+
+          <div className="w-full h-64 rounded-lg overflow-hidden">
+            <img src={image} alt={title} className="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-8">
+          <div className="space-y-3">
+            <h3 className="text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>The Challenge</h3>
+            <p className="text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+              {challenge}
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>My Role</h3>
+            <p className="text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+              {myRole}
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>The Outcome</h3>
+            <p className="text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+              {outcome}
+            </p>
+          </div>
+
+          <Button variant="outline" className="border border-black bg-transparent hover:bg-black/5">
+            View Case Study
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#FAF5E6] text-black">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
-        <div className="container flex items-center justify-between h-16">
-          <div className="font-bold text-xl text-foreground" style={{ fontFamily: "'Playfair Display', serif" }}>
-            David Phillip
+      <nav className="sticky top-0 z-50 bg-[#FAF5E6]/95 backdrop-blur border-b border-black/10">
+        <div className="max-w-6xl mx-auto px-8 flex items-center justify-between h-20">
+          <div className="font-bold text-2xl" style={{ fontFamily: "Mona Sans, sans-serif", letterSpacing: "0.02em" }}>
+            DavidUX
           </div>
-          <div className="hidden md:flex gap-8">
-            <a href="#about" className="text-sm hover:text-accent transition-colors">
+          <div className="flex gap-12">
+            <a href="#home" className="text-lg font-semibold opacity-40 hover:opacity-100 transition-opacity border-b-4 border-black" style={{ fontFamily: "Manrope, sans-serif" }}>
+              Home
+            </a>
+            <a href="#about" className="text-lg font-semibold hover:opacity-100 transition-opacity" style={{ fontFamily: "Manrope, sans-serif" }}>
               About
             </a>
-            <a href="#work" className="text-sm hover:text-accent transition-colors">
-              Work
+            <a href="#work" className="text-lg font-semibold hover:opacity-100 transition-opacity" style={{ fontFamily: "Manrope, sans-serif" }}>
+              Case Studies
             </a>
-            <a href="#contact" className="text-sm hover:text-accent transition-colors">
+            <a href="#contact" className="text-lg font-semibold hover:opacity-100 transition-opacity" style={{ fontFamily: "Manrope, sans-serif" }}>
               Contact
             </a>
           </div>
@@ -56,382 +170,172 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-[#D6D2C7] to-transparent">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left: Content */}
-            <div className="space-y-6">
-              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-                I build teams that ship products that matter
-              </h1>
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-md">
-                20 years in FinTech. I combine strategic thinking, design leadership, and hands-on execution to build products that drive measurable business results.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <Button className="bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto">
-                  View My Work <ArrowRight className="ml-2 w-4 h-4" />
+            <div className="space-y-10">
+              <div className="space-y-6">
+                <h1 className="text-5xl md:text-6xl leading-tight" style={{ fontFamily: "Manrope Variable, sans-serif", fontWeight: 372, letterSpacing: "-0.03em" }}>
+                  I build products from <span style={{ fontWeight: 800, letterSpacing: "-0.05em" }}>strategy</span> to <span style={{ fontWeight: 800, letterSpacing: "-0.05em" }}>shipped</span>
+                </h1>
+
+                <p className="text-2xl leading-relaxed text-[#6B6963]" style={{ fontFamily: "EB Garamond, serif" }}>
+                  Extensive FinTech experience. <br />
+                  Now designing, coding, and deploying complete solutions — powered by AI, guided by experience.
+                </p>
+              </div>
+
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-2 gap-8">
+                <MetricCard value="20+" label="Years in FinTech" delay={0} />
+                <MetricCard value="5" label="Sectors deep" delay={0.1} />
+                <MetricCard value="End-to-End" label="Strategy to Deploy" delay={0.2} />
+                <MetricCard value="AI" label="Embedded AI in Design" delay={0.3} />
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex gap-4">
+                <Button className="bg-black text-white hover:bg-black/90 px-8 py-6 text-lg">
+                  View Work
                 </Button>
-                <Button variant="outline" className="w-full sm:w-auto">
+                <Button variant="outline" className="border border-black bg-transparent hover:bg-black/5 px-8 py-6 text-lg">
                   Download CV
                 </Button>
               </div>
             </div>
 
-            {/* Right: Hero Image */}
-            <div className="relative h-64 sm:h-80 md:h-full rounded-lg overflow-hidden">
+            {/* Right: Hero Image - Placeholder */}
+            <div className="relative h-[600px]">
               <img
                 src="/images/hero-david-workspace.jpg"
-                alt="David Phillip in his workspace"
-                className="w-full h-full object-cover rounded-lg"
+                alt="David Phillip workspace"
+                className="w-full h-full object-contain"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent rounded-lg" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Metrics Section */}
-      <section className="py-12 md:py-24 bg-muted/30">
-        <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {/* Metric: Years in FinTech */}
-            <div className="metric-card">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Years in FinTech</p>
-                  <p className="text-4xl font-bold text-accent" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    <Counter target={20} />+
-                  </p>
-                </div>
-                <Briefcase className="w-5 h-5 text-accent/60" />
-              </div>
-              <p className="text-xs text-muted-foreground">Strategic expertise across regulated industries</p>
-            </div>
+      {/* Trusted by Section with Logo Ticker */}
+      <section className="py-16">
+        <div className="max-w-6xl mx-auto px-8">
+          <h3 className="text-center text-sm uppercase tracking-wider mb-8 opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>
+            Trusted by Industry Leaders
+          </h3>
 
-            {/* Metric: NPS Improvement */}
-            <div className="metric-card">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">NPS Improvement</p>
-                  <p className="text-4xl font-bold text-accent" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    +<Counter target={28} />
-                  </p>
-                </div>
-                <TrendingUp className="w-5 h-5 text-accent/60" />
-              </div>
-              <p className="text-xs text-muted-foreground">From -16 to +12 at Cognism</p>
-            </div>
-
-            {/* Metric: Team Retention */}
-            <div className="metric-card">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">Team Retention</p>
-                  <p className="text-4xl font-bold text-accent" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    <Counter target={100} />%
-                  </p>
-                </div>
-                <Users className="w-5 h-5 text-accent/60" />
-              </div>
-              <p className="text-xs text-muted-foreground">Over 2 years at Cognism</p>
-            </div>
-
-            {/* Metric: ARR Growth */}
-            <div className="metric-card">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-2">ARR Growth</p>
-                  <p className="text-4xl font-bold text-accent" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    4x
-                  </p>
-                </div>
-                <Star className="w-5 h-5 text-accent/60" />
-              </div>
-              <p className="text-xs text-muted-foreground">$20M to $80M during tenure</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership Philosophy Section */}
-      <section id="about" className="py-12 md:py-32">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 md:mb-12" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Great products come from great teams
-            </h2>
-
-            <p className="text-lg text-muted-foreground mb-12 leading-relaxed">
-              I've learned that the best design leaders aren't the ones with perfect pixels—they're the ones who build teams that trust each other, take ownership, and grow. That's what I do.
-            </p>
-
-            {/* Four Principles Grid */}
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {[
-                {
-                  title: "Clarity",
-                  description: "Your work connects to revenue, risk, and real users. No busy work.",
-                },
-                {
-                  title: "Autonomy",
-                  description: "We align on outcomes. Then I step back and unblock, not micromanage.",
-                },
-                {
-                  title: "Safety",
-                  description: "We share failures openly. That's why 100% of my team stayed at Cognism.",
-                },
-                {
-                  title: "Growth",
-                  description: "Stretch projects matched to your skills. People stay because they're growing.",
-                },
-              ].map((principle, idx) => (
-                <div key={idx} className="space-y-3">
-                  <h3 className="text-2xl font-semibold text-accent" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    {principle.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {principle.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="section-divider my-12" />
-
-            {/* Skills Section */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>Core Capabilities</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                {[
-                  "AI Strategy & Team Enablement",
-                  "AI Coding & Deployment",
-                  "UX Leadership & Design Operations",
-                  "Strategic Planning & Commercial Acumen",
-                  "Building & Optimising Teams",
-                  "Stakeholder Management",
-                  "Regulated Industries Expertise",
-                  "Cross-Functional Collaboration",
-                ].map((skill, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
-                    <span className="text-foreground">{skill}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Case Studies Section */}
-      <section id="work" className="py-20 md:py-32 bg-muted/30">
-        <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Selected Work
-          </h2>
-
-          <div className="space-y-16">
-            {/* HSBC Case Study */}
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <p className="text-sm text-accent font-semibold">HSBC</p>
-                  <h3 className="text-3xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    Small Business Banking App
-                  </h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  HSBC needed a business banking app to compete with challenger banks. Small business owners have complex needs—they needed a solution that was both powerful and simple. I built and led the design team from zero to launch.
-                </p>
-                <p className="text-sm font-semibold text-foreground">
-                  Result: Award-winning application that helped HSBC capture market share in a crowded space.
-                </p>
-                <Button variant="outline" className="w-fit">
-                  View Case Study <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
-              <div className="h-64 md:h-80 bg-muted rounded-lg overflow-hidden">
-                <img
-                  src="/images/team-collaboration.jpg"
-                  alt="HSBC case study"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Coutts Case Study */}
-            <div className="grid md:grid-cols-2 gap-12 items-center md:grid-flow-dense">
-              <div className="h-64 md:h-80 bg-muted rounded-lg overflow-hidden">
-                <img
-                  src="/images/metric-cards-background.jpg"
-                  alt="Coutts case study"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <p className="text-sm text-accent font-semibold">Coutts</p>
-                  <h3 className="text-3xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    Wealth Management App
-                  </h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Coutts needed a wealth app for ultra-high-net-worth clients. The bar was impossibly high—every interaction had to feel premium. I led the design team to balance complex financial data with the elegance their clients expected.
-                </p>
-                <p className="text-sm font-semibold text-foreground">
-                  Result: A product that made managing millions feel intuitive.
-                </p>
-                <a href="/case-study/coutts">
-                  <Button variant="outline" className="w-fit">
-                    View Case Study <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </a>
-              </div>
-            </div>
-
-            {/* Schroders Case Study */}
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <p className="text-sm text-accent font-semibold">Schroders</p>
-                  <h3 className="text-3xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    Private Banking Digital Transformation
-                  </h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Schroders' Private Banking division was fragmented—legacy systems, inconsistent experiences, and a digital presence that didn't match their premium service. I led the end-to-end transformation: strategy, design, and delivery.
-                </p>
-                <p className="text-sm font-semibold text-foreground">
-                  Result: Unified experience across all touchpoints with a digital presence that reflects their expertise.
-                </p>
-                <Button variant="outline" className="w-fit">
-                  View Case Study <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
-              <div className="h-64 md:h-80 bg-muted rounded-lg overflow-hidden">
-                <img
-                  src="/images/hero-david-workspace.jpg"
-                  alt="Schroders case study"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 md:py-32">
-        <div className="container">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Trusted by Leaders
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                quote:
-                  "David built the team and instituted all the design processes that lifted our product from -16 NPS to +12 NPS. Ease of use was cited as the main highlight by all users.",
-                author: "Michelle Bradbury",
-                title: "Chief Product Officer",
-                company: "Cognism",
-              },
-              {
-                quote:
-                  "Extremely competent UX lead with similarly expert understanding on design. Exceptional at balancing user experience with technical constraints whilst ensuring quality is not compromised.",
-                author: "Usha Sanku",
-                title: "Product Consultant",
-                company: "HSBC Kinetic",
-              },
-              {
-                quote:
-                  "His impact on the team and company culture was truly transformative. David's human-centered approach set him apart as a leader who prioritises people above all else.",
-                author: "Biljana Galapcheva",
-                title: "Senior Product Designer",
-                company: "Cognism",
-              },
-              {
-                quote:
-                  "One of the most thoughtful managers I have known. Goes above and beyond to create a great work environment. Smart designer with deep knowledge of all levels of the UX process.",
-                author: "Kiri Romero",
-                title: "UX Designer",
-                company: "Coutts",
-              },
-            ].map((testimonial, idx) => (
-              <div key={idx} className="testimonial-block">
-                <p className="text-foreground mb-4 italic leading-relaxed">
-                  "{testimonial.quote}"
-                </p>
-                <div>
-                  <p className="font-semibold text-foreground">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial.title} at {testimonial.company}
-                  </p>
-                </div>
+          {/* Logo Ticker - Simplified */}
+          <div className="flex items-center justify-center gap-12 flex-wrap opacity-70">
+            {["Cognism", "Coutts", "Schroders", "HSBC", "NatWest", "Deutsche Bank", "BlackRock", "Barclays", "TSB"].map((company, idx) => (
+              <div key={idx} className="text-lg font-medium" style={{ fontFamily: "Inter, sans-serif" }}>
+                {company}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-20 md:py-32 bg-muted/30">
-        <div className="container">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
-              About
+      {/* What I Do Section */}
+      <section className="py-20 bg-gradient-to-b from-[#D6D2C7] to-white">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="mb-12 space-y-4">
+            <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>What I do</p>
+            <h2 className="text-4xl md:text-5xl text-[#6B6963]" style={{ fontFamily: "EB Garamond, serif" }}>
+              The full stack — from problem to production
             </h2>
-            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-              <p>
-                Based in East London. I'm always up for conversations about FinTech challenges, building great teams, or the best routes around the city. Coffee optional.
-              </p>
-              <p>
-                My expertise spans from early-stage startups to global financial institutions. I've worked with teams across Asia Pacific, EMEA, and LATAM, leading digital transformations and building design practices that drive business results.
-              </p>
-              <p>
-                I'm particularly passionate about regulated industries—where design excellence and business acumen must work together. I speak the language of risk, compliance, and revenue while maintaining an unwavering focus on user experience.
-              </p>
-            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <ServiceCard
+              title="Strategy & Research"
+              description="Defining the right problem. User research, market analysis, and product strategy grounded in two decades of financial services reality."
+            />
+            <ServiceCard
+              title="Product & UX Design"
+              description="Journeys, wireframes, prototypes, and polished UI. Designing for complex financial workflows that actually work for real users."
+            />
+            <ServiceCard
+              title="Code & Deployment"
+              description="Building and shipping functional applications. AI-augmented development that turns concepts into working products, fast."
+            />
+          </div>
+
+          {/* Quote Section */}
+          <div className="bg-white p-10 rounded-lg">
+            <h3 className="text-2xl md:text-3xl leading-relaxed" style={{ fontFamily: "Manrope, sans-serif", fontWeight: 500, letterSpacing: "-0.02em" }}>
+              <strong>Everyone can generate.</strong><br /><br />
+              <strong>Few can orchestrate.</strong><br /><br />
+              <strong>My value isn't just making things—</strong> <em>it's knowing what to build</em>, why it matters, and how to ship it properly. Domain expertise + AI fluency + end-to-end ownership.
+            </h3>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="contact" className="py-20 md:py-32">
-        <div className="container">
-          <div className="max-w-2xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Ready to talk?
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              I'm always interested in conversations about building great teams, shipping products that matter, and the challenges of leading design in regulated industries.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 py-6 text-base">
-                Get in Touch
-              </Button>
-              <Button variant="outline" className="px-8 py-6 text-base">
-                View on LinkedIn
-              </Button>
-            </div>
+      {/* Case Studies Section */}
+      <section id="work" className="relative">
+        <div className="max-w-6xl mx-auto px-8 py-16">
+          <div className="space-y-3 mb-12">
+            <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>Selected Work</p>
+            <h1 className="text-5xl md:text-6xl font-bold" style={{ fontFamily: "Mona Sans, sans-serif", letterSpacing: "-0.02em" }}>
+              Building for finance's most demanding clients
+            </h1>
           </div>
         </div>
+
+        {/* HSBC Case Study */}
+        <CaseStudyCard
+          logo="/images/hsbc-logo.png"
+          company="HSBC"
+          title="Small Business App helping companies run their businesses"
+          role="Design Lead — Team Management"
+          tags={["Mobile App", "Commercial Banking", "Team Leadership"]}
+          image="/images/team-collaboration.jpg"
+          challenge="HSBC needed a digital-first business banking proposition to compete with challenger banks. The app had to serve small business owners with complex needs while maintaining the trust and reliability expected of a global bank."
+          myRole="Led the design team through the full product lifecycle. Managed designers, coordinated with engineering, and drove the experience strategy from initial concepts through to launch."
+          outcome="Delivered an award-winning application that set a new standard for business banking experiences."
+          bgColor="bg-gradient-to-b from-[#F7F3E9] to-[#D6D2C7]"
+        />
+
+        {/* Coutts Case Study */}
+        <CaseStudyCard
+          logo="/images/coutts-logo.png"
+          company="Coutts"
+          title="Wealth Management App"
+          role="Director (Product Design Lead)"
+          tags={["Private Banking", "Wealth Management", "Mobile"]}
+          image="/images/metric-cards-background.jpg"
+          challenge="Coutts — the private bank to the Royal Family — needed a digital wealth experience that matched the exclusivity and sophistication of their service. The bar for quality was exceptionally high."
+          myRole="Designed the wealth management application experience. Balanced the complexity of portfolio visualisation and financial data with the elegance expected by ultra-high-net-worth clients."
+          outcome="A refined digital experience that translated Coutts' premium service into an intuitive mobile product."
+          bgColor="bg-[#D6D2C7]"
+        />
+
+        {/* Schroders Case Study */}
+        <CaseStudyCard
+          logo="/images/schroders-logo.png"
+          company="Schroders Investments & Private Banking"
+          title="Private Banking Digital Transformation"
+          role="Consultants for End-to-End Digital Transformation"
+          tags={["Mobile App", "Commercial Banking", "Team Leadership"]}
+          image="/images/hero-david-workspace.jpg"
+          challenge="Schroders' Private Banking division needed a complete overhaul of their customer-facing digital presence. Legacy systems and fragmented experiences were undermining the premium service proposition."
+          myRole="Worked across two parts of the business before moving into Private Banking to lead the end-to-end digital transformation. Owned the complete journey from strategy through to delivery."
+          outcome="Transformed the entire online digital presence for private banking customers. Created a cohesive, modern experience that aligned with Schroders' investment expertise and client expectations."
+          bgColor="bg-gradient-to-b from-[#D6D2C7] to-[#96948C]"
+        />
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="container flex items-center justify-between text-sm text-muted-foreground">
-          <p>&copy; 2024 David Phillip. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-foreground transition-colors">
-              LinkedIn
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              Email
-            </a>
-          </div>
+      {/* Footer CTA */}
+      <section id="contact" className="bg-black text-white py-24">
+        <div className="max-w-4xl mx-auto px-8 flex items-center justify-between">
+          <h2 className="text-4xl font-semibold" style={{ fontFamily: "Manrope, sans-serif" }}>
+            Looking for someone who can <span className="font-extrabold">think</span> and <span className="font-extrabold">ship</span>?
+          </h2>
+          <Button variant="outline" className="border border-white text-white bg-transparent hover:bg-white/10 px-8 py-6 text-lg">
+            Get in Touch
+          </Button>
         </div>
-      </footer>
+      </section>
     </div>
   );
 }
