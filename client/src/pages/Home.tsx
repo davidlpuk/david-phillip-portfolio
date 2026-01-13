@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { ArrowRight, Menu, X } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 
 /**
  * Portfolio Home Page - Refactored Design
@@ -86,14 +86,14 @@ function CaseStudyCard({
   bgColor?: string;
 }) {
   return (
-    <div className={`sticky top-0 ${bgColor} px-16 py-32`}>
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+    <div className={`lg:sticky top-0 ${bgColor} px-6 md:px-12 lg:px-16 py-16 md:py-24 lg:py-32`}>
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-10">
         {/* Left Column */}
         <div className="space-y-6">
           <div className="space-y-4">
-            <img src={logo} alt={`${company} logo`} className="h-10 opacity-70" />
+            <img src={logo} alt={`${company} logo`} className="h-8 md:h-10 opacity-70" />
             <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>{company}</p>
-            <h2 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "EB Garamond, serif" }}>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl leading-tight text-black" style={{ fontFamily: "EB Garamond, serif" }}>
               {title}
             </h2>
           </div>
@@ -106,35 +106,35 @@ function CaseStudyCard({
             ))}
           </div>
 
-          <div className="w-full h-64 rounded-lg overflow-hidden">
+          <div className="w-full h-48 md:h-64 rounded-lg overflow-hidden">
             <img src={image} alt={title} className="w-full h-full object-cover" />
           </div>
         </div>
 
         {/* Right Column */}
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8">
           <div className="space-y-3">
-            <h3 className="text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>The Challenge</h3>
-            <p className="text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+            <h3 className="text-lg md:text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>The Challenge</h3>
+            <p className="text-sm md:text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
               {challenge}
             </p>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>My Role</h3>
-            <p className="text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+            <h3 className="text-lg md:text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>My Role</h3>
+            <p className="text-sm md:text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
               {myRole}
             </p>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>The Outcome</h3>
-            <p className="text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
+            <h3 className="text-lg md:text-xl font-medium" style={{ fontFamily: "Manrope, sans-serif" }}>The Outcome</h3>
+            <p className="text-sm md:text-base leading-relaxed opacity-90" style={{ fontFamily: "Inter, sans-serif" }}>
               {outcome}
             </p>
           </div>
 
-          <Button variant="outline" className="border border-black bg-transparent hover:bg-black/5">
+          <Button variant="outline" className="border border-black bg-transparent hover:bg-black/5 w-full sm:w-auto">
             View Case Study
           </Button>
         </div>
@@ -144,15 +144,27 @@ function CaseStudyCard({
 }
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF5E6] text-black">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-[#FAF5E6]/95 backdrop-blur border-b border-black/10">
-        <div className="max-w-6xl mx-auto px-8 flex items-center justify-between h-20">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 flex items-center justify-between h-20">
           <div className="font-bold text-2xl" style={{ fontFamily: "Mona Sans, sans-serif", letterSpacing: "0.02em" }}>
             DavidUX
           </div>
-          <div className="flex gap-12">
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex gap-12">
             <a href="#home" className="text-lg font-semibold opacity-40 hover:opacity-100 transition-opacity border-b-4 border-black" style={{ fontFamily: "Manrope, sans-serif" }}>
               Home
             </a>
@@ -166,28 +178,122 @@ export default function Home() {
               Contact
             </a>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMobileMenu}
+            className="lg:hidden p-2 hover:bg-black/5 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </nav>
 
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
+              onClick={closeMobileMenu}
+            />
+
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed top-0 right-0 bottom-0 w-[280px] bg-[#FAF5E6] border-l border-black/10 z-50 lg:hidden shadow-2xl"
+            >
+              <div className="flex flex-col h-full">
+                {/* Close Button */}
+                <div className="flex justify-end p-6">
+                  <button
+                    onClick={closeMobileMenu}
+                    className="p-2 hover:bg-black/5 rounded-lg transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                {/* Menu Items */}
+                <nav className="flex flex-col gap-2 px-6">
+                  <a
+                    href="#home"
+                    onClick={closeMobileMenu}
+                    className="text-xl font-semibold py-4 border-b border-black/10 hover:bg-black/5 px-4 rounded-lg transition-colors"
+                    style={{ fontFamily: "Manrope, sans-serif" }}
+                  >
+                    Home
+                  </a>
+                  <a
+                    href="#about"
+                    onClick={closeMobileMenu}
+                    className="text-xl font-semibold py-4 border-b border-black/10 hover:bg-black/5 px-4 rounded-lg transition-colors"
+                    style={{ fontFamily: "Manrope, sans-serif" }}
+                  >
+                    About
+                  </a>
+                  <a
+                    href="#work"
+                    onClick={closeMobileMenu}
+                    className="text-xl font-semibold py-4 border-b border-black/10 hover:bg-black/5 px-4 rounded-lg transition-colors"
+                    style={{ fontFamily: "Manrope, sans-serif" }}
+                  >
+                    Case Studies
+                  </a>
+                  <a
+                    href="#contact"
+                    onClick={closeMobileMenu}
+                    className="text-xl font-semibold py-4 hover:bg-black/5 px-4 rounded-lg transition-colors"
+                    style={{ fontFamily: "Manrope, sans-serif" }}
+                  >
+                    Contact
+                  </a>
+                </nav>
+
+                {/* CTA Buttons in Mobile Menu */}
+                <div className="mt-auto p-6 space-y-3 border-t border-black/10">
+                  <Button className="w-full bg-black text-white hover:bg-black/90 py-6">
+                    View Work
+                  </Button>
+                  <Button variant="outline" className="w-full border border-black bg-transparent hover:bg-black/5 py-6">
+                    Download CV
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
-      <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-[#D6D2C7] to-transparent">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
+      <section className="relative py-12 md:py-20 lg:py-28 overflow-hidden bg-gradient-to-b from-[#D6D2C7] to-transparent">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
             {/* Left: Content */}
-            <div className="space-y-10">
-              <div className="space-y-6">
-                <h1 className="text-5xl md:text-6xl leading-tight" style={{ fontFamily: "Manrope Variable, sans-serif", fontWeight: 372, letterSpacing: "-0.03em" }}>
+            <div className="space-y-8 md:space-y-10">
+              <div className="space-y-4 md:space-y-6">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl leading-tight" style={{ fontFamily: "Manrope Variable, sans-serif", fontWeight: 372, letterSpacing: "-0.03em" }}>
                   I build products from <span style={{ fontWeight: 800, letterSpacing: "-0.05em" }}>strategy</span> to <span style={{ fontWeight: 800, letterSpacing: "-0.05em" }}>shipped</span>
                 </h1>
 
-                <p className="text-2xl leading-relaxed text-[#6B6963]" style={{ fontFamily: "EB Garamond, serif" }}>
-                  Extensive FinTech experience. <br />
+                <p className="text-xl md:text-2xl leading-relaxed text-[#6B6963]" style={{ fontFamily: "EB Garamond, serif" }}>
+                  Extensive FinTech experience. <br className="hidden sm:block" />
                   Now designing, coding, and deploying complete solutions — powered by AI, guided by experience.
                 </p>
               </div>
 
               {/* Metrics Grid */}
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-2 gap-6 md:gap-8">
                 <MetricCard value="20+" label="Years in FinTech" delay={0} />
                 <MetricCard value="5" label="Sectors deep" delay={0.1} />
                 <MetricCard value="End-to-End" label="Strategy to Deploy" delay={0.2} />
@@ -195,18 +301,18 @@ export default function Home() {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex gap-4">
-                <Button className="bg-black text-white hover:bg-black/90 px-8 py-6 text-lg">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <Button className="bg-black text-white hover:bg-black/90 px-6 md:px-8 py-5 md:py-6 text-base md:text-lg w-full sm:w-auto">
                   View Work
                 </Button>
-                <Button variant="outline" className="border border-black bg-transparent hover:bg-black/5 px-8 py-6 text-lg">
+                <Button variant="outline" className="border border-black bg-transparent hover:bg-black/5 px-6 md:px-8 py-5 md:py-6 text-base md:text-lg w-full sm:w-auto">
                   Download CV
                 </Button>
               </div>
             </div>
 
             {/* Right: Hero Image - Placeholder */}
-            <div className="relative h-[600px]">
+            <div className="relative h-[400px] md:h-[500px] lg:h-[600px] order-first lg:order-last">
               <img
                 src="/images/hero-david-workspace.jpg"
                 alt="David Phillip workspace"
@@ -218,16 +324,16 @@ export default function Home() {
       </section>
 
       {/* Trusted by Section with Logo Ticker */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-8">
-          <h3 className="text-center text-sm uppercase tracking-wider mb-8 opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>
+      <section className="py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <h3 className="text-center text-xs md:text-sm uppercase tracking-wider mb-6 md:mb-8 opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>
             Trusted by Industry Leaders
           </h3>
 
           {/* Logo Ticker - Simplified */}
-          <div className="flex items-center justify-center gap-12 flex-wrap opacity-70">
+          <div className="flex items-center justify-center gap-6 md:gap-12 flex-wrap opacity-70">
             {["Cognism", "Coutts", "Schroders", "HSBC", "NatWest", "Deutsche Bank", "BlackRock", "Barclays", "TSB"].map((company, idx) => (
-              <div key={idx} className="text-lg font-medium" style={{ fontFamily: "Inter, sans-serif" }}>
+              <div key={idx} className="text-sm md:text-lg font-medium" style={{ fontFamily: "Inter, sans-serif" }}>
                 {company}
               </div>
             ))}
@@ -236,16 +342,16 @@ export default function Home() {
       </section>
 
       {/* What I Do Section */}
-      <section className="py-20 bg-gradient-to-b from-[#D6D2C7] to-white">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="mb-12 space-y-4">
-            <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>What I do</p>
-            <h2 className="text-4xl md:text-5xl text-[#6B6963]" style={{ fontFamily: "EB Garamond, serif" }}>
+      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-b from-[#D6D2C7] to-white">
+        <div className="max-w-6xl mx-auto px-6 md:px-8">
+          <div className="mb-8 md:mb-12 space-y-3 md:space-y-4">
+            <p className="text-xs md:text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>What I do</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl text-[#6B6963]" style={{ fontFamily: "EB Garamond, serif" }}>
               The full stack — from problem to production
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
             <ServiceCard
               title="Strategy & Research"
               description="Defining the right problem. User research, market analysis, and product strategy grounded in two decades of financial services reality."
@@ -261,8 +367,8 @@ export default function Home() {
           </div>
 
           {/* Quote Section */}
-          <div className="bg-white p-10 rounded-lg">
-            <h3 className="text-2xl md:text-3xl leading-relaxed" style={{ fontFamily: "Manrope, sans-serif", fontWeight: 500, letterSpacing: "-0.02em" }}>
+          <div className="bg-white p-6 md:p-10 rounded-lg">
+            <h3 className="text-xl md:text-2xl lg:text-3xl leading-relaxed" style={{ fontFamily: "Manrope, sans-serif", fontWeight: 500, letterSpacing: "-0.02em" }}>
               <strong>Everyone can generate.</strong><br /><br />
               <strong>Few can orchestrate.</strong><br /><br />
               <strong>My value isn't just making things—</strong> <em>it's knowing what to build</em>, why it matters, and how to ship it properly. Domain expertise + AI fluency + end-to-end ownership.
@@ -273,10 +379,10 @@ export default function Home() {
 
       {/* Case Studies Section */}
       <section id="work" className="relative">
-        <div className="max-w-6xl mx-auto px-8 py-16">
-          <div className="space-y-3 mb-12">
-            <p className="text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>Selected Work</p>
-            <h1 className="text-5xl md:text-6xl font-bold" style={{ fontFamily: "Mona Sans, sans-serif", letterSpacing: "-0.02em" }}>
+        <div className="max-w-6xl mx-auto px-6 md:px-8 py-12 md:py-16">
+          <div className="space-y-3 mb-8 md:mb-12">
+            <p className="text-xs md:text-sm opacity-70" style={{ fontFamily: "Inter, sans-serif" }}>Selected Work</p>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold" style={{ fontFamily: "Mona Sans, sans-serif", letterSpacing: "-0.02em" }}>
               Building for finance's most demanding clients
             </h1>
           </div>
@@ -326,14 +432,16 @@ export default function Home() {
       </section>
 
       {/* Footer CTA */}
-      <section id="contact" className="bg-black text-white py-24">
-        <div className="max-w-4xl mx-auto px-8 flex items-center justify-between">
-          <h2 className="text-4xl font-semibold" style={{ fontFamily: "Manrope, sans-serif" }}>
-            Looking for someone who can <span className="font-extrabold">think</span> and <span className="font-extrabold">ship</span>?
-          </h2>
-          <Button variant="outline" className="border border-white text-white bg-transparent hover:bg-white/10 px-8 py-6 text-lg">
-            Get in Touch
-          </Button>
+      <section id="contact" className="bg-black text-white py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <h2 className="text-3xl md:text-4xl font-semibold" style={{ fontFamily: "Manrope, sans-serif" }}>
+              Looking for someone who can <span className="font-extrabold">think</span> and <span className="font-extrabold">ship</span>?
+            </h2>
+            <Button variant="outline" className="border border-white text-white bg-transparent hover:bg-white/10 px-6 md:px-8 py-5 md:py-6 text-base md:text-lg w-full md:w-auto shrink-0">
+              Get in Touch
+            </Button>
+          </div>
         </div>
       </section>
     </div>
