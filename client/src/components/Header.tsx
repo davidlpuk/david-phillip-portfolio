@@ -155,7 +155,6 @@ export default function Header() {
             >
               View CV
             </a>
-            <ThemeSwitcher variant="button" />
           </div>
 
           {/* Mobile Menu Toggle */}

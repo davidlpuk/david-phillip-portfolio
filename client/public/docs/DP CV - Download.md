@@ -3,7 +3,7 @@
 **Head of Design | AI-Native Design Leader | Fintech & SaaS | London**
 London, UK | [LinkedIn](https://www.linkedin.com/in/davidphillip/) | david.phillip@gmail.com 
 
-Design leader with 20+ years in financial services and SaaS, now operating as an **AI-native practitioner** who orchestrates design, research, and engineering into unified delivery systems.
+Design leader** with 20+ years in financial services and SaaS, now operating as an **AI-native practitioner** who orchestrates design, research, and engineering into unified delivery systems.
 
 I don't just use AI tools—I design workflows that compress discovery-to-delivery cycles, enabling small teams to ship faster without sacrificing quality or governance. My edge is **orchestration**: knowing what to build, why it matters, and how to get it shipped properly.
 
@@ -69,7 +69,7 @@ Led Digital Experience Design Team across UX Research, UX Design, and Visual Des
 
 **Impact:**
 - **Scaled team 200%** (5→15 specialists), introduced dedicated UX Research practice
-- **Directed launch of new mobile banking app** – 70% customer activation in first 3 weeks, £2.5bn payments processed (Jun 2022)
+- **Directed launch of new mobile banking app** – 70% customer activation in first 3 weeks
 - **11% new client growth** and £1.4bn net new flows attributed partly to digital sales (H1 2022)
 - Implemented Figma across NatWest Group, enhancing efficiency and collaboration
 - Built multi-branded Design System enabling faster delivery and brand consistency
