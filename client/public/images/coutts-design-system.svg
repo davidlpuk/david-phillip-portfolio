@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#1a1a2e"/>
+  <text x="600" y="60" font-family="system-ui, sans-serif" font-size="28" fill="#ffffff" text-anchor="middle">Design System Components</text>
+  <text x="600" y="90" font-family="system-ui, sans-serif" font-size="14" fill="#888888" text-anchor="middle">280+ components spanning atoms to templates</text>
+  <!-- Buttons -->
+  <rect x="100" y="130" width="120" height="44" rx="8" fill="#c9a227"/>
+  <text x="160" y="158" font-family="system-ui, sans-serif" font-size="14" fill="#000000" text-anchor="middle">Primary</text>
+  <rect x="240" y="130" width="120" height="44" rx="8" fill="none" stroke="#c9a227" stroke-width="2"/>
+  <text x="300" y="158" font-family="system-ui, sans-serif" font-size="14" fill="#c9a227" text-anchor="middle">Secondary</text>
+  <rect x="380" y="130" width="120" height="44" rx="8" fill="#333"/>
+  <text x="440" y="158" font-family="system-ui, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle">Tertiary</text>
+  <!-- Cards -->
+  <rect x="100" y="200" width="200" height="120" rx="12" fill="#222" stroke="#333" stroke-width="1"/>
+  <rect x="120" y="220" width="80" height="40" rx="6" fill="#333"/>
+  <rect x="120" y="270" width="160" height="12" rx="4" fill="#333"/>
+  <rect x="120" y="290" width="120" height="12" rx="4" fill="#333"/>
+  <!-- Data cards -->
+  <rect x="320" y="200" width="150" height="120" rx="12" fill="#222" stroke="#333" stroke-width="1"/>
+  <text x="395" y="260" font-family="system-ui, sans-serif" font-size="28" fill="#c9a227" text-anchor="middle">£8.4M</text>
+  <text x="395" y="290" font-family="system-ui, sans-serif" font-size="12" fill="#888888" text-anchor="middle">Portfolio Value</text>
+  <rect x="490" y="200" width="150" height="120" rx="12" fill="#222" stroke="#333" stroke-width="1"/>
+  <text x="565" y="260" font-family="system-ui, sans-serif" font-size="28" fill="#10b981" text-anchor="middle">+12.4%</text>
+  <text x="565" y="290" font-family="system-ui, sans-serif" font-size="12" fill="#888888" text-anchor="middle">YTD Return</text>
+  <!-- Input fields -->
+  <rect x="100" y="350" width="400" height="50" rx="8" fill="#222" stroke="#444" stroke-width="1"/>
+  <text x="120" y="382" font-family="system-ui, sans-serif" font-size="14" fill="#666" text-anchor="start">Enter amount...</text>
+  <!-- Charts representation -->
+  <rect x="100" y="430" width="150" height="100" rx="8" fill="#222"/>
+  <path d="M120 500 L170 470 L220 485 L270 450" stroke="#c9a227" stroke-width="3" fill="none"/>
+  <rect x="270" y="430" width="150" height="100" rx="8" fill="#222"/>
+  <circle cx="345" cy="480" r="30" fill="none" stroke="#c9a227" stroke-width="8" stroke-dasharray="60 40"/>
+  <rect x="440" y="430" width="150" height="100" rx="8" fill="#222"/>
+  <rect x="460" y="450" width="30" height="60" fill="#c9a227"/>
+  <rect x="500" y="470" width="30" height="40" fill="#c9a227" opacity="0.7"/>
+  <rect x="540" y="460" width="30" height="50" fill="#c9a227" opacity="0.5"/>
+</svg>

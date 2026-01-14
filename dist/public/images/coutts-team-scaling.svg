@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  
+  <!-- Timeline line -->
+  <line x1="100" y1="250" x2="700" y2="250" stroke="#e8d5b7" stroke-width="3"/>
+  
+  <!-- Timeline markers -->
+  <circle cx="150" cy="250" r="25" fill="#e8d5b7"/>
+  <circle cx="300" cy="250" r="25" fill="#e8d5b7" opacity="0.8"/>
+  <circle cx="450" cy="250" r="25" fill="#e8d5b7" opacity="0.6"/>
+  <circle cx="600" cy="250" r="25" fill="#e8d5b7" opacity="0.4"/>
+  
+  <!-- Numbers in circles -->
+  <text x="150" y="255" text-anchor="middle" font-family="serif" font-size="16" fill="#1a1a2e" font-weight="bold">5</text>
+  <text x="300" y="255" text-anchor="middle" font-family="serif" font-size="16" fill="#1a1a2e" font-weight="bold">8</text>
+  <text x="450" y="255" text-anchor="middle" font-family="serif" font-size="16" fill="#1a1a2e" font-weight="bold">12</text>
+  <text x="600" y="255" text-anchor="middle" font-family="serif" font-size="16" fill="#1a1a2e" font-weight="bold">15</text>
+  
+  <!-- Role labels -->
+  <text x="150" y="320" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">Lead</text>
+  <text x="300" y="320" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">+2 Designers</text>
+  <text x="450" y="320" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">+4 Designers</text>
+  <text x="600" y="320" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">Full Squad</text>
+  
+  <!-- Role icons -->
+  <text x="150" y="170" text-anchor="middle" font-size="28">🎨</text>
+  <text x="300" y="170" text-anchor="middle" font-size="28">🎨🎨</text>
+  <text x="450" y="170" text-anchor="middle" font-size="28">🎨🎨🎨🎨</text>
+  <text x="600" y="170" text-anchor="middle" font-size="28">🎨🎨🎨🎨🎨</text>
+  
+  <!-- Phase labels -->
+  <text x="150" y="120" text-anchor="middle" font-family="serif" font-size="14" fill="#e8d5b7">Phase 1</text>
+  <text x="300" y="120" text-anchor="middle" font-family="serif" font-size="14" fill="#e8d5b7">Phase 2</text>
+  <text x="450" y="120" text-anchor="middle" font-family="serif" font-size="14" fill="#e8d5b7">Phase 3</text>
+  <text x="600" y="120" text-anchor="middle" font-family="serif" font-size="14" fill="#e8d5b7">Phase 4</text>
+  
+  <!-- Title -->
+  <text x="400" y="420" text-anchor="middle" font-family="serif" font-size="18" fill="#e8d5b7">Team Scaling: 5 → 15 Specialists</text>
+  <text x="400" y="445" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7" opacity="0.7">Building sustainable design capacity</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#f5f5f5"/>
+  <!-- Before section -->
+  <rect x="50" y="50" width="325" height="300" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="212" y="90" text-anchor="middle" font-family="system-ui" font-size="16" fill="#b91c1c" font-weight="600">BEFORE</text>
+  <rect x="100" y="120" width="225" height="30" rx="4" fill="#fca5a5"/>
+  <rect x="100" y="160" width="225" height="20" rx="4" fill="#fca5a5"/>
+  <rect x="100" y="190" width="225" height="20" rx="4" fill="#fca5a5"/>
+  <rect x="100" y="220" width="225" height="20" rx="4" fill="#fca5a5"/>
+  <rect x="100" y="260" width="100" height="40" rx="4" fill="#ef4444"/>
+  <text x="150" y="285" text-anchor="middle" font-family="system-ui" font-size="12" fill="white">Clunky UI</text>
+  <text x="212" y="330" text-anchor="middle" font-family="system-ui" font-size="12" fill="#999">NPS: -16</text>
+  <!-- After section -->
+  <rect x="425" y="50" width="325" height="300" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <text x="587" y="90" text-anchor="middle" font-family="system-ui" font-size="16" fill="#15803d" font-weight="600">AFTER</text>
+  <rect x="475" y="120" width="225" height="30" rx="4" fill="#86efac"/>
+  <rect x="475" y="160" width="225" height="80" rx="8" fill="#86efac"/>
+  <rect x="475" y="260" width="100" height="40" rx="4" fill="#22c55e"/>
+  <text x="525" y="285" text-anchor="middle" font-family="system-ui" font-size="12" fill="white">Clean Design</text>
+  <text x="587" y="330" text-anchor="middle" font-family="system-ui" font-size="12" fill="#999">NPS: +12</text>
+  <!-- Arrow -->
+  <path d="M380 200 L420 200" stroke="#666" stroke-width="2" stroke-dasharray="5,5"/>
+  <polygon points="420,200 410,195 410,205" fill="#666"/>
+</svg>

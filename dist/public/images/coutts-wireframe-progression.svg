@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  
+  <!-- Four design stages -->
+  <!-- Stage 1: Wireframe -->
+  <rect x="80" y="150" width="140" height="200" rx="8" fill="#3d4a5c" opacity="0.6"/>
+  <rect x="100" y="180" width="100" height="60" rx="4" fill="#e8d5b7" opacity="0.4"/>
+  <rect x="100" y="260" width="100" height="15" rx="2" fill="#e8d5b7" opacity="0.3"/>
+  <rect x="100" y="285" width="80" height="15" rx="2" fill="#e8d5b7" opacity="0.2"/>
+  <rect x="100" y="310" width="120" height="25" rx="4" fill="#e8d5b7" opacity="0.3"/>
+  <text x="150" y="380" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">Wireframe</text>
+  
+  <!-- Stage 2: Low-fi -->
+  <rect x="260" y="150" width="140" height="200" rx="8" fill="#3d4a5c" opacity="0.7"/>
+  <rect x="280" y="180" width="100" height="60" rx="4" fill="#e8d5b7" opacity="0.5"/>
+  <rect x="280" y="260" width="100" height="15" rx="2" fill="#e8d5b7" opacity="0.4"/>
+  <rect x="280" y="285" width="80" height="15" rx="2" fill="#e8d5b7" opacity="0.3"/>
+  <rect x="280" y="310" width="120" height="25" rx="4" fill="#e8d5b7" opacity="0.4"/>
+  <text x="330" y="380" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">Low-fidelity</text>
+  
+  <!-- Stage 3: High-fi -->
+  <rect x="440" y="150" width="140" height="200" rx="8" fill="#3d4a5c" opacity="0.8"/>
+  <rect x="460" y="180" width="100" height="60" rx="4" fill="#e8d5b7" opacity="0.7"/>
+  <rect x="460" y="260" width="100" height="15" rx="2" fill="#e8d5b7" opacity="0.5"/>
+  <rect x="460" y="285" width="80" height="15" rx="2" fill="#e8d5b7" opacity="0.4"/>
+  <rect x="460" y="310" width="120" height="25" rx="4" fill="#e8d5b7" opacity="0.5"/>
+  <text x="510" y="380" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7">High-fidelity</text>
+  
+  <!-- Stage 4: Built -->
+  <rect x="620" y="150" width="140" height="200" rx="8" fill="#e8d5b7" opacity="0.9"/>
+  <rect x="640" y="180" width="100" height="60" rx="4" fill="#1a1a2e" opacity="0.8"/>
+  <rect x="640" y="260" width="100" height="15" rx="2" fill="#1a1a2e" opacity="0.5"/>
+  <rect x="640" y="285" width="80" height="15" rx="2" fill="#1a1a2e" opacity="0.4"/>
+  <rect x="640" y="310" width="120" height="25" rx="4" fill="#c9a227"/>
+  <text x="690" y="380" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#1a1a2e">Live Product</text>
+  
+  <!-- Arrow between stages -->
+  <path d="M220 250 L250 250" stroke="#e8d5b7" stroke-width="2"/>
+  <polygon points="255,250 245,245 245,255" fill="#e8d5b7"/>
+  <path d="M400 250 L430 250" stroke="#e8d5b7" stroke-width="2"/>
+  <polygon points="435,250 425,245 425,255" fill="#e8d5b7"/>
+  <path d="M580 250 L610 250" stroke="#e8d5b7" stroke-width="2"/>
+  <polygon points="615,250 605,245 605,255" fill="#e8d5b7"/>
+  
+  <!-- Title -->
+  <text x="400" y="430" text-anchor="middle" font-family="serif" font-size="18" fill="#e8d5b7">Design Iteration: From Concept to Reality</text>
+  <text x="400" y="455" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7" opacity="0.7">Iterative refinement through testing</text>
+</svg>

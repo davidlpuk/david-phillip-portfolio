@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#1a1a2e"/>
+  <text x="600" y="280" font-family="system-ui, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle">Coutts App - Portfolio Overview</text>
+  <text x="600" y="320" font-family="system-ui, sans-serif" font-size="16" fill="#888888" text-anchor="middle">2-3 key app screens showing portfolio-first hierarchy</text>
+  <circle cx="400" cy="400" r="60" fill="#c9a227" opacity="0.3"/>
+  <circle cx="600" cy="400" r="60" fill="#c9a227" opacity="0.3"/>
+  <circle cx="800" cy="400" r="60" fill="#c9a227" opacity="0.3"/>
+</svg>

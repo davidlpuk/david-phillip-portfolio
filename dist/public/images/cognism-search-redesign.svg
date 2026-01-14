@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <rect width="800" height="400" fill="#f5f5f5"/>
+  <text x="400" y="35" text-anchor="middle" font-family="system-ui" font-size="20" fill="#333" font-weight="600">Core Search Redesign</text>
+  <text x="400" y="55" text-anchor="middle" font-family="system-ui" font-size="12" fill="#666">Most used feature - redesigned end-to-end</text>
+  
+  <!-- Search bar -->
+  <rect x="100" y="80" width="600" height="50" rx="8" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  <circle cx="130" cy="105" r="12" fill="#3b82f6" opacity="0.2"/>
+  <path d="M130 98 L130 112 M130 105 L138 105" stroke="#3b82f6" stroke-width="2"/>
+  <text x="160" y="112" font-family="system-ui" font-size="14" fill="#9ca3af">Search companies, contacts, or deals...</text>
+  
+  <!-- Filters row -->
+  <rect x="100" y="145" width="600" height="35" rx="4" fill="#f3f4f6"/>
+  <rect x="115" y="152" width="70" height="21" rx="4" fill="#3b82f6"/>
+  <text x="150" y="166" text-anchor="middle" font-family="system-ui" font-size="11" fill="white">All Types</text>
+  <rect x="195" y="152" width="70" height="21" rx="4" fill="white" stroke="#e5e7eb"/>
+  <text x="230" y="166" text-anchor="middle" font-family="system-ui" font-size="11" fill="#374151">Location</text>
+  <rect x="275" y="152" width="70" height="21" rx="4" fill="white" stroke="#e5e7eb"/>
+  <text x="310" y="166" text-anchor="middle" font-family="system-ui" font-size="11" fill="#374151">Revenue</text>
+  <rect x="355" y="152" width="70" height="21" rx="4" fill="white" stroke="#e5e7eb"/>
+  <text x="390" y="166" text-anchor="middle" font-family="system-ui" font-size="11" fill="#374151">Headcount</text>
+  <rect x="600" y="150" width="90" height="25" rx="4" fill="#10b981"/>
+  <text x="645" y="167" text-anchor="middle" font-family="system-ui" font-size="11" fill="white">+ Save Search</text>
+  
+  <!-- Results list -->
+  <rect x="100" y="195" width="600" height="160" rx="8" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+  
+  <!-- Result item 1 -->
+  <rect x="115" y="210" width="570" height="45" rx="4" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="130" y="235" font-family="system-ui" font-size="14" fill="#111" font-weight="500">Acme Corporation</text>
+  <text x="130" y="252" font-family="system-ui" font-size="11" fill="#666">Technology • 500-1000 employees • $50M revenue</text>
+  <rect x="650" y="218" width="25" height="20" rx="4" fill="#3b82f6"/>
+  <text x="662" y="232" text-anchor="middle" font-family="system-ui" font-size="10" fill="white">+</text>
+  
+  <!-- Result item 2 -->
+  <rect x="115" y="265" width="570" height="45" rx="4" fill="white" stroke="#e5e7eb"/>
+  <text x="130" y="290" font-family="system-ui" font-size="14" fill="#111" font-weight="500">TechStart Inc</text>
+  <text x="130" y="307" font-family="system-ui" font-size="11" fill="#666">Technology • 50-100 employees • $5M revenue</text>
+  <rect x="650" y="273" width="25" height="20" rx="4" fill="#e5e7eb"/>
+  <text x="662" y="287" text-anchor="middle" font-family="system-ui" font-size="10" fill="#666">+</text>
+  
+  <!-- Result item 3 -->
+  <rect x="115" y="320" width="570" height="45" rx="4" fill="white" stroke="#e5e7eb"/>
+  <text x="130" y="345" font-family="system-ui" font-size="14" fill="#111" font-weight="500">Global Systems Ltd</text>
+  <text x="130" y="362" font-family="system-ui" font-size="11" fill="#666">Technology • 1000+ employees • $200M revenue</text>
+  <rect x="650" y="328" width="25" height="20" rx="4" fill="#e5e7eb"/>
+  <text x="662" y="342" text-anchor="middle" font-family="system-ui" font-size="10" fill="#666">+</text>
+  
+  <!-- Metrics -->
+  <rect x="100" y="370" width="180" height="25" rx="4" fill="#dbeafe"/>
+  <text x="190" y="387" text-anchor="middle" font-family="system-ui" font-size="11" fill="#1e40af">40% faster to find results</text>
+</svg>

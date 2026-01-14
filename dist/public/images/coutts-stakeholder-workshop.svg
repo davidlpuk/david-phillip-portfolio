@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3a4a"/>
+      <stop offset="100%" style="stop-color:#1a252f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  
+  <!-- Workshop table concept -->
+  <ellipse cx="400" cy="320" rx="280" ry="80" fill="#3d4a5c" opacity="0.5"/>
+  
+  <!-- Participants around table -->
+  <circle cx="200" cy="280" r="40" fill="#e8d5b7" opacity="0.9"/>
+  <circle cx="280" cy="340" r="40" fill="#e8d5b7" opacity="0.9"/>
+  <circle cx="400" cy="360" r="45" fill="#e8d5b7" opacity="0.9"/>
+  <circle cx="520" cy="340" r="40" fill="#e8d5b7" opacity="0.9"/>
+  <circle cx="600" cy="280" r="40" fill="#e8d5b7" opacity="0.9"/>
+  
+  <!-- Icons above each person -->
+  <text x="200" y="220" text-anchor="middle" font-size="20">🎯</text>
+  <text x="280" y="280" text-anchor="middle" font-size="20">💼</text>
+  <text x="400" y="300" text-anchor="middle" font-size="24">👥</text>
+  <text x="520" y="280" text-anchor="middle" font-size="20">📋</text>
+  <text x="600" y="220" text-anchor="middle" font-size="20">⚖️</text>
+  
+  <!-- Connecting lines showing collaboration -->
+  <path d="M200 280 Q300 200 400 200" stroke="#e8d5b7" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+  <path d="M400 200 Q500 200 600 280" stroke="#e8d5b7" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+  
+  <!-- Sticky notes on wall -->
+  <rect x="100" y="80" width="80" height="80" fill="#ffeaa7" opacity="0.8" rx="4"/>
+  <rect x="200" y="70" width="80" height="80" fill="#81ecec" opacity="0.8" rx="4"/>
+  <rect x="520" y="70" width="80" height="80" fill="#fab1a0" opacity="0.8" rx="4"/>
+  <rect x="620" y="80" width="80" height="80" fill="#a29bfe" opacity="0.8" rx="4"/>
+  
+  <!-- Title -->
+  <text x="400" y="450" text-anchor="middle" font-family="serif" font-size="20" fill="#e8d5b7">Cross-functional Alignment Workshop</text>
+  <text x="400" y="475" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e8d5b7" opacity="0.7">Design, Product & Compliance working as one team</text>
+</svg>

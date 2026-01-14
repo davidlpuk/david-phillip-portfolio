@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3a4a"/>
+      <stop offset="100%" style="stop-color:#1a252f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  
+  <!-- Research funnel -->
+  <polygon points="400,100 650,400 150,400" fill="none" stroke="#e8d5b7" stroke-width="2" opacity="0.5"/>
+  <polygon points="400,140 600,360 200,360" fill="none" stroke="#e8d5b7" stroke-width="2" opacity="0.6"/>
+  <polygon points="400,180 550,320 250,320" fill="none" stroke="#e8d5b7" stroke-width="2" opacity="0.7"/>
+  <polygon points="400,220 500,280 300,280" fill="none" stroke="#e8d5b7" stroke-width="2" opacity="0.8"/>
+  
+  <!-- Funnel labels -->
+  <text x="400" y="100" text-anchor="middle" font-family="serif" font-size="16" fill="#e8d5b7" font-weight="bold">DISCOVER</text>
+  <text x="400" y="140" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#e8d5b7">50+ Stakeholder Interviews</text>
+  <text x="400" y="180" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#e8d5b7">25 Deep-dive Sessions</text>
+  <text x="400" y="220" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#e8d5b7">15 Journey Maps</text>
+  <text x="400" y="260" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#e8d5b7">5 Key Personas</text>
+  <text x="400" y="300" text-anchor="middle" font-family="serif" font-size="14" fill="#e8d5b7" font-weight="bold">SYNTHESIS</text>
+  
+  <!-- Research methods icons on sides -->
+  <text x="80" y="200" font-size="24">📞</text>
+  <text x="720" y="200" font-size="24">🎯</text>
+  <text x="80" y="280" font-size="24">📊</text>
+  <text x="720" y="280" font-size="24">👁️</text>
+  <text x="80" y="360" font-size="24">📝</text>
+  <text x="720" y="360" font-size="24">💬</text>
+  
+  <!-- Side labels -->
+  <text x="80" y="400" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#e8d5b7" opacity="0.8">Interviews</text>
+  <text x="720" y="400" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#e8d5b7" opacity="0.8">Workshops</text>
+  <text x="80" y="430" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#e8d5b7" opacity="0.8">Analytics</text>
+  <text x="720" y="430" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#e8d5b7" opacity="0.8">Observation</text>
+  
+  <!-- Title -->
+  <text x="400" y="470" text-anchor="middle" font-family="serif" font-size="16" fill="#e8d5b7">Research Methodology</text>
+</svg>

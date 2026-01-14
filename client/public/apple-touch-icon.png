@@ -1,0 +1,7 @@
+PLACEHOLDER: Please replace with a 180x180px PNG favicon for Apple devices.
+The favicon SVG at /favicon.svg is already created and working.
+
+To create a proper apple-touch-icon.png:
+1. Open the favicon.svg in an image editor (Figma, Sketch, etc.)
+2. Export as PNG at 180x180px
+3. Save as client/public/apple-touch-icon.png

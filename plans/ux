@@ -1,0 +1,112 @@
+# UX Phases Analysis - Coutts Case Study
+
+## Currently Implemented Phases
+
+| Phase | Section | Key Topics |
+|-------|---------|------------|
+| Context, Strategy and Vision | Lines 165-198 | Business context, stakeholder alignment, team collaboration |
+| Research & Discovery | Lines 54-76 | User research, stakeholder interviews, journey mapping |
+| Information Architecture | Lines 77-98 | Content strategy, navigation, taxonomy |
+| Wireframing & Flow Design | Lines 99-120 | Low-fi wireframes, user flows, responsive design |
+| Prototyping & Interaction Design | Lines 121-142 | High-fi prototypes, micro-interactions, animation |
+| Usability Testing & Validation | Lines 143-164 | Moderated testing, A/B testing, accessibility |
+
+## Missing UX Phases (Potential Additions)
+
+### 1. Design System & UI Design
+
+**Why add this:** For enterprise/financial clients like Coutts, demonstrating ability to create scalable design systems is highly valuable.
+
+**Potential content:**
+- Design token architecture (colors, typography, spacing)
+- Component library development
+- Brand visual language ("Quiet Confidence" aesthetic)
+- Cross-platform consistency
+
+**Complexity:** Medium | **Value:** High
+
+---
+
+### 2. Content Strategy
+
+**Why add this:** Complements the Information Architecture section and shows editorial leadership.
+
+**Potential content:**
+- Editorial guidelines and tone of voice
+- Microcopy development
+- Content governance framework
+- Multi-channel content mapping
+
+**Complexity:** Low-Medium | **Value:** Medium
+
+---
+
+### 3. Visual Design
+
+**Why add this:** Showcases the aesthetic decisions that support brand positioning.
+
+**Potential content:**
+- Typography system selection
+- Color psychology for financial services
+- Iconography and illustration direction
+- High-fidelity UI mockups
+
+**Complexity:** Low | **Value:** Medium
+
+---
+
+### 4. Design Operations & Handoff
+
+**Why add this:** Demonstrates collaboration skills and developer partnership - important for enterprise roles.
+
+**Potential content:**
+- Design documentation practices
+- Developer collaboration workflows
+- Figma/Spec tool usage
+- Cross-functional team alignment
+
+**Complexity:** Low | **Value:** Medium
+
+---
+
+### 5. Post-Launch Analytics
+
+**Why add this:** Shows commitment to measuring success and continuous improvement.
+
+**Potential content:**
+- Success metrics definition
+- Analytics implementation
+- Performance benchmarking
+- Iterative optimization process
+
+**Complexity:** Medium | **Value:** Medium
+
+---
+
+## Recommendation
+
+Based on the enterprise/financial services context of the Coutts case study:
+
+**Priority 1: Design System & UI Design**
+- Most relevant for demonstrating scalability
+- Strong alignment with enterprise design leadership roles
+
+**Priority 2: Visual Design**
+- Supports the "Quiet Confidence" brand positioning
+- Relatively low effort to implement
+
+**Priority 3: Content Strategy**
+- Completes the Information Architecture narrative
+- Shows end-to-end thinking
+
+---
+
+## Implementation Considerations
+
+Each additional phase would require:
+1. New accordion section in `CaseStudy.tsx`
+2. Updated const data in `shared/const.ts`
+3. Supporting imagery/assets (optional)
+4. Matching styling to existing sections
+
+The existing accordion component pattern can be reused for consistency.
