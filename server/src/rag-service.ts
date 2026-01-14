@@ -274,7 +274,7 @@ async function generateResponseOllama(fullPrompt: string): Promise<string> {
 }
 
 // Health check
-export async function checkOllamaHealth(): Promise<{ status: string; configured: boolean; provider: string }> {
+export async function checkOllamaHealth(): Promise<{ status: string; configured: boolean; provider: string; details?: string }> {
     // Check Groq first (preferred)
     if (GROQ_API_KEY) {
         try {
@@ -293,6 +293,11 @@ export async function checkOllamaHealth(): Promise<{ status: string; configured:
     }
 
     // Fall back to Ollama check
+    // If we are on Vercel, we can't reach localhost, so fail fast instead of timing out
+    if (process.env.VERCEL) {
+        return { status: 'error', configured: true, provider: 'none', details: 'Ollama unreachable on Vercel' };
+    }
+
     try {
         const response = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
 
