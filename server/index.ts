@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -29,7 +29,7 @@ console.log(`Setting up static files from: ${staticPath}`);
 app.use(express.static(staticPath));
 
 // API Routes
-app.get('/api/health', async (req, res) => {
+app.get('/api/health', async (req: Request, res: Response) => {
   const health = await checkOllamaHealth();
   res.json({
     status: 'ok',
@@ -39,7 +39,7 @@ app.get('/api/health', async (req, res) => {
 });
 
 // Chat endpoint
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', async (req: Request, res: Response) => {
   const { message, conversationId } = req.body;
 
   if (!message || typeof message !== 'string') {
@@ -85,14 +85,14 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Clear conversation
-app.delete('/api/chat/:conversationId', (req, res) => {
+app.delete('/api/chat/:conversationId', (req: Request, res: Response) => {
   const { conversationId } = req.params;
   conversations.delete(conversationId);
   res.json({ success: true });
 });
 
 // Serve the React app for all non-API routes (SPA fallback)
-app.get('*', (req, res) => {
+app.get('*', (req: Request, res: Response) => {
   // Don't handle API routes in the catch-all
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API endpoint not found' });
