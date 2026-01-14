@@ -70,7 +70,8 @@ export default function AIAssistant() {
 
   return (
     <>
-      {/* Floating AI Assistant Button */}
+      {/* Floating AI Assistant Button - HIDDEN PER REQUEST */}
+      {/* 
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -82,16 +83,14 @@ export default function AIAssistant() {
             className="group fixed bottom-6 right-6 z-40 flex items-center gap-3 px-4 py-3 bg-gradient-to-br from-primary via-primary to-primary/90 text-primary-foreground rounded-full shadow-2xl"
             aria-label="Open AI Assistant"
           >
-            {/* Sparkle icon */}
             <Sparkles className="w-5 h-5" />
-
-            {/* Label (hidden on mobile initially, shows on hover on desktop) */}
             <span className="hidden sm:inline-block font-medium text-sm whitespace-nowrap">
               Ask David's AI
             </span>
           </motion.button>
         )}
       </AnimatePresence>
+      */}
 
       {/* Chatbot Modal Overlay */}
       <AnimatePresence>
