@@ -281,13 +281,7 @@ export default function About() {
                 Great design comes from great teams. These principles shape how I hire, coach, and create conditions for people to do their best work.
               </p>
             </div>
-            <Link
-              href="/#contact"
-              className="group inline-flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-2.5 bg-white text-brand-dark rounded-lg font-medium text-sm hover:bg-white/90 transition-all duration-200"
-            >
-              Let's work together
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+
           </div>
 
           {/* Principles Grid */}

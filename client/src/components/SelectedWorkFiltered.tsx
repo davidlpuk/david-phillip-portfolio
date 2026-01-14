@@ -31,19 +31,19 @@ interface CaseStudy {
 
 const caseStudies: readonly CaseStudy[] = [
   {
-    slug: "ux-sidekick",
-    company: "UX Sidekick",
-    title: "AI-Powered Design Feedback Platform",
-    role: "Full-Stack Developer & Product Designer",
-    category: "SaaS",
-    description: "Built an AI platform providing PhD-level UX feedback in 30 seconds, with spatial annotation and Tailwind code solutions.",
+    slug: "coutts",
+    company: "Coutts",
+    title: "Wealth Management App",
+    role: "Director · Private Banking",
+    category: "Wealth Management",
+    description: "Launched 4.2+ rated private banking app with zero security incidents, +22 NPS improvement and 30% digital adoption.",
     metrics: [
-      { value: "30s", label: "Analysis", icon: "trending" },
-      { value: "95%", label: "Coverage", icon: "target" },
-      { value: "6-8", label: "Avg Issues", icon: "star" }
+      { value: "+22pts", label: "NPS", icon: "trending" },
+      { value: "30%", label: "Digital Adoption", icon: "users" },
+      { value: "5→15", label: "Team Size", icon: "users" }
     ],
-    thumbnail: "/images/case-study-uxsidekick-hero.png",
-    gradient: "from-blue-500/20 via-purple-500/10 to-transparent",
+    thumbnail: "/images/case-study-coutts-hero.png",
+    gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
   },
   {
     slug: "cognism",
@@ -57,23 +57,8 @@ const caseStudies: readonly CaseStudy[] = [
       { value: "4x", label: "ARR Growth", icon: "star" },
       { value: "0→4", label: "Team Built", icon: "users" }
     ],
-    thumbnail: "/images/cognism-team-photo.svg",
+    thumbnail: "/images/case-study-hero-cognism.png",
     gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
-  },
-  {
-    slug: "hsbc-kinetic",
-    company: "HSBC Kinetic",
-    title: "Rebuilding Lending for Small Business",
-    role: "UX Lead · SME Banking Transformation",
-    category: "Fintech",
-    description: "Transformed lending UX for a £14B initiative, achieving 35% adoption and scaling the design team from 2 to 8.",
-    metrics: [
-      { value: "35%", label: "Adoption", icon: "trending" },
-      { value: "2→8", label: "Team Size", icon: "users" },
-      { value: "30%", label: "Cycle Time", icon: "target" }
-    ],
-    thumbnail: "/images/case-study-hero-hsbc.png",
-    gradient: "from-red-500/20 via-pink-500/10 to-transparent",
   },
   {
     slug: "hsbc",
@@ -87,38 +72,23 @@ const caseStudies: readonly CaseStudy[] = [
       { value: "+32%", label: "Mobile", icon: "trending" },
       { value: "85%", label: "Design System", icon: "star" }
     ],
-    thumbnail: "/images/fintech-abstract-1.png",
+    thumbnail: "/images/case-study-hero-hsbc.png",
     gradient: "from-green-500/20 via-emerald-500/10 to-transparent",
   },
   {
-    slug: "coutts",
-    company: "Coutts",
-    title: "Wealth Management App",
-    role: "Director · Private Banking",
-    category: "Wealth Management",
-    description: "Launched 4.2+ rated private banking app with zero security incidents, +22 NPS improvement and 30% digital adoption.",
+    slug: "ux-sidekick",
+    company: "UX Sidekick",
+    title: "AI-Powered Design Feedback Platform",
+    role: "Full-Stack Developer & Product Designer",
+    category: "SaaS",
+    description: "Built an AI platform providing PhD-level UX feedback in 30 seconds, with spatial annotation and Tailwind code solutions.",
     metrics: [
-      { value: "+22pts", label: "NPS", icon: "trending" },
-      { value: "30%", label: "Digital Adoption", icon: "users" },
-      { value: "5→15", label: "Team Size", icon: "users" }
+      { value: "30s", label: "Analysis", icon: "trending" },
+      { value: "95%", label: "Coverage", icon: "target" },
+      { value: "6-8", label: "Avg Issues", icon: "star" }
     ],
-    thumbnail: "/images/case-study-hero-coutts.png",
-    gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
-  },
-  {
-    slug: "schroders",
-    company: "Schroders",
-    title: "Private Banking Digital Transformation",
-    role: "UX Lead · Wealth Management",
-    category: "Wealth Management",
-    description: "Unified 12 legacy systems into one platform, delivering 65% engagement increase and 3x digital transactions.",
-    metrics: [
-      { value: "+65%", label: "Engagement", icon: "trending" },
-      { value: "3x", label: "Transactions", icon: "star" },
-      { value: "94%", label: "Retention", icon: "target" }
-    ],
-    thumbnail: "/images/regulatory-collaboration.png",
-    gradient: "from-indigo-500/20 via-blue-500/10 to-transparent",
+    thumbnail: "/images/case-study-uxsidekick-hero.png",
+    gradient: "from-blue-500/20 via-purple-500/10 to-transparent",
   },
 ] as const;
 

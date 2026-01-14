@@ -24,7 +24,7 @@ const caseStudies: readonly CaseStudy[] = [
     role: "Director · Private Banking",
     description: "Launched 4.2+ rated private banking app with zero security incidents, +22 NPS improvement and 30% digital adoption.",
     metrics: [{ value: "+22pts", label: "NPS", icon: "trending" }, { value: "30%", label: "Digital Adoption", icon: "users" }, { value: "5→15", label: "Team Size", icon: "users" }],
-    thumbnail: "/images/case-study-hero-coutts.png", gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
+    thumbnail: "/images/case-study-coutts-hero.png", gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
   },
   {
     slug: "ux-sidekick", company: "UX Sidekick", title: "AI-Powered Design Feedback Platform",

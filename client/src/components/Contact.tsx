@@ -1,7 +1,9 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, Loader2, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { pdf } from "@react-pdf/renderer";
+import { CVPDF } from "@/components/CVPDF";
 
 /**
  * Contact / Footer Section
@@ -12,6 +14,8 @@ import { Button } from "@/components/ui/button";
  */
 
 export default function Contact() {
+  const [pdfLoading, setPdfLoading] = useState(false);
+
   const containerVariants = useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
@@ -30,6 +34,34 @@ export default function Contact() {
       transition: { duration: 0.6 },
     },
   }), []);
+
+  const handleDownloadPDF = async () => {
+    if (pdfLoading) return;
+    setPdfLoading(true);
+
+    try {
+      // 1. Fetch Markdown
+      const res = await fetch(encodeURI("/docs/DP CV - Download.md"));
+      if (!res.ok) throw new Error(`Status: ${res.status}`);
+      const markdown = await res.text();
+
+      // 2. Generate PDF
+      const blob = await (pdf(<CVPDF markdown={markdown} /> as any).toBlob() as Promise<Blob>);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'David_Phillip_CV.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+      alert('Failed to generate PDF. Please try again later.');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-20 md:py-32 bg-background border-t border-border">
@@ -76,10 +108,24 @@ export default function Contact() {
                 <ArrowRight size={18} />
               </a>
             </Button>
-            <Button asChild variant="outline" size="xl">
-              <a href="/cv">
-                Download CV
-              </a>
+            <Button
+              variant="outline"
+              size="xl"
+              onClick={handleDownloadPDF}
+              disabled={pdfLoading}
+              className="gap-2"
+            >
+              {pdfLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <FileText size={18} />
+                  Download CV
+                </>
+              )}
             </Button>
           </motion.div>
         </motion.div>

@@ -316,7 +316,7 @@ const caseStudiesData: CaseStudiesData = {
         title: "AI-Powered Design Feedback Platform",
         subtitle: "Building an Intelligent UX Analysis Tool",
         role: "Full-Stack Developer & Product Designer",
-        period: "2024",
+        period: "2025",
         thumbnail: "/images/hero-pattern.png",
         summary: "UX Sidekick is an AI-powered design critique platform that provides expert-level UX feedback in under 30 seconds. The platform analyzes UI screenshots and Figma designs using computer vision AI, identifying usability issues, accessibility violations, and providing actionable remediation with copy-paste ready code.",
         tldrTakeaways: [
@@ -480,7 +480,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Business Context",
                         text: "Coutts serves Britain's wealthiest families, including the Royal Family. But their digital experience was stuck in the 2000s. Clients managing eight-figure portfolios used clunky legacy portals while competitors won younger prospects with modern apps. 40% of prospects under 50 cited outdated digital tools as their reason for choosing competitors.",
-                        image: "/images/coutts-before-after.svg",
+                        image: "/images/case-study-coutts-before-after.png",
                         caption: "Legacy portal (left) versus modern banking apps (right) — the gap that was costing Coutts younger clients"
                     },
                     {
@@ -526,7 +526,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "How I Hired",
                         text: "I hired for trajectory over pedigree. Several of my best hires came from adjacent industries — they brought fresh perspectives unconstrained by 'how banking apps should work.' I structured interviews around real problems: candidates worked through actual Coutts challenges, revealing how they think under ambiguity. Portfolio reviews focused on process and decision-making, not just final outputs.",
-                        image: "/images/coutts-team-photo.png",
                         caption: "Team photo showing leadership and design specialists in context"
                     },
                     {
@@ -569,7 +568,7 @@ const caseStudiesData: CaseStudiesData = {
                         number: "4",
                         title: "Designed and launched the Coutts mobile app",
                         text: "Led the design of Coutts' first modern native mobile experience, replacing fragmented legacy portals with a cohesive app built on 'Quiet Confidence'. Achieved 4.2+ app rating with zero security incidents post-launch.",
-                        image: "/images/coutts-hero-app-screens.svg",
+                        image: "/images/coutts-hero-app-screens.png",
                         caption: "Final app design: Portfolio-first hierarchy reflecting 'Quiet Confidence' design vision"
                     },
                     {
@@ -587,7 +586,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "The Access Challenge",
                         text: "Researching ultra-high-net-worth clients in a regulated environment isn't straightforward. Client access required months of approval. Initially, I relied on relationship manager insights — and several design decisions had to be reversed post-launch as a result. Lesson learned: Start fighting for direct client access immediately, even when approval processes seem insurmountable.",
-                        image: "/images/coutts-research-methodology.svg",
+                        image: "/images/coutts-research-methodology.png",
                         caption: "Our research methodology: from discovery to synthesis"
                     },
                     {
@@ -618,7 +617,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Prototyping Cadence",
                         text: "Established rapid prototyping rhythm that unlocked stakeholder alignment in weeks rather than months. I stayed hands-on: facilitating design sprints when political complexity required executive presence, prototyping key interactions myself when fast iteration was needed.",
-                        image: "/images/coutts-wireframe-progression.svg",
+                        image: "/images/coutts-flows.png",
                         caption: "Design iteration: from wireframe to high-fidelity to live product"
                     }
                 ]
@@ -631,7 +630,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Component Library",
                         text: "Built 280+ components spanning atoms to templates. Established design tokens for colour, typography, and spacing. Created governance model ensuring consistency across Coutts and the wider NatWest Group. The design system enabled rapid iteration and maintained visual consistency across all touchpoints.",
-                        image: "/images/coutts-design-system.svg",
+                        image: "/images/coutts-design-system.png",
                         caption: "Design system components: buttons, cards, and data visualisation samples"
                     }
                 ]
@@ -644,7 +643,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Process & Efficiency",
                         text: "Reduced design-to-development handoff time by 40%. Achieved 3x digital onboarding capacity without additional operations staff. Reduced routine enquiries to relationship managers by 25%.",
-                        image: "/images/coutts-impact-metrics.svg",
+                        image: "/images/coutts-impact-metrics.png",
                         caption: "Impact metrics: 40% faster handoff, 25% reduction in routine enquiries"
                     },
                     {
@@ -1748,7 +1747,7 @@ export default function CaseStudy() {
                         >
                             <div>
                                 <h3 className="font-serif text-2xl font-bold text-foreground mb-4">
-                                    Executive Summary
+                                    TL;DR
                                 </h3>
                                 <p className="text-muted-foreground leading-relaxed text-lg">
                                     {caseStudy.summary}
