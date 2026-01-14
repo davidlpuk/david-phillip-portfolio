@@ -5,9 +5,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { generateResponse, initialiseVectorStore, checkOllamaHealth } from './src/rag-service';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -18,25 +15,46 @@ app.use(express.json());
 // In-memory conversation storage
 const conversations = new Map<string, any>();
 
-// Resolve static files path
-// In development (running server/index.ts): __dirname is /server, so ../dist/public
-// In production (running dist/index.js): __dirname is /dist, so ./public
-const staticPath = process.env.NODE_ENV === 'production'
-  ? path.resolve(__dirname, 'public')
-  : path.resolve(__dirname, '..', 'dist', 'public');
+// Serve static files - ONLY if not running in Vercel (Vercel handles static files via 'outputDirectory')
+// and if import.meta is available (ESM)
+if (!process.env.VERCEL) {
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
 
-console.log(`Setting up static files from: ${staticPath}`);
-app.use(express.static(staticPath));
+    // In development (running server/index.ts): __dirname is /server, so ../dist/public
+    // In production (running dist/index.js): __dirname is /dist, so ./public
+    const staticPath = process.env.NODE_ENV === 'production'
+      ? path.resolve(__dirname, 'public')
+      : path.resolve(__dirname, '..', 'dist', 'public');
+
+    console.log(`Setting up static files from: ${staticPath}`);
+    app.use(express.static(staticPath));
+  } catch (e) {
+    console.warn('Could not setup static file serving (likely environment mismatch):', e);
+  }
+}
 
 // API Routes
 // Health check handler
 const healthHandler = async (req: any, res: any) => {
-  const health = await checkOllamaHealth();
-  res.json({
-    status: 'ok',
-    ollama: health,
-    timestamp: new Date().toISOString(),
-  });
+  try {
+    const health = await checkOllamaHealth();
+    res.json({
+      status: 'ok',
+      ollama: health,
+      timestamp: new Date().toISOString(),
+      environment: process.env.VERCEL ? 'vercel' : 'local'
+    });
+  } catch (error: any) {
+    console.error('Health check failed:', error);
+    // Always return 200 for health check to prevent client errors, but report status
+    res.json({
+      status: 'ok',
+      ollama: { status: 'error', provider: 'none', details: error.message },
+      timestamp: new Date().toISOString()
+    });
+  }
 };
 
 app.get('/api/health', healthHandler);
@@ -108,11 +126,7 @@ app.get('*', (req: any, res: any) => {
 
   // In production, if we are a serverless function, Vercel might handle static files.
   // However, if the server is used as a fallback, we serve index.html.
-  try {
-    res.sendFile(path.join(staticPath, 'index.html'));
-  } catch (e) {
-    res.status(404).send('Static files not found. Ensure build process completed.');
-  }
+  res.status(404).send('Static files not found. Ensure build process completed.');
 });
 
 /**
