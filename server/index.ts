@@ -29,17 +29,22 @@ console.log(`Setting up static files from: ${staticPath}`);
 app.use(express.static(staticPath));
 
 // API Routes
-app.get('/api/health', async (req: any, res: any) => {
+// Health check handler
+const healthHandler = async (req: any, res: any) => {
   const health = await checkOllamaHealth();
   res.json({
     status: 'ok',
     ollama: health,
     timestamp: new Date().toISOString(),
   });
-});
+};
+
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
 
 // Chat endpoint
-app.post('/api/chat', async (req: any, res: any) => {
+// Chat handler
+const chatHandler = async (req: any, res: any) => {
   const { message, conversationId } = req.body;
 
   if (!message || typeof message !== 'string') {
@@ -82,7 +87,10 @@ app.post('/api/chat', async (req: any, res: any) => {
       message: 'I apologize, but I\'m experiencing some technical difficulties. Please try again later.',
     });
   }
-});
+};
+
+app.post('/api/chat', chatHandler);
+app.post('/chat', chatHandler);
 
 // Clear conversation
 app.delete('/api/chat/:conversationId', (req: any, res: any) => {
