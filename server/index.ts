@@ -36,6 +36,11 @@ if (!process.env.VERCEL) {
 }
 
 // API Routes
+// Simple ping endpoint for debugging configuration
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'pong', timestamp: Date.now() });
+});
+
 // Health check handler
 const healthHandler = async (req: any, res: any) => {
   try {
@@ -47,11 +52,12 @@ const healthHandler = async (req: any, res: any) => {
       environment: process.env.VERCEL ? 'vercel' : 'local'
     });
   } catch (error: any) {
-    console.error('Health check failed:', error);
+    console.error('Health check CRITICAL failure:', error);
     // Always return 200 for health check to prevent client errors, but report status
-    res.json({
-      status: 'ok',
-      ollama: { status: 'error', provider: 'none', details: error.message },
+    // correct status code to 200 so the client sees the error message in the body
+    res.status(200).json({
+      status: 'error',
+      ollama: { status: 'error', provider: 'none', details: error.message || String(error) },
       timestamp: new Date().toISOString()
     });
   }
