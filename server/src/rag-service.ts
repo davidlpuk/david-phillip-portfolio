@@ -79,6 +79,18 @@ export async function initialiseVectorStore(): Promise<void> {
     console.log(`Using Groq for LLM: ${GROQ_MODEL}`);
     console.log(`Using Ollama for embeddings: ${EMBEDDING_MODEL}`);
 
+    // Check if we are on Vercel - if so, skip embedding fetching to avoid timeouts
+    // since localhost is not available
+    if (process.env.VERCEL) {
+        console.warn('Running on Vercel: Skipping Ollama embeddings fetch, strictly using fallback/keywords.');
+        for (const chunk of knowledgeBase) {
+            vectorStore.chunks.set(chunk.id, chunk);
+            vectorStore.embeddings.set(chunk.id, new Array(768).fill(0));
+        }
+        console.log(`Vector store initialised with ${knowledgeBase.length} chunks (Vercel mode)`);
+        return;
+    }
+
     // Pre-load chunks - we'll try to get embeddings
     for (const chunk of knowledgeBase) {
         try {
