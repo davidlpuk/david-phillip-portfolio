@@ -1,6 +1,6 @@
 /**
  * RAG (Retrieval-Augmented Generation) Service
- * Uses Groq for fast LLM inference, Ollama for embeddings
+ * Uses Groq or xAI for fast LLM inference, Ollama for embeddings
  */
 
 import { knowledgeBase, KnowledgeChunk, systemPrompt } from './knowledge-base';
@@ -9,6 +9,11 @@ import { knowledgeBase, KnowledgeChunk, systemPrompt } from './knowledge-base';
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
+
+// xAI (Grok) configuration
+const XAI_API_KEY = process.env.XAI_API_KEY || '';
+const XAI_MODEL = process.env.XAI_MODEL || 'grok-beta';
+const XAI_BASE_URL = 'https://api.x.ai/v1';
 
 // Ollama configuration (for embeddings)
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://localhost:11434';
@@ -76,8 +81,8 @@ function cosineSimilarity(a: number[], b: number[]): number {
 // Initialise the vector store with knowledge base
 export async function initialiseVectorStore(): Promise<void> {
     console.log('Initialising vector store with knowledge base...');
-    console.log(`Using Groq for LLM: ${GROQ_MODEL}`);
-    console.log(`Using Ollama for embeddings: ${EMBEDDING_MODEL}`);
+    console.log(`Using Groq: ${!!GROQ_API_KEY}, Model: ${GROQ_MODEL}`);
+    console.log(`Using xAI (Grok): ${!!XAI_API_KEY}, Model: ${XAI_MODEL}`);
 
     // Check if we are on Vercel - if so, skip embedding fetching to avoid timeouts
     // since localhost is not available
@@ -171,7 +176,7 @@ export async function findRelevantChunks(
         .map((item) => item.chunk);
 }
 
-// Generate response using Groq with RAG context
+// Generate response using Groq or xAI with RAG context
 export async function generateResponse(
     userMessage: string,
     conversationHistory: Array<{ role: 'user' | 'assistant'; content: string }> = []
@@ -198,50 +203,80 @@ user: ${userMessage}
 ## Response
 assistant:`;
 
-        // Check if Groq API key is configured
-        if (!GROQ_API_KEY) {
-            console.warn('GROQ_API_KEY not configured, falling back to Ollama');
-            return await generateResponseOllama(fullPrompt);
+        // Case 1: xAI (Grok) is configured
+        if (XAI_API_KEY) {
+            try {
+                const response = await fetch(`${XAI_BASE_URL}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${XAI_API_KEY}`,
+                    },
+                    body: JSON.stringify({
+                        model: XAI_MODEL,
+                        messages: [
+                            { role: 'system', content: "You are David's Digital Assistant." },
+                            { role: 'user', content: fullPrompt }
+                        ],
+                        temperature: 0.7,
+                        stream: false,
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                }
+                console.warn(`xAI API returned ${response.status}:`, await response.text());
+            } catch (e) {
+                console.error('xAI API call failed:', e);
+            }
         }
 
-        // Call Groq for response - OpenAI-compatible API
-        const response = await fetch(`${GROQ_BASE_URL}/chat/completions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${GROQ_API_KEY}`,
-            },
-            body: JSON.stringify({
-                model: GROQ_MODEL,
-                messages: [
-                    {
-                        role: 'system',
-                        content: "You are David's Digital Assistant — a professional executive assistant representing David Phillip, a commercial Head of Product Design with 24 years of Fintech experience. Your audience is executive recruiters and hiring managers. Be professional, outcome-oriented, and speak the language of revenue, risk, and retention. Use British English. Always use first person singular (I, me, my) - never use 'we' or 'our' when responding about David's experience. Focus on leadership, business impact, and tangible results. Avoid abstract design jargon unless specifically asked. When discussing skills, always pivot to senior-level context with team size and business impact.",
+        // Case 2: Groq is configured (Fallback or Primary)
+        if (GROQ_API_KEY) {
+            try {
+                const response = await fetch(`${GROQ_BASE_URL}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${GROQ_API_KEY}`,
                     },
-                    {
-                        role: 'user',
-                        content: fullPrompt,
-                    },
-                ],
-                temperature: 0.7,
-                stream: false,
-            }),
-        });
+                    body: JSON.stringify({
+                        model: GROQ_MODEL,
+                        messages: [
+                            { role: 'system', content: "You are David's Digital Assistant." },
+                            { role: 'user', content: fullPrompt }
+                        ],
+                        temperature: 0.7,
+                        stream: false,
+                    }),
+                });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`Groq API error: ${response.status} ${errorText}`);
-            // Fall back to Ollama
-            return await generateResponseOllama(fullPrompt);
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                }
+                console.warn(`Groq API returned ${response.status}:`, await response.text());
+            } catch (e) {
+                console.error('Groq API call failed:', e);
+            }
         }
 
-        const data = await response.json();
-        // Add a brief delay to make responses feel more natural
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        return data.choices[0].message.content;
+        // Case 3: Vercel Environment with NO API Keys -> Return Safe Fallback
+        if (process.env.VERCEL) {
+            console.warn('No LLM keys configured on Vercel. returning keyword match fallback.');
+            const fallbackResponse = `I see you're asking about: "${userMessage}".\n\nBased on my knowledge base, here is the relevant information:\n\n${context}\n\n(Note: I am currently running in offline mode, so my ability to converse naturally is limited. Please double-check my configuration.)`;
+            return fallbackResponse;
+        }
+
+        // Case 4: Local Development -> Fallback to Ollama
+        console.warn('No Cloud API keys configured, falling back to local Ollama');
+        return await generateResponseOllama(fullPrompt);
+
     } catch (error) {
         console.error('Error generating response:', error);
-        return `I apologise, but I'm experiencing some technical difficulties. Please try again, or feel free to book a 30-minute call with David directly via david@phillip.design.`;
+        return `I apologise, but I'm experiencing some technical difficulties. Please try again, or feel free to book a 30-minute call with David directly via david.phillip@gmail.com.`;
     }
 }
 
@@ -258,7 +293,7 @@ async function generateResponseOllama(fullPrompt: string): Promise<string> {
                 messages: [
                     {
                         role: 'system',
-                        content: "You are David's Digital Assistant — a professional executive assistant representing David Phillip, a commercial Head of Product Design with 24 years of Fintech experience. Your audience is executive recruiters and hiring managers. Be professional, outcome-oriented, and speak the language of revenue, risk, and retention. Use British English. Always use first person singular (I, me, my) - never use 'we' or 'our' when responding about David's experience. Focus on leadership, business impact, and tangible results. Avoid abstract design jargon unless specifically asked. When discussing skills, always pivot to senior-level context with team size and business impact.",
+                        content: systemPrompt,
                     },
                     {
                         role: 'user',
@@ -287,7 +322,24 @@ async function generateResponseOllama(fullPrompt: string): Promise<string> {
 
 // Health check
 export async function checkOllamaHealth(): Promise<{ status: string; configured: boolean; provider: string; details?: string }> {
-    // Check Groq first (preferred)
+    // Check xAI (Preferred if configured)
+    if (XAI_API_KEY) {
+        try {
+            // Simple model list check
+            const response = await fetch(`${XAI_BASE_URL}/models`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${XAI_API_KEY}` }
+            });
+            if (response.ok) {
+                return { status: 'healthy', configured: true, provider: 'xai' };
+            }
+            console.warn(`xAI health check failed: ${response.status}`);
+        } catch (e) {
+            console.warn('xAI health check failed with error:', e);
+        }
+    }
+
+    // Check Groq
     if (GROQ_API_KEY) {
         try {
             const response = await fetch(`${GROQ_BASE_URL}/models`, {
@@ -299,15 +351,20 @@ export async function checkOllamaHealth(): Promise<{ status: string; configured:
             if (response.ok) {
                 return { status: 'healthy', configured: true, provider: 'groq' };
             }
-        } catch {
-            // Continue to Ollama check
+            console.warn(`Groq health check failed: ${response.status}`);
+        } catch (e) {
+            console.warn('Groq health check failed with error:', e);
         }
     }
 
     // Fall back to Ollama check
     // If we are on Vercel, we can't reach localhost, so fail fast instead of timing out
     if (process.env.VERCEL) {
-        return { status: 'error', configured: true, provider: 'none', details: 'Ollama unreachable on Vercel' };
+        // If we have API keys but they failed above, report that.
+        if (XAI_API_KEY || GROQ_API_KEY) {
+            return { status: 'degraded', configured: true, provider: 'fallback', details: 'Cloud APIs failed, using keyword fallback' };
+        }
+        return { status: 'error', configured: false, provider: 'none', details: 'No AI provider configured on Vercel' };
     }
 
     try {
