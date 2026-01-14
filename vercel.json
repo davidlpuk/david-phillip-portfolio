@@ -1,7 +1,8 @@
 {
-    "version": 2,
-    "buildCommand": "pnpm run build",
+    "buildCommand": "pnpm install && pnpm run build",
     "outputDirectory": "dist/public",
+    "installCommand": "npm install -g pnpm@10.4.1 && pnpm install",
+    "framework": null,
     "rewrites": [
         {
             "source": "/api/(.*)",
@@ -11,8 +12,5 @@
             "source": "/(.*)",
             "destination": "/index.html"
         }
-    ],
-    "env": {
-        "NODE_ENV": "production"
-    }
+    ]
 }
