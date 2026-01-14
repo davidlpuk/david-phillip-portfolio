@@ -41,12 +41,12 @@ export default defineConfig({
           const info = name.split('.');
           const ext = info[info.length - 1];
           if (/\.(png|jpe?g|svg|gif|webp|ico)$/.test(name)) {
-            return `images/[name]-[hash][ext]`;
+            return `images/[name]-[hash].[ext]`;
           }
           if (/\.css$/.test(name)) {
-            return `css/[name]-[hash][ext]`;
+            return `css/[name]-[hash].[ext]`;
           }
-          return `[name]-[hash][ext]`;
+          return `[name]-[hash].[ext]`;
         },
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
