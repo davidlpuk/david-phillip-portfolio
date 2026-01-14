@@ -23,22 +23,42 @@ interface Conversation {
 
 const conversations = new Map<string, Conversation>();
 
-// Serve static files from the client's build output
-const clientBuildPath = path.resolve(import.meta.dirname, '..', '..', 'dist', 'public');
-app.use(express.static(clientBuildPath));
+// Serve static files - ONLY if not running in Vercel (Vercel handles static files via 'outputDirectory')
+if (!process.env.VERCEL) {
+    try {
+        const clientBuildPath = path.resolve(import.meta.dirname, '..', '..', 'dist', 'public');
+        app.use(express.static(clientBuildPath));
+    } catch (e) {
+        console.warn('Could not setup static file serving:', e);
+    }
+}
 
 // Health check endpoint
-app.get('/api/health', async (req, res) => {
-    const health = await checkOllamaHealth();
-    res.json({
-        status: 'ok',
-        ollama: health,
-        timestamp: new Date().toISOString(),
-    });
-});
+const healthHandler = async (req: any, res: any) => {
+    try {
+        const health = await checkOllamaHealth();
+        res.json({
+            status: 'ok',
+            ollama: health,
+            timestamp: new Date().toISOString(),
+            environment: process.env.VERCEL ? 'vercel' : 'local'
+        });
+    } catch (error: any) {
+        console.error('Health check failed:', error);
+        // Always return 200 for health check to prevent client errors
+        res.json({
+            status: 'ok',
+            ollama: { status: 'error', provider: 'none', details: error.message },
+            timestamp: new Date().toISOString()
+        });
+    }
+};
+
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
 
 // Chat endpoint
-app.post('/api/chat', async (req, res) => {
+const chatHandler = async (req: any, res: any) => {
     const { message, conversationId } = req.body;
 
     if (!message || typeof message !== 'string') {
@@ -85,7 +105,10 @@ app.post('/api/chat', async (req, res) => {
             message: 'I apologize, but I\'m experiencing some technical difficulties. Please try again later.',
         });
     }
-});
+};
+
+app.post('/api/chat', chatHandler);
+app.post('/chat', chatHandler);
 
 // Clear conversation
 app.delete('/api/chat/:conversationId', (req, res) => {
@@ -100,7 +123,7 @@ app.get('*', (req, res) => {
     if (req.path.startsWith('/api/')) {
         return res.status(404).json({ error: 'API endpoint not found' });
     }
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
+    res.status(404).send('Static files not found. Ensure build process completed.');
 });
 
 // Initialise vector store on startup
