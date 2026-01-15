@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import express from 'express';
-import type { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -35,12 +34,12 @@ if (!process.env.VERCEL) {
 
 // API Routes
 // Simple ping endpoint for debugging configuration
-app.get('/api/ping', (req: ExpressRequest, res: ExpressResponse) => {
+app.get('/api/ping', (req: express.Request, res: express.Response) => {
   res.json({ message: 'pong', timestamp: Date.now() });
 });
 
 // Health check handler
-const healthHandler = async (req: ExpressRequest, res: ExpressResponse) => {
+const healthHandler = async (req: express.Request, res: express.Response) => {
   try {
     const health = await checkOllamaHealth();
     res.json({
@@ -66,7 +65,7 @@ app.get('/health', healthHandler);
 
 // Chat endpoint
 // Chat handler
-const chatHandler = async (req: ExpressRequest, res: ExpressResponse) => {
+const chatHandler = async (req: express.Request, res: express.Response) => {
   const { message, conversationId } = req.body;
 
   if (!message || typeof message !== 'string') {
@@ -115,14 +114,14 @@ app.post('/api/chat', chatHandler);
 app.post('/chat', chatHandler);
 
 // Clear conversation
-app.delete('/api/chat/:conversationId', (req: ExpressRequest, res: ExpressResponse) => {
+app.delete('/api/chat/:conversationId', (req: express.Request, res: express.Response) => {
   const { conversationId } = req.params;
   conversations.delete(conversationId);
   res.json({ success: true });
 });
 
 // Serve the React app for all non-API routes (SPA fallback)
-app.get('*', (req: ExpressRequest, res: ExpressResponse) => {
+app.get('*', (req: express.Request, res: express.Response) => {
   // Don't handle API routes in the catch-all
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API endpoint not found' });
