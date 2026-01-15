@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   role: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 700,
     color: "#444444",
     marginBottom: 6,
