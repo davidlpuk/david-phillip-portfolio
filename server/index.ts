@@ -34,12 +34,12 @@ if (!process.env.VERCEL) {
 
 // API Routes
 // Simple ping endpoint for debugging configuration
-app.get('/api/ping', (req: express.Request, res: express.Response) => {
+app.get('/api/ping', (req, res) => {
   res.json({ message: 'pong', timestamp: Date.now() });
 });
 
 // Health check handler
-const healthHandler = async (req: express.Request, res: express.Response) => {
+const healthHandler = async (req, res) => {
   try {
     const health = await checkOllamaHealth();
     res.json({
@@ -65,7 +65,7 @@ app.get('/health', healthHandler);
 
 // Chat endpoint
 // Chat handler
-const chatHandler = async (req: express.Request, res: express.Response) => {
+const chatHandler = async (req, res) => {
   const { message, conversationId } = req.body;
 
   if (!message || typeof message !== 'string') {
@@ -114,14 +114,14 @@ app.post('/api/chat', chatHandler);
 app.post('/chat', chatHandler);
 
 // Clear conversation
-app.delete('/api/chat/:conversationId', (req: express.Request, res: express.Response) => {
+app.delete('/api/chat/:conversationId', (req, res) => {
   const { conversationId } = req.params;
   conversations.delete(conversationId);
   res.json({ success: true });
 });
 
 // Serve the React app for all non-API routes (SPA fallback)
-app.get('*', (req: express.Request, res: express.Response) => {
+app.get('*', (req, res) => {
   // Don't handle API routes in the catch-all
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API endpoint not found' });
