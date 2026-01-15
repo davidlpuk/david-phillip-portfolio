@@ -2028,7 +2028,7 @@ export default function CaseStudy() {
                         Interested in working together?
                     </h3>
                     <Link
-                        href="/#contact"
+                        href="mailto:david.phillip@gmail.com"
                         className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-sm font-sans font-medium hover:bg-primary/90 transition-colors duration-200"
                     >
                         Let's Work Together

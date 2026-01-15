@@ -8,6 +8,7 @@ import PageTransition from "./components/PageTransition";
 
 // Lazy-loaded page components for code splitting
 const Home = lazy(() => import("./pages/Home"));
+const Articles = lazy(() => import("./pages/Articles"));
 const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const CV = lazy(() => import("./pages/CV"));
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
@@ -39,6 +40,11 @@ function Router() {
         <Route path="/">
           <Suspense fallback={<PageLoader />}>
             <Home />
+          </Suspense>
+        </Route>
+        <Route path="/articles">
+          <Suspense fallback={<PageLoader />}>
+            <Articles />
           </Suspense>
         </Route>
         <Route path="/cv">

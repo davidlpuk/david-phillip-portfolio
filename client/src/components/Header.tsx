@@ -28,18 +28,18 @@ export default function Header() {
     { label: "Work", href: "/#work", hash: "#work" },
     { label: "About", href: "/#about", hash: "#about" },
     { label: "Experience", href: "/#experience", hash: "#experience" },
+    { label: "Articles", href: "/articles", hash: "/articles" },
     { label: "Contact", href: "/#contact", hash: "#contact" },
   ];
 
   // Get the correct href based on current location
   // When on CV or case study pages, navigate to home with hash anchor; otherwise use hash directly
-  const getNavHref = (item: typeof navItems[0]) => {
+  const getNavHref = (item: (typeof navItems)[0]) => {
     if (location === "/cv" || location.startsWith("/case-study/")) {
       return item.href; // e.g., /#work
     }
     return item.hash; // e.g., #work
   };
-
 
   // Close mobile menu when location changes
   useEffect(() => {
@@ -130,7 +130,9 @@ export default function Header() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Brand Name */}
           <a href="/" className="flex items-center">
-            <span className="font-display text-xl font-bold tracking-tight">David Phillip</span>
+            <span className="font-display text-xl font-bold tracking-tight">
+              David Phillip
+            </span>
           </a>
 
           {/* Desktop Navigation */}
@@ -192,7 +194,12 @@ export default function Header() {
                 {navItems.map((item, index) => {
                   const isActive = location === item.hash;
                   const navHref = getNavHref(item);
-                  const ref = index === 0 ? firstMenuItemRef : index === navItems.length - 1 ? lastMenuItemRef : undefined;
+                  const ref =
+                    index === 0
+                      ? firstMenuItemRef
+                      : index === navItems.length - 1
+                        ? lastMenuItemRef
+                        : undefined;
                   return (
                     <a
                       key={item.label}
