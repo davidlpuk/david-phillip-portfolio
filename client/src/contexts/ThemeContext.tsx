@@ -110,22 +110,21 @@ export function ThemeProvider({
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
-  // Determine effective mode
-  const effectiveMode = useSystemTheme ? systemPreference : mode;
+  // Determine effective mode - always light
+  const effectiveMode = "light";
 
-  // Set mode with persistence
+  // Set mode with persistence - always set to light
   const setMode = useCallback((newMode: ThemeMode) => {
-    setModeState(newMode);
-    localStorage.setItem(THEME_MODE_KEY, newMode);
+    setModeState("light");
+    localStorage.setItem(THEME_MODE_KEY, "light");
     setUseSystemThemeState(false);
     localStorage.setItem(USE_SYSTEM_THEME_KEY, "false");
   }, []);
 
-  // Toggle mode
+  // Toggle mode - disabled, always light
   const toggleMode = useCallback(() => {
-    const newMode = mode === "light" ? "dark" : "light";
-    setMode(newMode);
-  }, [mode, setMode]);
+    // Do nothing, always light mode
+  }, []);
 
   // Set preset with persistence
   const setPreset = useCallback((newPreset: ThemePreset) => {
@@ -139,10 +138,10 @@ export function ThemeProvider({
     localStorage.setItem(USE_SYSTEM_THEME_KEY, String(useSystem));
   }, []);
 
-  // Compute theme class
+  // Compute theme class - always light
   const themeClass = preset === "institutional-elegance"
     ? "light"  // Force light theme for institutional-elegance preset
-    : `${mode} theme-${preset.replace("institutional-elegance", "").replace(/-/g, "")}`;
+    : `light theme-${preset.replace("institutional-elegance", "").replace(/-/g, "")}`;
 
   // Apply theme to document
   useEffect(() => {

@@ -9,7 +9,6 @@ import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
-import MobileStickyCTA from "@/components/MobileStickyCTA";
 import AIAssistant from "@/components/AIAssistant";
 
 /**
@@ -123,9 +122,6 @@ export default function Home() {
           © {new Date().getFullYear()} David Phillip. All rights reserved.
         </p>
       </footer>
-
-      {/* Mobile Sticky CTA Button */}
-      <MobileStickyCTA />
 
       {/* AI Assistant - Floating chatbot with clever trigger */}
       <AIAssistant />

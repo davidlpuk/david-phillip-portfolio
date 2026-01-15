@@ -55,9 +55,11 @@ export default function WhatIDo() {
             What I <span className="highlighter-stroke">Do</span>
           </h2>
           <p className="font-sans text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+            From Problem to Production<br />
             Most practitioners hand off. I ship.<br />
-            Most leaders delegate. I orchestrate.<br />
-            This is what 20 years of building in regulated environments looks like.
+            Most leaders delegate. I orchestrate.
+            <br /><br />
+            Technical fluency + AI workflows + regulatory expertise =<br /> end-to-end ownership from strategy to shipped code.
           </p>
         </div>
 

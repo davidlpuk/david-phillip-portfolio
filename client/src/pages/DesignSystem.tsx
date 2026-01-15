@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from '../components/Header';
-import { ThemeSwitcher } from '../components/ThemeSwitcher';
 import { HighlighterStroke } from '../components/ui/highlighter-stroke.tsx';
 import { EnergySparkles } from '../components/ui/energy-sparkles';
 import { EmphasisStrokes } from '../components/ui/emphasis-strokes';

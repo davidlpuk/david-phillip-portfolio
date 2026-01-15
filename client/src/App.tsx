@@ -9,11 +9,14 @@ import PageTransition from "./components/PageTransition";
 // Lazy-loaded page components for code splitting
 const Home = lazy(() => import("./pages/Home"));
 const Articles = lazy(() => import("./pages/Articles"));
+const Article = lazy(() => import("./pages/Article"));
 const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const CV = lazy(() => import("./pages/CV"));
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 const CVLab = lazy(() => import("./pages/CVLab")); // 🔒 Secret page
 const CVBuilder = lazy(() => import("./pages/CVBuilder")); // 🔒 AI CV Builder
+const ArticleGenerator = lazy(() => import("./pages/ArticleGenerator")); // 🔒 Article Generator
+const ArticleManager = lazy(() => import("./pages/ArticleManager")); // 🔒 Article Manager
 
 // Loading fallback component
 const PageLoader = React.memo(function PageLoader() {
@@ -47,6 +50,11 @@ function Router() {
             <Articles />
           </Suspense>
         </Route>
+        <Route path="/articles/:slug">
+          <Suspense fallback={<PageLoader />}>
+            <Article />
+          </Suspense>
+        </Route>
         <Route path="/cv">
           <Suspense fallback={<PageLoader />}>
             <CV />
@@ -72,6 +80,18 @@ function Router() {
         <Route path="/admin/cv-builder">
           <Suspense fallback={<PageLoader />}>
             <CVBuilder />
+          </Suspense>
+        </Route>
+        {/* 🔒 Article Manager */}
+        <Route path="/admin/articles">
+          <Suspense fallback={<PageLoader />}>
+            <ArticleManager />
+          </Suspense>
+        </Route>
+        {/* 🔒 Article Generator */}
+        <Route path="/admin/article-generator">
+          <Suspense fallback={<PageLoader />}>
+            <ArticleGenerator />
           </Suspense>
         </Route>
         <Route path="/404" component={NotFound} />

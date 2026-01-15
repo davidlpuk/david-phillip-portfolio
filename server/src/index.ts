@@ -1,4 +1,4 @@
-/**
+ /**
  * Chat API Server for David's AI Digital Twin
  * Uses Ollama for chat completions with RAG
  */
@@ -7,7 +7,9 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
 import { generateResponse, initialiseVectorStore, checkOllamaHealth } from './rag-service';
+import articlesRouter from './routes/articles';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -56,6 +58,108 @@ const healthHandler = async (req: any, res: any) => {
 
 app.get('/api/health', healthHandler);
 app.get('/health', healthHandler);
+
+app.use('/api/articles', articlesRouter);
+
+// Test endpoint
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'Server is running', timestamp: new Date().toISOString() });
+});
+
+// Save article endpoint
+app.post('/api/save-article', (req, res) => {
+    console.log('Save article request received:', req.body);
+    const { content, filename } = req.body;
+
+    if (!content || !filename) {
+        console.log('Missing content or filename');
+        return res.status(400).json({ error: 'Content and filename are required' });
+    }
+
+    // Ensure filename ends with .md
+    const safeFilename = filename.endsWith('.md') ? filename : `${filename}.md`;
+
+    // Path to articles folder
+    const articlesPath = path.resolve(import.meta.dirname, '..', '..', 'client', 'src', 'articles');
+    const filePath = path.join(articlesPath, safeFilename);
+
+    console.log('Saving to:', filePath);
+
+    try {
+        // Ensure articles directory exists
+        if (!fs.existsSync(articlesPath)) {
+            fs.mkdirSync(articlesPath, { recursive: true });
+            console.log('Created articles directory');
+        }
+
+        // Write the file
+        fs.writeFileSync(filePath, content, 'utf8');
+        console.log('File written successfully');
+
+        res.json({ success: true, message: `Article saved as ${safeFilename}` });
+    } catch (error) {
+        console.error('Error saving article:', error);
+        res.status(500).json({ error: 'Failed to save article' });
+    }
+});
+
+// Update article status endpoint
+app.patch('/api/articles/:slug/status', (req, res) => {
+    const { slug } = req.params;
+    const { status } = req.body;
+
+    if (!status || !['draft', 'published'].includes(status)) {
+        return res.status(400).json({ error: 'Valid status is required' });
+    }
+
+    const articlesPath = path.resolve(import.meta.dirname, '..', '..', 'client', 'src', 'articles');
+    const filePath = path.join(articlesPath, `${slug}.md`);
+
+    try {
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ error: 'Article not found' });
+        }
+
+        // Read current content
+        const content = fs.readFileSync(filePath, 'utf8');
+
+        // Update status in frontmatter
+        const updatedContent = content.replace(
+            /(status:\s*["']?)([^"'\n]*)(["']?)/,
+            `$1${status}$3`
+        );
+
+        // Write back
+        fs.writeFileSync(filePath, updatedContent, 'utf8');
+
+        res.json({ success: true, message: `Article status updated to ${status}` });
+    } catch (error) {
+        console.error('Error updating article status:', error);
+        res.status(500).json({ error: 'Failed to update article status' });
+    }
+});
+
+// Delete article endpoint
+app.delete('/api/articles/:slug', (req, res) => {
+    const { slug } = req.params;
+
+    const articlesPath = path.resolve(import.meta.dirname, '..', '..', 'client', 'src', 'articles');
+    const filePath = path.join(articlesPath, `${slug}.md`);
+
+    try {
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ error: 'Article not found' });
+        }
+
+        // Delete the file
+        fs.unlinkSync(filePath);
+
+        res.json({ success: true, message: 'Article deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting article:', error);
+        res.status(500).json({ error: 'Failed to delete article' });
+    }
+});
 
 // Chat endpoint
 const chatHandler = async (req: any, res: any) => {
@@ -129,12 +233,13 @@ app.get('*', (req, res) => {
 // Initialise vector store on startup
 async function startServer() {
     try {
-        console.log('Initialising vector store...');
-        await initialiseVectorStore();
+        // Temporarily skip vector store initialization for debugging
+        // console.log('Initialising vector store...');
+        // await initialiseVectorStore();
 
         app.listen(PORT, () => {
             console.log(`Chat API server running on http://localhost:${PORT}`);
-            console.log('Ready to chat with David\'s Digital Twin!');
+            console.log('Ready to handle requests!');
         });
     } catch (error) {
         console.error('Failed to start server:', error);

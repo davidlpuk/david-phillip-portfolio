@@ -1,10 +1,11 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   darkMode: "class",
   content: [
     "./client/index.html",
-    "./client/src/**/*.{js,ts,jsx,tsx}",
+    "./client/src/**/*.{js,ts,jsx,tsx,css}",
   ],
   theme: {
     fontFamily: {
@@ -147,7 +148,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [typography],
 };
 
 export default config;

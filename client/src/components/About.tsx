@@ -10,33 +10,33 @@ import { motion } from "framer-motion";
 
 const capabilityGroups = [
   {
-    title: "Strategy & Leadership",
+    title: "Strategy & Execution",
     icon: Sparkles,
     capabilities: [
-      "Design strategy aligned with business objectives",
-      "Building and scaling high-performing teams",
-      "Stakeholder navigation in regulated industries",
-      "AI strategy and team enablement",
+      "Design strategy that drove 4× revenue growth ($20M→$80M, Cognism)",
+      "Scaled teams from 5→15 with zero attrition (Coutts)",
+      "AI-native workflows: research synthesis, prototyping, testing automation",
+      "Stakeholder navigation across regulated environments (FCA, MiFID II, GDPR)",
     ],
   },
   {
-    title: "Design & Research",
+    title: "Design & Systems",
     icon: Globe,
     capabilities: [
-      "Complex B2B/enterprise systems",
-      "Data-informed design using product analytics",
-      "Inclusive design and accessibility",
-      "Design system creation and governance",
+      "Enterprise B2B platforms serving 21 countries (BlackRock)",
+      "Design systems governance: 120+ components, cross-brand consistency",
+      "Accessibility compliance (WCAG 2.1 AA) under legal/regulatory pressure",
+      "Data-informed iteration using Mixpanel, Amplitude, session replay",
     ],
   },
   {
     title: "Technical & Delivery",
     icon: Shield,
     capabilities: [
-      "Technical fluency (APIs, microservices, security)",
-      "Regulated industry compliance",
-      "Cross-functional leadership",
-      "Agile methodology and rapid iteration",
+      "Hands-on technical fluency: APIs, authentication flows, microservices architecture",
+      "Ship production code when needed (React, Framer, prototyping tools)",
+      "Agile delivery in 2-week sprints with engineering-embedded designers",
+      "Compliance by design: SOC2, data residency requirements",
     ],
   },
 ];
@@ -123,7 +123,7 @@ export default function About() {
               I Build <span className="highlighter-stroke text-primary">Teams That Ship</span>
             </h2>
             <p className="font-sans text-base md:text-lg leading-relaxed" style={{ color: 'var(--text-inverse-secondary)' }}>
-              I've spent 20 years building design teams in financial services—from scaling a 15-person org to shipping production code myself. Most leaders pick a lane: strategy or craft. I do both, and I hire people who can too. What I've learned is that great design leadership comes down to clarity—knowing what to build, getting the right people aligned, and moving fast from insight to shipped product.
+              I've built design teams across BlackRock, HSBC, Coutts, and Cognism—from scaling 15-person orgs to shipping production code myself. Most leaders choose strategy or craft. I refuse to. Great design leadership is about clarity: knowing what to build, aligning the right people, and moving fast from insight to shipped product. No handoffs. No gaps.
             </p>
           </div>
         </div>

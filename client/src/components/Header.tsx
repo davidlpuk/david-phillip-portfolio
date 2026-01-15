@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 /**
  * Header Component
@@ -25,17 +24,20 @@ export default function Header() {
   const lastMenuItemRef = useRef<HTMLAnchorElement | null>(null);
 
   const navItems = [
-    { label: "Work", href: "/#work", hash: "#work" },
     { label: "About", href: "/#about", hash: "#about" },
+    { label: "Work", href: "/#work", hash: "#work" },
     { label: "Experience", href: "/#experience", hash: "#experience" },
-    { label: "Articles", href: "/articles", hash: "/articles" },
     { label: "Contact", href: "/#contact", hash: "#contact" },
   ];
 
   // Get the correct href based on current location
   // When on CV or case study pages, navigate to home with hash anchor; otherwise use hash directly
   const getNavHref = (item: (typeof navItems)[0]) => {
-    if (location === "/cv" || location.startsWith("/case-study/")) {
+    if (
+      location === "/cv" ||
+      location.startsWith("/case-study/") ||
+      location.startsWith("/articles")
+    ) {
       return item.href; // e.g., /#work
     }
     return item.hash; // e.g., #work
@@ -144,7 +146,7 @@ export default function Header() {
                 <a
                   key={item.label}
                   href={navHref}
-                  className={`hover:text-gray-900 dark:hover:text-white hover:underline underline-offset-4 decoration-2 transition-all ${isActive ? "text-primary font-bold" : "text-slate-600 dark:text-slate-400"}`}
+                  className={`hover:text-gray-900 dark:hover:text-white hover:underline underline-offset-4 decoration-2 transition-all ${isActive ? "text-black font-semibold" : "text-slate-600 dark:text-slate-400"}`}
                 >
                   {item.label}
                 </a>
@@ -205,7 +207,8 @@ export default function Header() {
                       key={item.label}
                       ref={ref}
                       href={navHref}
-                      className={`text-xl font-semibold transition-colors ${isActive ? "text-primary" : "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white"}`}
+                      onClick={() => setIsOpen(false)}
+                      className={`text-xl transition-colors ${isActive ? "text-black font-semibold" : "font-semibold text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white"}`}
                     >
                       {item.label}
                     </a>
@@ -214,12 +217,14 @@ export default function Header() {
                 <div className="flex flex-col gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
                   <a
                     href="/cv"
+                    onClick={() => setIsOpen(false)}
                     className="px-6 py-4 bg-secondary text-secondary-foreground rounded-full font-bold text-center hover:bg-secondary/80 transition-colors"
                   >
                     View my CV
                   </a>
                   <a
                     href={location === "/cv" ? "/#contact" : "#contact"}
+                    onClick={() => setIsOpen(false)}
                     className="px-6 py-4 bg-primary text-primary-foreground rounded-full font-bold text-center hover:bg-primary/90 transition-colors"
                   >
                     Get in Touch

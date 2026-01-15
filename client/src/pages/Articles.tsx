@@ -1,69 +1,35 @@
-import { ArrowRight, Clock, Calendar } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
+import { ArrowRight, Clock, Calendar, Loader2 } from "lucide-react";
 import Header from "@/components/Header";
-
-interface Article {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  readTime: string;
-  date: string;
-  thumbnail: string;
-}
-
-const articles: Article[] = [
-  {
-    id: "1",
-    slug: "designing-for-accessibility",
-    title: "Designing for Accessibility: A Comprehensive Guide",
-    excerpt:
-      "Exploring the fundamental principles of inclusive design and how they can enhance the experience for all users, regardless of ability.",
-    category: "Design",
-    readTime: "8 min read",
-    date: "January 2026",
-    thumbnail:
-      "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=800&h=600&fit=crop",
-  },
-  {
-    id: "2",
-    slug: "ux-principles-fintech",
-    title: "UX Principles for Fintech Products",
-    excerpt:
-      "Key considerations when designing financial products that build trust, reduce friction, and drive user engagement.",
-    category: "UX Design",
-    readTime: "12 min read",
-    date: "December 2025",
-    thumbnail:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-  },
-  {
-    id: "3",
-    slug: "design-systems-scale",
-    title: "Building Design Systems at Scale",
-    excerpt:
-      "Lessons learned from establishing and maintaining design systems across multiple teams and products in large organizations.",
-    category: "Design Systems",
-    readTime: "10 min read",
-    date: "November 2025",
-    thumbnail:
-      "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&h=600&fit=crop",
-  },
-  {
-    id: "4",
-    slug: "ai-ux-designers",
-    title: "The Role of AI in Modern UX Design",
-    excerpt:
-      "How artificial intelligence is transforming the design process and what this means for the future of user experience design.",
-    category: "AI & Design",
-    readTime: "6 min read",
-    date: "October 2025",
-    thumbnail:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-  },
-];
+import { getAllArticles } from "@/lib/articles";
+import type { ArticleMetadata } from "@/types/article";
+import { useLocation } from "wouter";
 
 export default function Articles() {
+  const [articles, setArticles] = useState<ArticleMetadata[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [location] = useLocation();
+
+  useEffect(() => {
+    async function loadArticles() {
+      setLoading(true);
+      try {
+        const data = await getAllArticles();
+        setArticles(data);
+      } catch (error) {
+        console.error("Failed to load articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadArticles();
+  }, [location]);
+
+  const categories = useMemo(() => {
+    const cats = new Set(articles.map((a) => a.category));
+    return Array.from(cats);
+  }, [articles]);
+
   return (
     <>
       <Header />
@@ -79,53 +45,89 @@ export default function Articles() {
             </p>
           </header>
 
-          <section aria-label="Articles list" className="pb-24">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-              {articles.map((article) => (
-                <article key={article.id} className="group cursor-pointer">
-                  <a href={`/articles/${article.slug}`} className="block">
-                    <div className="rounded-2xl overflow-hidden bg-card border border-border/50 mb-5 group-hover:border-accent/50 transition-all duration-300">
-                      <div className="relative aspect-[4/3] overflow-hidden">
-                        <img
-                          src={article.thumbnail}
-                          alt=""
-                          loading="lazy"
-                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="inline-block px-3 py-1.5 bg-background/90 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-wider text-foreground">
-                            {article.category}
-                          </span>
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-32 gap-6">
+              <Loader2 className="w-10 h-10 animate-spin text-accent" />
+              <p className="text-muted-foreground font-sans text-xs uppercase tracking-[0.3em] animate-pulse">
+                Loading Articles...
+              </p>
+            </div>
+          ) : articles.length === 0 ? (
+            <div className="text-center py-32">
+              <p className="text-muted-foreground font-sans text-lg">
+                No articles found. Add markdown files to{" "}
+                <code>client/src/articles/</code>.
+              </p>
+            </div>
+          ) : (
+            <section aria-label="Articles list" className="pb-24">
+              {categories.length > 0 && (
+                <div className="flex flex-wrap gap-3 mb-12">
+                  <button
+                    className="px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm font-medium transition-colors"
+                    disabled
+                  >
+                    All
+                  </button>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      className="px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium hover:bg-secondary/80 transition-colors"
+                      disabled
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                {articles.map((article) => (
+                  <article key={article.id} className="group cursor-pointer">
+                    <a href={`/articles/${article.slug}`} className="block">
+                      <div className="rounded-2xl overflow-hidden bg-card border border-border/50 mb-5 group-hover:border-accent/50 transition-all duration-300">
+                        <div className="relative aspect-[4/3] overflow-hidden">
+                          <img
+                            src={article.thumbnail}
+                            alt=""
+                            loading="lazy"
+                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute top-4 left-4">
+                            <span className="inline-block px-3 py-1.5 bg-background/90 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-wider text-foreground">
+                              {article.category}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                        <span className="flex items-center gap-1.5">
-                          <Calendar size={14} />
-                          {article.date}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <Clock size={14} />
-                          {article.readTime}
-                        </span>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar size={14} />
+                            {article.formattedDate}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Clock size={14} />
+                            {article.readTime} min read
+                          </span>
+                        </div>
+                        <h2 className="font-display text-xl md:text-2xl font-bold text-foreground group-hover:text-accent transition-colors leading-tight">
+                          {article.title}
+                        </h2>
+                        <p className="font-sans text-muted-foreground leading-relaxed line-clamp-3">
+                          {article.excerpt}
+                        </p>
+                        <div className="pt-2 flex items-center gap-2 text-sm font-semibold text-accent group-hover:translate-x-1 transition-transform">
+                          <span>Read Article</span>
+                          <ArrowRight size={16} />
+                        </div>
                       </div>
-                      <h2 className="font-display text-xl md:text-2xl font-bold text-foreground group-hover:text-accent transition-colors leading-tight">
-                        {article.title}
-                      </h2>
-                      <p className="font-sans text-muted-foreground leading-relaxed line-clamp-3">
-                        {article.excerpt}
-                      </p>
-                      <div className="pt-2 flex items-center gap-2 text-sm font-semibold text-accent group-hover:translate-x-1 transition-transform">
-                        <span>Read Article</span>
-                        <ArrowRight size={16} />
-                      </div>
-                    </div>
-                  </a>
-                </article>
-              ))}
-            </div>
-          </section>
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </>

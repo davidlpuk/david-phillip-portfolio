@@ -26,10 +26,10 @@ const clients = [
 
 // Key achievements data
 const achievements = [
-  { value: "20+", label: "Years in Financial Services" },
-  { value: "5→15", label: "Teams Scaled" },
-  { value: "4× Revenue Growth (Cognism: $20M→$80M)", label: "Revenue Growth" },
-  { value: "BlackRock → Coutts → HSBC → Cognism", label: "Career Path" },
+  { value: "Enterprise Scale", label: "21-country deployment (BlackRock)" },
+  { value: "Team Velocity", label: "5→15 specialists, zero attrition (Coutts)" },
+  { value: "Revenue Impact", label: "4× growth: $20M→$80M (Cognism)" },
+  { value: "Fintech Depth", label: "C5 major institutions, regulated environments" },
 ];
 
 // Memoized animation variants
@@ -101,7 +101,7 @@ export default function Hero() {
         {/* Section Label */}
         <motion.div variants={item} className="flex items-center gap-2 mb-6">
           <div className="h-px w-8 bg-accent-foreground/30"></div>
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Design Leader & Head of Design</span>
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Welcome to my portfolio</span>
         </motion.div>
 
         <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12 lg:gap-16">
@@ -110,7 +110,7 @@ export default function Hero() {
             {/* Main Headline */}
             <motion.h1
               variants={item}
-              className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold text-foreground mb-6 leading-tight md:leading-8xl"
+              className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold text-foreground mb-6 leading-none md:leading-tight"
             >
               Everyone generates.<br />
               <span className="highlighter-stroke">Few orchestrate.</span>
@@ -122,7 +122,7 @@ export default function Hero() {
               className="font-sans text-lg md:text-xl mb-8 max-w-2xl leading-relaxed"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Two decades turning complex financial services challenges into shipped products. Strategy, design, and code — no handoffs, no gaps
+              AI-native design leader shipping enterprise fintech products from strategy through production — no handoffs, no gaps.
             </motion.p>
 
             {/* Key Stats */}

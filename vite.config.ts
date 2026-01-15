@@ -3,9 +3,24 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig, Plugin } from "vite";
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin()];
+function markdownPlugin(): Plugin {
+  return {
+    name: "markdown-raw",
+    enforce: "pre",
+    transform(code, id) {
+      if (id.endsWith(".md")) {
+        return {
+          code: `export default ${JSON.stringify(code)}`,
+          map: null,
+        };
+      }
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), markdownPlugin()];
 
 export default defineConfig({
   plugins,
@@ -29,16 +44,20 @@ export default defineConfig({
       output: {
         // Manual chunk splitting for better caching
         manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-router': ['wouter'],
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tooltip'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-icons': ['lucide-react'],
+          "vendor-react": ["react", "react-dom"],
+          "vendor-router": ["wouter"],
+          "vendor-ui": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-dropdown-menu",
+            "@radix-ui/react-tooltip",
+          ],
+          "vendor-motion": ["framer-motion"],
+          "vendor-icons": ["lucide-react"],
         },
         // Asset naming for better caching
         assetFileNames: (assetInfo) => {
-          const name = assetInfo.name ?? 'asset';
-          const info = name.split('.');
+          const name = assetInfo.name ?? "asset";
+          const info = name.split(".");
           const ext = info[info.length - 1];
           if (/\.(png|jpe?g|svg|gif|webp|ico)$/.test(name)) {
             return `images/[name]-[hash].[ext]`;
@@ -48,8 +67,8 @@ export default defineConfig({
           }
           return `[name]-[hash].[ext]`;
         },
-        chunkFileNames: 'js/[name]-[hash].js',
-        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: "js/[name]-[hash].js",
+        entryFileNames: "js/[name]-[hash].js",
       },
     },
     manifest: true,
@@ -58,17 +77,20 @@ export default defineConfig({
     port: 3001,
     strictPort: false, // Will find next available port if 3001 is busy
     host: true,
-    allowedHosts: [
-      "localhost",
-      "127.0.0.1",
-    ],
+    allowedHosts: ["localhost", "127.0.0.1"],
     fs: {
       strict: true,
       deny: ["**/.*"],
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3002',
+        changeOrigin: true,
+      },
+    },
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom', 'framer-motion', 'lucide-react'],
+    include: ["react", "react-dom", "framer-motion", "lucide-react"],
   },
 });

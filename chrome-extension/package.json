@@ -1,0 +1,38 @@
+{
+  "name": "linkedin-article-to-markdown",
+  "version": "1.0.0",
+  "description": "Extract LinkedIn articles and convert them to Markdown files",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:popup && npm run build:scripts && npm run copy:assets && npm run move:files",
+    "build:popup": "vite build",
+    "build:scripts": "tsc src/content/ContentScript.ts src/content/article-parser.ts --outDir dist/temp-content/content --esModuleInterop --moduleResolution node --target ES2020 --module ESNext && tsc src/background/BackgroundService.ts --outDir dist/temp-background/background --esModuleInterop --moduleResolution node --target ES2020 --module ESNext && tsc src/utils/*.ts --outDir dist/temp-utils --esModuleInterop --moduleResolution node --target ES2020 --module ESNext",
+    "copy:assets": "cp src/manifest/manifest.json dist/ && cp -r icons dist/",
+    "move:files": "cd dist && cp temp-content/content/content/ContentScript.js . 2>/dev/null || true && cp temp-content/content/content/article-parser.js . 2>/dev/null || true && cp temp-background/background/background/BackgroundService.js . 2>/dev/null || true && cp temp-utils/*.js . 2>/dev/null || true && rm -rf temp-content temp-background temp-utils 2>/dev/null || true && mv index.html popup.html 2>/dev/null || true",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "chrome-extension",
+    "linkedin",
+    "markdown",
+    "article"
+  ],
+  "author": "David Phillip",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "turndown": "^7.2.2"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.33",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/turndown": "^5.0.4",
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
