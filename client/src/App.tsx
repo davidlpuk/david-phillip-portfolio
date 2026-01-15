@@ -12,6 +12,7 @@ const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const CV = lazy(() => import("./pages/CV"));
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 const CVLab = lazy(() => import("./pages/CVLab")); // 🔒 Secret page
+const Admin = lazy(() => import("./pages/Admin")); // 🔒 Admin area
 
 // Loading fallback component
 const PageLoader = React.memo(function PageLoader() {
@@ -59,6 +60,12 @@ function Router() {
         <Route path="/cv-lab">
           <Suspense fallback={<PageLoader />}>
             <CVLab />
+          </Suspense>
+        </Route>
+        {/* 🔒 ADMIN ROUTE - Password protected */}
+        <Route path="/admin">
+          <Suspense fallback={<PageLoader />}>
+            <Admin />
           </Suspense>
         </Route>
         <Route path="/404" component={NotFound} />

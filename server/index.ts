@@ -4,6 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { generateResponse, initialiseVectorStore, checkOllamaHealth } from './src/rag-service';
+import adminRoutes from './src/admin-routes';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -112,6 +113,9 @@ const chatHandler = async (req, res) => {
 
 app.post('/api/chat', chatHandler);
 app.post('/chat', chatHandler);
+
+// Admin routes
+app.use('/api/admin', adminRoutes);
 
 // Clear conversation
 app.delete('/api/chat/:conversationId', (req, res) => {
