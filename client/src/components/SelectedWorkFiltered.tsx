@@ -77,6 +77,21 @@ const caseStudies: readonly CaseStudy[] = [
     thumbnail: "/images/case-study-hero-cognism.png",
     gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
   },
+  {
+    slug: "hsbc-kinetic",
+    company: "HSBC",
+    title: "Rebuilding Lending for Small Business",
+    role: "UX Design Lead",
+    category: "Fintech",
+    description: "Led UX design for HSBC's mobile-first business banking app, managing lending products in a multi-billion-pound initiative.",
+    metrics: [
+      { value: "-16→+12", label: "NPS", icon: "trending" },
+      { value: "4x", label: "ARR Growth", icon: "star" },
+      { value: "0→4", label: "Team Built", icon: "users" }
+    ],
+    thumbnail: "/images/case-study-hero-hsbc.png",
+    gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
+  },
 
 ] as const;
 

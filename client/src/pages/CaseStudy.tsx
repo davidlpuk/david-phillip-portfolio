@@ -283,7 +283,7 @@ function PlaceholderImage({ src, alt, caption, className = "" }: PlaceholderImag
 
     useEffect(() => {
         if (isVideo && videoRef.current) {
-            videoRef.current.playbackRate = 1.5;
+            videoRef.current.playbackRate = 1.8;
         }
     }, [isVideo]);
 
@@ -298,7 +298,7 @@ function PlaceholderImage({ src, alt, caption, className = "" }: PlaceholderImag
                             controls
                             muted
                             className="w-full h-auto max-h-[640px] object-contain"
-                            poster="/images/hero-pattern.png"
+                            poster="/videos/video-placeholder-uxsidekick.png"
                         >
                             Your browser does not support the video tag.
                         </video>
@@ -340,7 +340,7 @@ const caseStudiesData: CaseStudiesData = {
         role: "Full-Stack Developer & Product Designer",
         period: "2025",
         thumbnail: "/images/case-study-uxsidekick-thumbail.png",
-        summary: "UX Sidekick is an AI-powered design critique platform that provides expert-level UX feedback in under 30 seconds. The platform analyzes UI screenshots and Figma designs using computer vision AI, identifying usability issues, accessibility violations, and providing actionable remediation with copy-paste ready code.",
+        summary: "UX Sidekick is an AI-powered design critique platform that provides expert-level UX feedback in under 30 seconds. The platform analyses UI screenshots and Figma designs using computer vision AI, identifying usability issues, accessibility violations, and providing actionable remediation with copy-paste ready code.",
         tldrTakeaways: [
             "Built AI platform providing PhD-level UX feedback in 30 seconds",
             "Implemented collision-free marker system for dense UIs",
@@ -391,7 +391,7 @@ const caseStudiesData: CaseStudiesData = {
                 content: [
                     {
                         subtitle: "AI-Powered Analysis",
-                        text: "Built a platform using Grok Vision API that analyzes UI screenshots and provides expert-level feedback in under 30 seconds. The AI evaluates designs against Nielsen heuristics, WCAG guidelines, and Gestalt principles.",
+                        text: "Built a platform using Grok Vision API that analyses UI screenshots and provides expert-level feedback in under 30 seconds. The AI evaluates designs against Nielsen heuristics, WCAG guidelines, and Gestalt principles.",
                         caption: "UX Sidekick in action - analyzing a UI design and providing actionable feedback"
                     },
                     {
@@ -1757,7 +1757,7 @@ export default function CaseStudy() {
                                 controls
                                 muted
                                 className="w-full h-auto max-h-[640px] object-cover"
-                                poster="/images/hero-pattern.png"
+                                poster="/videos/video-placeholder-hsbc-kinetic.png"
                             >
                                 Your browser does not support the video tag.
                             </video>

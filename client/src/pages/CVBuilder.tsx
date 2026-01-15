@@ -40,6 +40,8 @@ import {
   Linkedin,
   Calendar,
   ArrowRight,
+  Upload,
+  File,
 } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
 import { CVPDF } from "../components/CVPDF";
@@ -294,6 +296,10 @@ export default function CVBuilder() {
   );
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showAtsPanel, setShowAtsPanel] = useState(true);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importText, setImportText] = useState("");
+  const [importError, setImportError] = useState("");
+  const [importMode, setImportMode] = useState<"paste" | "file">("paste");
 
   // Toggle section expansion
   const toggleSection = (section: string) => {
@@ -320,7 +326,11 @@ export default function CVBuilder() {
       scope: "",
     };
     setCv((prev) => ({ ...prev, experience: [...prev.experience, newItem] }));
-    setExpandedSections((prev) => new Set([...prev, "experience"]));
+    setExpandedSections((prev) => {
+      const newExpanded = new Set(prev);
+      newExpanded.add("experience");
+      return newExpanded;
+    });
   };
 
   // Add new skill section
@@ -544,6 +554,359 @@ export default function CVBuilder() {
     document.body.removeChild(link);
   };
 
+  // Parse imported text and convert to CV data
+  const parseImportedCV = (text: string): Partial<CVData> => {
+    const lines = text.split("\n").filter((l) => l.trim());
+    const result: Partial<CVData> = {
+      personal: {
+        name: "",
+        title: "",
+        email: "",
+        phone: "",
+        location: "",
+        linkedin: "",
+        website: "",
+        portfolio: "",
+      },
+      summary: "",
+      capabilities: [],
+      experience: [],
+      skills: [],
+      education: [],
+      interests: [],
+    };
+
+    let currentSection = "";
+    let currentExperience: ExperienceItem | null = null;
+    let currentSkillsCategory = "";
+    let inAchievements = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      // Detect sections
+      if (line.toLowerCase().startsWith("# ") && !line.includes("|")) {
+        const name = line.replace(/^#\s*/, "").trim();
+        if (name) result.personal!.name = name;
+        currentSection = "header";
+        continue;
+      }
+
+      if (
+        line.toLowerCase().startsWith("## professional") ||
+        line.toLowerCase().startsWith("## summary")
+      ) {
+        currentSection = "summary";
+        continue;
+      }
+
+      if (
+        line.toLowerCase().includes("capability") ||
+        line.toLowerCase().includes("core ")
+      ) {
+        currentSection = "capabilities";
+        continue;
+      }
+
+      if (
+        line.toLowerCase().startsWith("## experience") ||
+        line.toLowerCase().startsWith("## work") ||
+        line.toLowerCase().startsWith("## professional experience")
+      ) {
+        currentSection = "experience";
+        continue;
+      }
+
+      if (
+        line.toLowerCase().startsWith("## skill") ||
+        line.toLowerCase().startsWith("## tool") ||
+        line.toLowerCase().startsWith("## tech")
+      ) {
+        currentSection = "skills";
+        continue;
+      }
+
+      if (
+        line.toLowerCase().startsWith("## education") ||
+        line.toLowerCase().startsWith("## qualification")
+      ) {
+        currentSection = "education";
+        continue;
+      }
+
+      if (
+        line.toLowerCase().startsWith("## interest") ||
+        line.toLowerCase().startsWith("## personal")
+      ) {
+        currentSection = "interests";
+        continue;
+      }
+
+      // Parse content based on section
+      if (currentSection === "header") {
+        // Extract contact info
+        if (
+          line.toLowerCase().includes("@") ||
+          line.toLowerCase().includes("email")
+        ) {
+          const emailMatch = line.match(/[\w.-]+@[\w.-]+\.\w+/);
+          if (emailMatch) result.personal!.email = emailMatch[0];
+        }
+        if (line.toLowerCase().includes("linkedin")) {
+          const linkedinMatch = line.match(/linkedin\.com\/in\/[\w-]+/);
+          if (linkedinMatch)
+            result.personal!.linkedin = `https://${linkedinMatch[0]}`;
+        }
+        if (
+          line.toLowerCase().includes("london") ||
+          line.toLowerCase().includes("uk") ||
+          line.toLowerCase().includes("location")
+        ) {
+          const locationMatch = line
+            .replace(/\|/g, "")
+            .match(/(?:london|uk|united kingdom|england)[\w\s,]*/i);
+          if (locationMatch)
+            result.personal!.location = locationMatch[0].trim();
+        }
+        if (line.match(/\d{3}[-.]?\d{3}[-.]?\d{4}/)) {
+          result.personal!.phone =
+            line.match(/\d{3}[-.]?\d{3}[-.]?\d{4}/)?.[0] || "";
+        }
+        continue;
+      }
+
+      if (currentSection === "summary" && line.length > 20) {
+        result.summary += (result.summary ? "\n" : "") + line;
+        continue;
+      }
+
+      if (currentSection === "capabilities") {
+        const cleanCap = line.replace(/\*\*/g, "").trim();
+        if (
+          cleanCap &&
+          !cleanCap.startsWith("-") &&
+          !cleanCap.startsWith("•")
+        ) {
+          result.capabilities!.push(cleanCap);
+        }
+        continue;
+      }
+
+      if (currentSection === "experience") {
+        // Check for new experience entry (### Title | Company | Date)
+        if (
+          line.startsWith("### ") ||
+          line.match(/^[A-Z][a-zA-Z\s]+.*\|.*\|.*\d{4}/)
+        ) {
+          if (currentExperience && currentExperience.title) {
+            result.experience!.push(currentExperience);
+          }
+          const parts = line
+            .replace(/^###\s*/, "")
+            .split("|")
+            .map((s) => s.trim());
+          const titleCompany = parts[0].split("@").map((s) => s.trim());
+          currentExperience = {
+            id: Date.now().toString() + i,
+            title: titleCompany[0] || "",
+            company: titleCompany[1] || parts[1] || "",
+            location: "",
+            startDate: parts[2]?.split("–")[0]?.trim() || "",
+            endDate: parts[2]?.includes("Present")
+              ? ""
+              : parts[2]?.split("–")[1]?.trim() || "",
+            current: parts[2]?.includes("Present") || line.includes("Present"),
+            context: "",
+            achievements: [],
+            scope: "",
+          };
+          inAchievements = false;
+          continue;
+        }
+
+        // Check for achievements (bullets)
+        if (
+          (line.startsWith("- ") || line.startsWith("• ")) &&
+          currentExperience
+        ) {
+          const achievement = line.replace(/^[-•]\s*/, "").trim();
+          if (achievement) {
+            currentExperience.achievements.push(achievement);
+          }
+          inAchievements = true;
+          continue;
+        }
+
+        // Context/description lines
+        if (
+          line.startsWith("*") &&
+          currentExperience &&
+          !line.startsWith("**")
+        ) {
+          currentExperience.context = line.replace(/\*/g, "").trim();
+          continue;
+        }
+
+        // Scope
+        if (line.toLowerCase().includes("scope:") && currentExperience) {
+          currentExperience.scope = line.replace(/scope:\s*/i, "").trim();
+          continue;
+        }
+        continue;
+      }
+
+      if (currentSection === "skills") {
+        if (line.startsWith("**") && line.includes(":")) {
+          currentSkillsCategory = line
+            .replace(/\*\*/g, "")
+            .split(":")[0]
+            .trim();
+          const skillsLine = line.match(/:\s*(.+)/)?.[1] || "";
+          const skills = skillsLine
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (currentSkillsCategory && skills.length > 0) {
+            result.skills!.push({
+              id: Date.now().toString() + result.skills!.length,
+              category: currentSkillsCategory,
+              items: skills,
+            });
+          }
+          continue;
+        }
+        if (line.startsWith("- ") || line.startsWith("• ")) {
+          const skill = line.replace(/^[-•]\s*/, "").trim();
+          if (skill) {
+            if (currentSkillsCategory) {
+              const existing = result.skills!.find(
+                (s) => s.category === currentSkillsCategory,
+              );
+              if (existing) {
+                existing.items.push(skill);
+              } else {
+                result.skills!.push({
+                  id: Date.now().toString(),
+                  category: currentSkillsCategory,
+                  items: [skill],
+                });
+              }
+            } else {
+              result.skills!.push({
+                id: Date.now().toString(),
+                category: "Skills",
+                items: [skill],
+              });
+            }
+          }
+        }
+        continue;
+      }
+
+      if (currentSection === "education") {
+        if (line.startsWith("- ")) {
+          const eduLine = line.replace(/^-\s*/, "").trim();
+          const parts = eduLine.split(/[\(\)]/).filter(Boolean);
+          const qualification =
+            parts[0].split(/at|from/).map((s) => s.trim())[0] || "";
+          const institution = eduLine.match(/at\s+([^(]+)/i)?.[1] || "";
+          const year = parts[1] || eduLine.match(/\b(19|20)\d{2}\b/)?.[0] || "";
+          result.education!.push({
+            id: Date.now().toString() + result.education!.length,
+            qualification,
+            institution,
+            year,
+            details: parts[1]
+              ? parts[0]
+                  .split(/[\(\)]/)[0]
+                  .replace(institution, "")
+                  .trim()
+              : "",
+          });
+        }
+        continue;
+      }
+
+      if (currentSection === "interests") {
+        if (line.startsWith("- ")) {
+          const interest = line.replace(/^-\s*/, "").trim();
+          if (interest) result.interests!.push(interest);
+        }
+        continue;
+      }
+    }
+
+    // Push last experience if exists
+    if (currentExperience && currentExperience.title) {
+      result.experience!.push(currentExperience);
+    }
+
+    return result;
+  };
+
+  // Handle import
+  const handleImport = () => {
+    setImportError("");
+    if (!importText.trim()) {
+      setImportError("Please paste CV text or upload a file first");
+      return;
+    }
+
+    try {
+      const parsed = parseImportedCV(importText);
+
+      setCv({
+        personal: {
+          name: parsed.personal?.name || "",
+          title: parsed.personal?.title || "",
+          email: parsed.personal?.email || "",
+          phone: parsed.personal?.phone || "",
+          location: parsed.personal?.location || "",
+          linkedin: parsed.personal?.linkedin || "",
+          website: parsed.personal?.website || "",
+          portfolio: parsed.personal?.portfolio || "",
+        },
+        summary: parsed.summary || "",
+        capabilities: parsed.capabilities || [],
+        experience: parsed.experience || [],
+        skills: parsed.skills || [],
+        education: parsed.education || [],
+        interests: parsed.interests || [],
+      });
+
+      setShowImportModal(false);
+      setImportText("");
+      setActiveTab("experience");
+    } catch (error) {
+      setImportError(
+        "Failed to parse CV. Please check the format and try again.",
+      );
+    }
+  };
+
+  // Handle file upload
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (
+      !file.name.endsWith(".txt") &&
+      !file.name.endsWith(".md") &&
+      !file.name.endsWith(".text")
+    ) {
+      setImportError("Please upload a .txt or .md file");
+      return;
+    }
+
+    try {
+      const text = await file.text();
+      setImportText(text);
+      setImportError("");
+    } catch (error) {
+      setImportError("Failed to read file");
+    }
+  };
+
   // Generate markdown for preview
   const previewMarkdown = generateMarkdown();
 
@@ -566,32 +929,13 @@ export default function CVBuilder() {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* ATS Score Summary */}
-              {selectedJob && (
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900 rounded-lg">
-                  <Target size={14} className="text-violet-400" />
-                  <span className="text-sm font-medium">
-                    {selectedJob.matchScore}% match
-                  </span>
-                </div>
-              )}
-
-              {/* Job Target Toggle */}
+              {/* Import */}
               <button
-                onClick={() => setShowJobTarget(!showJobTarget)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${showJobTarget ? "bg-zinc-800 text-zinc-100" : "text-zinc-400 hover:text-zinc-300"}`}
+                onClick={() => setShowImportModal(true)}
+                className="px-3 py-2 rounded-lg text-sm font-medium text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-all flex items-center gap-2"
               >
-                <Briefcase size={16} />
-                Job Target
-              </button>
-
-              {/* Preview Toggle */}
-              <button
-                onClick={() => setShowPreview(!showPreview)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${showPreview ? "bg-zinc-800 text-zinc-100" : "text-zinc-400 hover:text-zinc-300"}`}
-              >
-                {showPreview ? <Eye size={16} /> : <EyeOff size={16} />}
-                Preview
+                <Upload size={16} />
+                Import
               </button>
 
               <div className="w-px h-6 bg-zinc-800" />
@@ -1554,6 +1898,123 @@ export default function CVBuilder() {
           </div>
         )}
       </div>
+
+      {/* Import Modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-zinc-900 rounded-xl border border-zinc-800 w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl">
+            <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <Upload size={18} className="text-violet-400" />
+                Import CV
+              </h2>
+              <button
+                onClick={() => {
+                  setShowImportModal(false);
+                  setImportText("");
+                  setImportError("");
+                }}
+                className="p-1 text-zinc-500 hover:text-zinc-300"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="p-4 space-y-4 overflow-y-auto max-h-[calc(90vh-120px)]">
+              {/* Mode Selection */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setImportMode("paste")}
+                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${importMode === "paste" ? "bg-violet-500 text-white" : "bg-zinc-800 text-zinc-400 hover:text-zinc-300"}`}
+                >
+                  <FileText size={14} />
+                  Paste Text
+                </button>
+                <button
+                  onClick={() => setImportMode("file")}
+                  className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${importMode === "file" ? "bg-violet-500 text-white" : "bg-zinc-800 text-zinc-400 hover:text-zinc-300"}`}
+                >
+                  <File size={14} />
+                  Upload File
+                </button>
+              </div>
+
+              {importMode === "paste" ? (
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-2">
+                    Paste CV text (supports Markdown, plain text formats)
+                  </label>
+                  <textarea
+                    value={importText}
+                    onChange={(e) => setImportText(e.target.value)}
+                    placeholder={`Paste your CV content here...\n\nExample format:\n# Your Name\nYour Title\n\n## Summary\nYour professional summary...\n\n## Experience\n### Senior Designer | Company | Jan 2020 – Present\n- Achievement 1\n- Achievement 2\n\n## Skills\n**Design:** Figma, Sketch\n**Tools:** Jira, Confluence`}
+                    className="w-full h-64 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-300 text-sm focus:outline-none focus:border-violet-500 resize-none font-mono"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-xs text-zinc-500 mb-2">
+                    Upload a .txt or .md file
+                  </label>
+                  <div className="border-2 border-dashed border-zinc-700 rounded-lg p-8 text-center hover:border-violet-500 transition-colors">
+                    <Upload size={32} className="mx-auto text-zinc-500 mb-3" />
+                    <p className="text-sm text-zinc-400 mb-2">
+                      Drag and drop or click to upload
+                    </p>
+                    <input
+                      type="file"
+                      accept=".txt,.md,.text"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <label
+                      htmlFor="file-upload"
+                      className="inline-block px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg text-sm cursor-pointer hover:bg-zinc-700"
+                    >
+                      Choose File
+                    </label>
+                    {importText && (
+                      <p className="mt-3 text-xs text-green-400 flex items-center justify-center gap-1">
+                        <Check size={12} />
+                        File loaded: {importText.length} characters
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {importError && (
+                <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                  <AlertCircle size={14} />
+                  {importError}
+                </div>
+              )}
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  onClick={() => {
+                    setShowImportModal(false);
+                    setImportText("");
+                    setImportError("");
+                  }}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-zinc-400 hover:text-zinc-300 hover:bg-zinc-800 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleImport}
+                  disabled={!importText.trim()}
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-violet-500 text-white hover:bg-violet-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  <Upload size={14} />
+                  Import CV
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-sm p-3">
