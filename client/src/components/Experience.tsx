@@ -43,7 +43,7 @@ const experiences = [
     company: "Cognism",
     role: "Head of UX",
     startYear: 2022,
-    endYear: "present" as const,
+    endYear: 2024,
     description:
       "Built first product design team from scratch during 4x growth ($20M→$80M ARR). Lifted NPS from -16 to +12 with ease of use cited as main highlight. Established design system and research practice that enabled designers to stay ahead of agile teams across all features.",
     icon: TrendingUp,
@@ -108,7 +108,7 @@ const experiences = [
 function Experience() {
   return (
     <section id="experience" className="py-20 md:py-32 bg-background border-t border-border">
-      <div className="container max-w-4xl">
+      <div className="container max-w-4xl px-6 md:px-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

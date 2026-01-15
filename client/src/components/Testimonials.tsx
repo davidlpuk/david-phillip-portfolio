@@ -132,7 +132,7 @@ export default function Testimonials() {
 
   return (
     <section className="py-20 md:py-32 bg-background border-t border-border">
-      <div className="container max-w-6xl">
+      <div className="container max-w-6xl px-6 md:px-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

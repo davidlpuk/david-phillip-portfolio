@@ -93,7 +93,7 @@ export default function Hero() {
       </div>
 
       <motion.div
-        className="container max-w-6xl"
+        className="container max-w-6xl px-6 md:px-0"
         variants={container}
         initial="hidden"
         animate="visible"
@@ -106,11 +106,11 @@ export default function Hero() {
 
         <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12 lg:gap-16">
           {/* Text Content */}
-          <div className="flex-1 order-2 md:order-1">
+          <div className="flex-1 order-2 md:order-1 min-w-0">
             {/* Main Headline */}
             <motion.h1
               variants={item}
-              className="font-display text-8xl font-extrabold text-foreground mb-6 leading-8xl"
+              className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold text-foreground mb-6 leading-tight md:leading-8xl"
             >
               Everyone generates.<br />
               <span className="highlighter-stroke">Few orchestrate.</span>

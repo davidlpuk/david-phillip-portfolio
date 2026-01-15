@@ -65,7 +65,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-20 md:py-32 bg-background border-t border-border">
-      <div className="container max-w-3xl text-center">
+      <div className="container max-w-3xl text-center px-6 md:px-0">
         <motion.div
           variants={containerVariants}
           initial="hidden"

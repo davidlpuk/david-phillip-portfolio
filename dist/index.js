@@ -451,6 +451,9 @@ When discussing availability, hiring, or next steps, always include a clear CTA:
 var GROQ_API_KEY = process.env.GROQ_API_KEY || "";
 var GROQ_MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
 var GROQ_BASE_URL = "https://api.groq.com/openai/v1";
+var XAI_API_KEY = process.env.XAI_API_KEY || "";
+var XAI_MODEL = process.env.XAI_MODEL || "grok-beta";
+var XAI_BASE_URL = "https://api.x.ai/v1";
 var OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
 var EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || "nomic-embed-text";
 var LLM_MODEL = process.env.LLM_MODEL || "llama3.2";
@@ -496,8 +499,17 @@ function cosineSimilarity(a, b) {
 }
 async function initialiseVectorStore() {
   console.log("Initialising vector store with knowledge base...");
-  console.log(`Using Groq for LLM: ${GROQ_MODEL}`);
-  console.log(`Using Ollama for embeddings: ${EMBEDDING_MODEL}`);
+  console.log(`Using Groq: ${!!GROQ_API_KEY}, Model: ${GROQ_MODEL}`);
+  console.log(`Using xAI (Grok): ${!!XAI_API_KEY}, Model: ${XAI_MODEL}`);
+  if (process.env.VERCEL) {
+    console.warn("Running on Vercel: Skipping Ollama embeddings fetch, strictly using fallback/keywords.");
+    for (const chunk of knowledgeBase) {
+      vectorStore.chunks.set(chunk.id, chunk);
+      vectorStore.embeddings.set(chunk.id, new Array(768).fill(0));
+    }
+    console.log(`Vector store initialised with ${knowledgeBase.length} chunks (Vercel mode)`);
+    return;
+  }
   for (const chunk of knowledgeBase) {
     try {
       const embedding = await getEmbedding(chunk.content);
@@ -566,43 +578,76 @@ user: ${userMessage}
 
 ## Response
 assistant:`;
-    if (!GROQ_API_KEY) {
-      console.warn("GROQ_API_KEY not configured, falling back to Ollama");
-      return await generateResponseOllama(fullPrompt);
-    }
-    const response = await fetch(`${GROQ_BASE_URL}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${GROQ_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: [
-          {
-            role: "system",
-            content: "You are David's Digital Assistant \u2014 a professional executive assistant representing David Phillip, a commercial Head of Product Design with 24 years of Fintech experience. Your audience is executive recruiters and hiring managers. Be professional, outcome-oriented, and speak the language of revenue, risk, and retention. Use British English. Always use first person singular (I, me, my) - never use 'we' or 'our' when responding about David's experience. Focus on leadership, business impact, and tangible results. Avoid abstract design jargon unless specifically asked. When discussing skills, always pivot to senior-level context with team size and business impact."
+    if (XAI_API_KEY) {
+      try {
+        const response = await fetch(`${XAI_BASE_URL}/chat/completions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${XAI_API_KEY}`
           },
-          {
-            role: "user",
-            content: fullPrompt
-          }
-        ],
-        temperature: 0.7,
-        stream: false
-      })
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Groq API error: ${response.status} ${errorText}`);
-      return await generateResponseOllama(fullPrompt);
+          body: JSON.stringify({
+            model: XAI_MODEL,
+            messages: [
+              { role: "system", content: "You are David's Digital Assistant." },
+              { role: "user", content: fullPrompt }
+            ],
+            temperature: 0.7,
+            stream: false
+          })
+        });
+        if (response.ok) {
+          const data = await response.json();
+          return data.choices[0].message.content;
+        }
+        console.warn(`xAI API returned ${response.status}:`, await response.text());
+      } catch (e) {
+        console.error("xAI API call failed:", e);
+      }
     }
-    const data = await response.json();
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    return data.choices[0].message.content;
+    if (GROQ_API_KEY) {
+      try {
+        const response = await fetch(`${GROQ_BASE_URL}/chat/completions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${GROQ_API_KEY}`
+          },
+          body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [
+              { role: "system", content: "You are David's Digital Assistant." },
+              { role: "user", content: fullPrompt }
+            ],
+            temperature: 0.7,
+            stream: false
+          })
+        });
+        if (response.ok) {
+          const data = await response.json();
+          return data.choices[0].message.content;
+        }
+        console.warn(`Groq API returned ${response.status}:`, await response.text());
+      } catch (e) {
+        console.error("Groq API call failed:", e);
+      }
+    }
+    if (process.env.VERCEL) {
+      console.warn("No LLM keys configured on Vercel. returning keyword match fallback.");
+      const fallbackResponse = `I see you're asking about: "${userMessage}".
+
+Based on my knowledge base, here is the relevant information:
+
+${context}
+
+(Note: I am currently running in offline mode, so my ability to converse naturally is limited. Please double-check my configuration.)`;
+      return fallbackResponse;
+    }
+    console.warn("No Cloud API keys configured, falling back to local Ollama");
+    return await generateResponseOllama(fullPrompt);
   } catch (error) {
     console.error("Error generating response:", error);
-    return `I apologise, but I'm experiencing some technical difficulties. Please try again, or feel free to book a 30-minute call with David directly via david@phillip.design.`;
+    return `I apologise, but I'm experiencing some technical difficulties. Please try again, or feel free to book a 30-minute call with David directly via david.phillip@gmail.com.`;
   }
 }
 async function generateResponseOllama(fullPrompt) {
@@ -617,7 +662,7 @@ async function generateResponseOllama(fullPrompt) {
         messages: [
           {
             role: "system",
-            content: "You are David's Digital Assistant \u2014 a professional executive assistant representing David Phillip, a commercial Head of Product Design with 24 years of Fintech experience. Your audience is executive recruiters and hiring managers. Be professional, outcome-oriented, and speak the language of revenue, risk, and retention. Use British English. Always use first person singular (I, me, my) - never use 'we' or 'our' when responding about David's experience. Focus on leadership, business impact, and tangible results. Avoid abstract design jargon unless specifically asked. When discussing skills, always pivot to senior-level context with team size and business impact."
+            content: systemPrompt
           },
           {
             role: "user",
@@ -641,6 +686,20 @@ async function generateResponseOllama(fullPrompt) {
   }
 }
 async function checkOllamaHealth() {
+  if (XAI_API_KEY) {
+    try {
+      const response = await fetch(`${XAI_BASE_URL}/models`, {
+        method: "GET",
+        headers: { "Authorization": `Bearer ${XAI_API_KEY}` }
+      });
+      if (response.ok) {
+        return { status: "healthy", configured: true, provider: "xai" };
+      }
+      console.warn(`xAI health check failed: ${response.status}`);
+    } catch (e) {
+      console.warn("xAI health check failed with error:", e);
+    }
+  }
   if (GROQ_API_KEY) {
     try {
       const response = await fetch(`${GROQ_BASE_URL}/models`, {
@@ -651,8 +710,16 @@ async function checkOllamaHealth() {
       if (response.ok) {
         return { status: "healthy", configured: true, provider: "groq" };
       }
-    } catch {
+      console.warn(`Groq health check failed: ${response.status}`);
+    } catch (e) {
+      console.warn("Groq health check failed with error:", e);
     }
+  }
+  if (process.env.VERCEL) {
+    if (XAI_API_KEY || GROQ_API_KEY) {
+      return { status: "degraded", configured: true, provider: "fallback", details: "Cloud APIs failed, using keyword fallback" };
+    }
+    return { status: "error", configured: false, provider: "none", details: "No AI provider configured on Vercel" };
   }
   try {
     const response = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
@@ -666,25 +733,46 @@ async function checkOllamaHealth() {
 }
 
 // server/index.ts
-var __filename = fileURLToPath(import.meta.url);
-var __dirname = path.dirname(__filename);
 var app = express();
 var PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 var conversations = /* @__PURE__ */ new Map();
-var staticPath = process.env.NODE_ENV === "production" ? path.resolve(__dirname, "public") : path.resolve(__dirname, "..", "dist", "public");
-console.log(`Setting up static files from: ${staticPath}`);
-app.use(express.static(staticPath));
-app.get("/api/health", async (req, res) => {
-  const health = await checkOllamaHealth();
-  res.json({
-    status: "ok",
-    ollama: health,
-    timestamp: (/* @__PURE__ */ new Date()).toISOString()
-  });
+if (!process.env.VERCEL) {
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const staticPath = process.env.NODE_ENV === "production" ? path.resolve(__dirname, "public") : path.resolve(__dirname, "..", "dist", "public");
+    console.log(`Setting up static files from: ${staticPath}`);
+    app.use(express.static(staticPath));
+  } catch (e) {
+    console.warn("Could not setup static file serving:", e);
+  }
+}
+app.get("/api/ping", (req, res) => {
+  res.json({ message: "pong", timestamp: Date.now() });
 });
-app.post("/api/chat", async (req, res) => {
+var healthHandler = async (req, res) => {
+  try {
+    const health = await checkOllamaHealth();
+    res.json({
+      status: "ok",
+      ollama: health,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      environment: process.env.VERCEL ? "vercel" : "local"
+    });
+  } catch (error) {
+    console.error("Health check CRITICAL failure:", error);
+    res.status(200).json({
+      status: "error",
+      ollama: { status: "error", provider: "none", details: error.message || String(error) },
+      timestamp: (/* @__PURE__ */ new Date()).toISOString()
+    });
+  }
+};
+app.get("/api/health", healthHandler);
+app.get("/health", healthHandler);
+var chatHandler = async (req, res) => {
   const { message, conversationId } = req.body;
   if (!message || typeof message !== "string") {
     return res.status(400).json({ error: "Message is required" });
@@ -720,7 +808,9 @@ app.post("/api/chat", async (req, res) => {
       message: "I apologize, but I'm experiencing some technical difficulties. Please try again later."
     });
   }
-});
+};
+app.post("/api/chat", chatHandler);
+app.post("/chat", chatHandler);
 app.delete("/api/chat/:conversationId", (req, res) => {
   const { conversationId } = req.params;
   conversations.delete(conversationId);
@@ -730,11 +820,7 @@ app.get("*", (req, res) => {
   if (req.path.startsWith("/api/")) {
     return res.status(404).json({ error: "API endpoint not found" });
   }
-  try {
-    res.sendFile(path.join(staticPath, "index.html"));
-  } catch (e) {
-    res.status(404).send("Static files not found. Ensure build process completed.");
-  }
+  res.status(404).send("Static files not found. Ensure build process completed.");
 });
 async function boot() {
   try {

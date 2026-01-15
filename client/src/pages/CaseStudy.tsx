@@ -707,8 +707,9 @@ const caseStudiesData: CaseStudiesData = {
                     },
                     {
                         quote: "David excelled in organising and hiring for a very fast growing team, working hard to improve the team's ways of working and processes. David helped to support me as I moved into a lead UI position with empathy and patience. The team flourished under his leadership — he was both diplomatic and challenging with the team to help improve efficiency and creativity.",
-                        author: "Lead UI Designer",
-                        role: "Coutts"
+                        author: "Jacqui Chadwick",
+                        role: "Lead UI Designer, Coutts",
+                        photo: "/images/testimonial-jacqui-chadwick.png"
                     }
                 ]
             },

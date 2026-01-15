@@ -15,15 +15,12 @@ app.use(express.json());
 // In-memory conversation storage
 const conversations = new Map<string, any>();
 
-// Serve static files - ONLY if not running in Vercel (Vercel handles static files via 'outputDirectory')
-// and if import.meta is available (ESM)
+// Serve static files - ONLY if not running in Vercel
 if (!process.env.VERCEL) {
   try {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
 
-    // In development (running server/index.ts): __dirname is /server, so ../dist/public
-    // In production (running dist/index.js): __dirname is /dist, so ./public
     const staticPath = process.env.NODE_ENV === 'production'
       ? path.resolve(__dirname, 'public')
       : path.resolve(__dirname, '..', 'dist', 'public');
@@ -31,7 +28,7 @@ if (!process.env.VERCEL) {
     console.log(`Setting up static files from: ${staticPath}`);
     app.use(express.static(staticPath));
   } catch (e) {
-    console.warn('Could not setup static file serving (likely environment mismatch):', e);
+    console.warn('Could not setup static file serving:', e);
   }
 }
 

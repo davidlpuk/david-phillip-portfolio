@@ -96,7 +96,7 @@ export default function Header() {
       };
     }
     return {
-      transition: { duration: 300, ease: "easeOut" },
+      transition: { duration: 0.3, ease: "easeOut" },
       initial: { opacity: 0, scale: 0.95, y: -10 },
       animate: { opacity: 1, scale: 1, y: 0 },
       exit: { opacity: 0, scale: 0.95, y: -10 },
@@ -115,16 +115,19 @@ export default function Header() {
         Skip to main content
       </a>
 
-      <header className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+      <header className="fixed top-0 w-full z-50">
+        {/* Header Background & Border */}
+        <div className="absolute top-0 left-0 w-full h-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-0" />
+
         {/* Scroll Progress Indicator */}
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary/20">
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary/20 z-20">
           <div
             className="h-full bg-primary transition-all duration-150 ease-out"
             style={{ width: `${scrollProgress * 100}%` }}
           />
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           {/* Brand Name */}
           <a href="/" className="flex items-center">
             <span className="font-display text-xl font-bold tracking-tight">David Phillip</span>
@@ -139,7 +142,7 @@ export default function Header() {
                 <a
                   key={item.label}
                   href={navHref}
-                  className={`hover:text-primary transition-colors ${isActive ? "text-primary" : "text-slate-600 dark:text-slate-400"}`}
+                  className={`hover:text-gray-900 dark:hover:text-white hover:underline underline-offset-4 decoration-2 transition-all ${isActive ? "text-primary font-bold" : "text-slate-600 dark:text-slate-400"}`}
                 >
                   {item.label}
                 </a>
@@ -173,6 +176,7 @@ export default function Header() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              key="mobile-menu"
               ref={mobileMenuRef}
               role="dialog"
               aria-modal="true"
@@ -181,10 +185,10 @@ export default function Header() {
               animate={animate}
               exit={exit}
               transition={transition}
-              className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 relative z-40"
+              className="md:hidden fixed top-20 left-0 right-0 bottom-0 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-40 overflow-y-auto"
               onKeyDown={handleKeyDown}
             >
-              <nav className="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-6">
+              <nav className="max-w-7xl mx-auto px-6 py-8 flex flex-col gap-6">
                 {navItems.map((item, index) => {
                   const isActive = location === item.hash;
                   const navHref = getNavHref(item);
@@ -194,22 +198,22 @@ export default function Header() {
                       key={item.label}
                       ref={ref}
                       href={navHref}
-                      className={`text-sm font-medium transition-colors ${isActive ? "text-primary" : "text-slate-600 dark:text-slate-400 hover:text-primary"}`}
+                      className={`text-xl font-semibold transition-colors ${isActive ? "text-primary" : "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white"}`}
                     >
                       {item.label}
                     </a>
                   );
                 })}
-                <div className="flex flex-col gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+                <div className="flex flex-col gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
                   <a
                     href="/cv"
-                    className="px-6 py-3 bg-secondary text-secondary-foreground rounded-full font-bold text-center hover:bg-secondary/80 transition-colors"
+                    className="px-6 py-4 bg-secondary text-secondary-foreground rounded-full font-bold text-center hover:bg-secondary/80 transition-colors"
                   >
                     View my CV
                   </a>
                   <a
                     href={location === "/cv" ? "/#contact" : "#contact"}
-                    className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-bold text-center hover:bg-primary/90 transition-colors"
+                    className="px-6 py-4 bg-primary text-primary-foreground rounded-full font-bold text-center hover:bg-primary/90 transition-colors"
                   >
                     Get in Touch
                   </a>

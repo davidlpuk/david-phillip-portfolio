@@ -83,17 +83,35 @@ export const ChatBot = React.memo(function ChatBot({ onClose, context, isPanel =
         const checkConnection = async () => {
             try {
                 const response = await fetch(`${CHAT_API_URL}/health`);
-                if (isMounted && response.ok) {
-                    setIsConnected(true);
-                    setConnectionError(null);
-                } else if (isMounted) {
-                    setIsConnected(false);
-                    setConnectionError('Server responded with error');
+                if (isMounted) {
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Even if 200 OK, check if the API reported an internal error status
+                        if (data.status === 'error' && data.ollama?.status === 'error') {
+                            setIsConnected(false);
+                            setConnectionError(data.ollama.details || 'AI Service Unavailable');
+                            return;
+                        }
+
+                        setIsConnected(true);
+                        setConnectionError(null);
+                    } else {
+                        // Try to get error text
+                        let errorMsg = 'Server responded with error';
+                        try {
+                            const errData = await response.json();
+                            errorMsg = errData.error || errData.message || `Status: ${response.status}`;
+                        } catch {
+                            errorMsg = `Status: ${response.status} ${response.statusText}`;
+                        }
+                        setIsConnected(false);
+                        setConnectionError(errorMsg);
+                    }
                 }
-            } catch {
+            } catch (err: any) {
                 if (isMounted) {
                     setIsConnected(false);
-                    setConnectionError('Cannot connect to chat server. Make sure Ollama and the server are running.');
+                    setConnectionError(`Connection failed: ${err.message || 'Unknown error'}`);
                 }
             }
         };
