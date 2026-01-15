@@ -1,9 +1,9 @@
 """
-🔒 CV LAB - AI-Powered Resume Helper Tool
-==========================================
-A personal resume helper that uses NLP to tailor your CV to job descriptions.
+🔒 CAS (Content Administration System) - CV Module
+====================================================
+Admin tool for editing and managing CV/resume content.
 
-Author: David Phillip's Secret Lab
+Author: David Phillip
 Version: 1.0.0
 
 Run Instructions:
@@ -17,6 +17,7 @@ Features:
 - Generate ATS-optimized resumes
 - Create tailored cover letters
 - Calculate match scores with breakdowns
+- Export to Markdown, TXT, or PDF
 """
 
 import streamlit as st

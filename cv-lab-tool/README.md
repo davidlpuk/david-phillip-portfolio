@@ -1,6 +1,6 @@
-# 🔒 CV Lab - AI-Powered Resume Helper
+# 🔒 CAS - Content Administration System
 
-A personal, local AI-powered tool for tailoring resumes to job descriptions.
+A personal, local admin tool for managing CV content and tailoring resumes to job descriptions.
 
 ## Features
 
@@ -42,12 +42,12 @@ streamlit run app.py
 
 ## ATS Scoring Breakdown
 
-| Component | Weight | Description |
-|-----------|--------|-------------|
-| Keywords | 40% | Hard skill matches (Figma, Python, etc.) |
-| Soft Skills | 20% | Implied traits (leadership, collaboration) |
-| Structure | 20% | Has standard ATS sections |
-| Relevance | 20% | Semantic similarity to job description |
+| Component   | Weight | Description                                |
+| ----------- | ------ | ------------------------------------------ |
+| Keywords    | 40%    | Hard skill matches (Figma, Python, etc.)   |
+| Soft Skills | 20%    | Implied traits (leadership, collaboration) |
+| Structure   | 20%    | Has standard ATS sections                  |
+| Relevance   | 20%    | Semantic similarity to job description     |
 
 ## Tech Stack
 
@@ -62,4 +62,4 @@ This tool runs **100% locally**. No data is sent to external servers.
 
 ---
 
-🔒 *For David's eyes only*
+🔒 _For David's eyes only_
