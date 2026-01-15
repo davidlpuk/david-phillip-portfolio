@@ -10,13 +10,17 @@ const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'change-this-password';
 
 // Session storage (in production, use Redis or proper session management)
-const sessions = new Map<string, { username: string; expiresAt: number }>();
+const sessions = new Map();
 
 // CV file paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Use /tmp for writable storage on Vercel
 const CV_PATH = path.resolve(__dirname, '../../client/public/docs/DP CV - Download.md');
-const CV_VERSIONS_DIR = path.resolve(__dirname, '../../client/public/docs/cv-versions');
+const CV_VERSIONS_DIR = process.env.VERCEL
+  ? '/tmp/cv-versions'
+  : path.resolve(__dirname, '../../client/public/docs/cv-versions');
 
 // Ensure versions directory exists
 async function ensureVersionsDir() {
@@ -50,11 +54,18 @@ function requireAuth(req, res, next) {
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
+  console.log('🔐 Login attempt:', { username, hasPassword: !!password });
+  console.log('🔐 Expected credentials:', {
+    username: ADMIN_USERNAME,
+    passwordSet: !!ADMIN_PASSWORD && ADMIN_PASSWORD !== 'change-this-password'
+  });
+
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     const token = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
 
     sessions.set(token, { username, expiresAt });
+    console.log('✅ Login successful for:', username);
 
     res.json({
       token,
@@ -62,6 +73,7 @@ router.post('/login', (req, res) => {
       user: { username }
     });
   } else {
+    console.log('❌ Login failed - invalid credentials');
     res.status(401).json({ error: 'Invalid credentials' });
   }
 });
@@ -110,21 +122,29 @@ router.post('/cv', requireAuth, async (req, res) => {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const versionPath = path.join(CV_VERSIONS_DIR, `CV-${timestamp}.md`);
       await fs.writeFile(versionPath, currentContent, 'utf-8');
+      console.log('✅ Backup created:', versionPath);
     } catch (error) {
-      console.warn('Could not create backup:', error);
+      console.warn('⚠️ Could not create backup:', error);
     }
 
-    // Write new content
-    await fs.writeFile(CV_PATH, content, 'utf-8');
+    // Write new content (to /tmp on Vercel, to original location locally)
+    const writePath = process.env.VERCEL ? `/tmp/DP-CV-Download.md` : CV_PATH;
+    await fs.writeFile(writePath, content, 'utf-8');
+    console.log('✅ CV saved to:', writePath);
+
+    const message = process.env.VERCEL
+      ? 'CV updated in session (temporary). Download to persist changes.'
+      : 'CV updated successfully and saved to file.';
 
     res.json({
       success: true,
-      message: 'CV updated successfully',
-      timestamp: new Date().toISOString()
+      message,
+      timestamp: new Date().toISOString(),
+      isTemporary: !!process.env.VERCEL
     });
   } catch (error) {
-    console.error('Error saving CV:', error);
-    res.status(500).json({ error: 'Failed to save CV file' });
+    console.error('❌ Error saving CV:', error);
+    res.status(500).json({ error: 'Failed to save CV file', details: error.message });
   }
 });
 
