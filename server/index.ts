@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -34,12 +34,12 @@ if (!process.env.VERCEL) {
 
 // API Routes
 // Simple ping endpoint for debugging configuration
-app.get('/api/ping', (req, res) => {
+app.get('/api/ping', (req: Request, res: Response) => {
   res.json({ message: 'pong', timestamp: Date.now() });
 });
 
 // Health check handler
-const healthHandler = async (req: any, res: any) => {
+const healthHandler = async (req: Request, res: Response) => {
   try {
     const health = await checkOllamaHealth();
     res.json({
@@ -65,7 +65,7 @@ app.get('/health', healthHandler);
 
 // Chat endpoint
 // Chat handler
-const chatHandler = async (req: any, res: any) => {
+const chatHandler = async (req: Request, res: Response) => {
   const { message, conversationId } = req.body;
 
   if (!message || typeof message !== 'string') {
@@ -114,14 +114,14 @@ app.post('/api/chat', chatHandler);
 app.post('/chat', chatHandler);
 
 // Clear conversation
-app.delete('/api/chat/:conversationId', (req: any, res: any) => {
+app.delete('/api/chat/:conversationId', (req: Request, res: Response) => {
   const { conversationId } = req.params;
   conversations.delete(conversationId);
   res.json({ success: true });
 });
 
 // Serve the React app for all non-API routes (SPA fallback)
-app.get('*', (req: any, res: any) => {
+app.get('*', (req: Request, res: Response) => {
   // Don't handle API routes in the catch-all
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API endpoint not found' });
