@@ -1442,7 +1442,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "A Branch-First Process in a Digital World",
                         text: "HSBC's small business lending process was designed for in-branch conversations with relationship managers. When COVID-19 accelerated the shift to digital, the existing journey couldn't cope. Small business owners — already time-poor and stressed — were abandoning applications mid-flow at rates approaching 60%. The process asked for information they didn't have readily available and required steps that made sense for paper forms but not smartphones.",
-                        image: "/images/coutts-before-after.svg",
                         caption: "Legacy lending journey (left) versus redesigned digital experience (right)"
                     },
                     {
@@ -1463,7 +1462,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Strategic Leadership",
                         text: "As UX Lead for the SME Banking transformation, I owned the end-to-end lending experience design. This meant setting the vision, building the team, and partnering with Product and Engineering to execute. I reported into the Business Banking leadership and worked closely with Technology and Risk to navigate the complexity of regulated financial services.",
-                        image: "/images/coutts-team-photo.png",
                         caption: "The HSBC Kinetic team: designers, product managers, and engineers"
                     },
                     {
@@ -1485,7 +1483,6 @@ const caseStudiesData: CaseStudiesData = {
                         number: "1",
                         title: "Iterative over Big Bang Launch",
                         text: "The business wanted a grand reveal — a complete transformation launched in one go. I pushed back, arguing that in a regulated environment, we needed continuous validation. We launched a minimum viable journey first, measured adoption and drop-off, then iterated. This approach meant we'd already learned what worked by the time competitors were still planning their big launches.",
-                        image: "/images/coutts-wireframe-progression.svg",
                         caption: "Iterative launch approach: from MVP to full journey"
                     },
                     {
@@ -1532,7 +1529,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Investment in Foundations",
                         text: "I made the call to pause feature work for 6 weeks to build a shared pattern library. This covered components (buttons, inputs, cards), patterns (forms, error states, progress indicators), and templates (application screens, dashboards, reports). The 80% reuse across SME products validated the investment.",
-                        image: "/images/coutts-design-system.svg",
                         caption: "Pattern library components and their usage across products"
                     },
                     {
@@ -1549,7 +1545,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Research Synthesis",
                         text: "With dozens of user interviews and hundreds of survey responses, synthesis was becoming a bottleneck. I implemented Claude to help organise findings, identify patterns, and surface quotes that supported different insights. This augmented our research capacity without replacing the human judgment needed for strategic interpretation.",
-                        image: "/images/cognism-ai-workflow.svg",
                         caption: "AI-augmented research workflow"
                     },
                     {
@@ -1570,7 +1565,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Adoption Metrics",
                         text: "The redesigned lending journey achieved 35% adoption within 6 months — exceeding the 25% target. More importantly, completion rates improved from 40% to 65%, meaning fewer abandoned applications and more funded loans.",
-                        image: "/images/coutts-impact-metrics.svg",
                         caption: "Impact metrics: 35% adoption, 40% reduction in drop-off"
                     },
                     {
