@@ -56,7 +56,7 @@ function Router() {
           </Suspense>
         </Route>
         {/* 🔒 SECRET ROUTE - Not linked anywhere */}
-        <Route path="/cv-lab">
+        <Route path="/admin">
           <Suspense fallback={<PageLoader />}>
             <CVLab />
           </Suspense>
