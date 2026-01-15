@@ -51,7 +51,7 @@ const principles = [
   },
   {
     title: "Autonomy",
-    description: "I hire adults. Align on outcomes, then get out of the way. Coach and unblock—don't art-direct.",
+    description: "I hire for autonomy. Align on outcomes, then get out of the way. Coach and unblock—don't art-direct.",
     icon: Unlock,
     color: "from-neutral-800 to-neutral-950",
     bgGlow: "bg-neutral-700/20",

@@ -67,10 +67,9 @@ const experiences = [
     startYear: 2018,
     endYear: 2020 as const,
     description:
-      "Led onboarding transformation for HSBC Kinetic small business banking app, contributing to significant revenue impact. Balanced user experience with technical constraints and compliance requirements.",
+      "Led business lending transformation for HSBC Kinetic small business banking app, contributing to significant revenue impact. Balanced user experience with technical constraints and compliance requirements.",
     icon: Building2,
     color: "from-neutral-800 to-neutral-950",
-    caseStudySlug: "hsbc-kinetic",
   },
   {
     company: "Schroders",
@@ -81,7 +80,6 @@ const experiences = [
       "Modernised wealth management platforms for high-net-worth clients. Led zero-to-one digital transformation across Private Banking division.",
     icon: Landmark,
     color: "from-neutral-800 to-neutral-950",
-    caseStudySlug: "schroders",
   },
   {
     company: "BlackRock",
