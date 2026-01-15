@@ -278,15 +278,37 @@ interface PlaceholderImageProps {
 }
 
 function PlaceholderImage({ src, alt, caption, className = "" }: PlaceholderImageProps) {
+    const isVideo = src.match(/\.(mov|mp4|webm|avi)$/i);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+
+    useEffect(() => {
+        if (isVideo && videoRef.current) {
+            videoRef.current.playbackRate = 1.5;
+        }
+    }, [isVideo]);
+
     return (
         <figure className={`my-8 ${className}`}>
             <div className="relative rounded-lg overflow-hidden bg-secondary/30 border border-border">
-                <div className="aspect-video w-full flex items-center justify-center relative">
-                    <img
-                        src={src}
-                        alt={alt}
-                        className="w-full h-full object-cover"
-                    />
+                <div className="w-full flex items-center justify-center relative">
+                    {isVideo ? (
+                        <video
+                            ref={videoRef}
+                            src={src}
+                            controls
+                            muted
+                            className="w-full h-auto max-h-[640px] object-contain"
+                            poster="/images/hero-pattern.png"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : (
+                        <img
+                            src={src}
+                            alt={alt}
+                            className="w-full h-auto max-h-[640px] object-cover"
+                        />
+                    )}
                 </div>
             </div>
             {caption && (
@@ -317,7 +339,7 @@ const caseStudiesData: CaseStudiesData = {
         subtitle: "Building an Intelligent UX Analysis Tool",
         role: "Full-Stack Developer & Product Designer",
         period: "2025",
-        thumbnail: "/images/hero-pattern.png",
+        thumbnail: "/images/case-study-uxsidekick-thumbail.png",
         summary: "UX Sidekick is an AI-powered design critique platform that provides expert-level UX feedback in under 30 seconds. The platform analyzes UI screenshots and Figma designs using computer vision AI, identifying usability issues, accessibility violations, and providing actionable remediation with copy-paste ready code.",
         tldrTakeaways: [
             "Built AI platform providing PhD-level UX feedback in 30 seconds",
@@ -357,7 +379,8 @@ const caseStudiesData: CaseStudiesData = {
                     },
                     {
                         subtitle: "Actionability Gap",
-                        text: "Most design feedback identifies problems but lacks concrete solutions. Designers know something is wrong but don't know how to fix it."
+                        text: "Most design feedback identifies problems but lacks concrete solutions. Designers know something is wrong but don't know how to fix it.",
+                        image: "/images/case-study-uxsidekick-challenge.png",
                     }
                 ]
             },
@@ -368,7 +391,8 @@ const caseStudiesData: CaseStudiesData = {
                 content: [
                     {
                         subtitle: "AI-Powered Analysis",
-                        text: "Built a platform using Grok Vision API that analyzes UI screenshots and provides expert-level feedback in under 30 seconds. The AI evaluates designs against Nielsen heuristics, WCAG guidelines, and Gestalt principles."
+                        text: "Built a platform using Grok Vision API that analyzes UI screenshots and provides expert-level feedback in under 30 seconds. The AI evaluates designs against Nielsen heuristics, WCAG guidelines, and Gestalt principles.",
+                        caption: "UX Sidekick in action - analyzing a UI design and providing actionable feedback"
                     },
                     {
                         subtitle: "Spatial Precision",
@@ -391,7 +415,8 @@ const caseStudiesData: CaseStudiesData = {
                 content: [
                     {
                         subtitle: "Architecture",
-                        text: "React SPA frontend with Supabase Edge Functions backend. Grok Vision API for computer vision analysis. Figma API integration for direct design file export."
+                        text: "React SPA frontend with Supabase Edge Functions backend. Grok Vision API for computer vision analysis. Figma API integration for direct design file export.",
+                        image: "/images/case-study-uxsidekick-ai-powered-analysis.png",
                     },
                     {
                         subtitle: "Bounding Box System",
@@ -399,7 +424,8 @@ const caseStudiesData: CaseStudiesData = {
                     },
                     {
                         subtitle: "Collision Detection",
-                        text: "Radial offset algorithm with configurable threshold (8%) and offset distance (12%). Markers are intelligently distributed around clustered issue locations."
+                        text: "Radial offset algorithm with configurable threshold (8%) and offset distance (12%). Markers are intelligently distributed around clustered issue locations.",
+                        image: "/images/case-study-uxsidekick-collision-free-markers.png",
                     },
                     {
                         subtitle: "Figma Integration",
@@ -418,7 +444,8 @@ const caseStudiesData: CaseStudiesData = {
                     },
                     {
                         subtitle: "User Experience",
-                        text: "Feedback indicates the collision-free marker system significantly improves readability for dense UIs. Contextual intent inference receives praise for accuracy."
+                        text: "Feedback indicates the collision-free marker system significantly improves readability for dense UIs. Contextual intent inference receives praise for accuracy.",
+                        image: "/videos/ux-sidekick-video.mov",
                     }
                 ]
             },
@@ -748,7 +775,7 @@ const caseStudiesData: CaseStudiesData = {
         subtitle: "Redesigning the UK's largest business banking platform",
         role: "Design Lead | Commercial Banking",
         period: "2018–2020",
-        thumbnail: "/images/fintech-abstract-1.png",
+        thumbnail: "/videos/HSBC_Kinetic.mp4",
         summary: "HSBC's business banking platform for SME customers had become a competitive liability. Small business owners were abandoning mid-task at rates 3x industry average. The experience felt like 'banking from 2010' — clunky, inconsistent, and overwhelming. As Design Lead for Commercial Banking, I led a team of 6 designers, owned the end-to-end redesign of the onboarding and account management flows, and established the design practice within Business Banking. I made the strategic call to rebuild the core account dashboard rather than iterate — a 9-month investment that required significant stakeholder alignment.",
         tldrTakeaways: [
             "Led team of 6 designers across business banking and cash management products",
@@ -796,15 +823,15 @@ const caseStudiesData: CaseStudiesData = {
                 content: [
                     {
                         subtitle: "Leadership Scope",
-                        text: "I led a team of 6 designers across business banking and cash management products. This was a new practice within Business Banking — previously, design was embedded within product teams without standardised processes or governance. I established hiring frameworks, design review processes, and relationship structures with Product and Engineering."
+                        text: "I led a team of 3 designers across business banking and lending products. This was a new practice within Business Banking — previously, design was embedded within product teams without standardised processes or governance. I established hiring frameworks, design review processes, and relationship structures with Product and Engineering."
                     },
                     {
                         subtitle: "Strategic Ownership",
-                        text: "I directly owned the end-to-end redesign of the onboarding and account management flows — HSBC's highest-volume digital interactions. I partnered with Product leadership to influence the 2020-2021 roadmap, shifting prioritisation toward experience consistency over feature velocity. This required building credibility with stakeholders who were accustomed to shipping features quickly."
+                        text: "I directly owned the end-to-end redesign of the lending product flows — HSBC's highest-volume digital interactions. I partnered with Product leadership to influence the roadmap, shifting prioritisation toward experience consistency over feature velocity. This required building credibility with stakeholders who were accustomed to shipping features quickly."
                     },
                     {
                         subtitle: "Strategic Decision",
-                        text: "I made the call to rebuild the core account dashboard rather than iterate the existing experience. This was a 9-month investment that required significant stakeholder alignment — Product wanted incremental improvements, but I argued that the technical debt and UX problems required a fundamental rebuild. We ran pilots to validate the approach and secured executive sponsorship for the investment."
+                        text: "I made the call to focus on business credit cards and small business loans - ensuring the core products business owners wanted were there from day one. This was an investment that required significant stakeholder alignment — Product wanted incremental improvements, but I argued that the technical debt and UX problems required a fundamental rebuild. We ran pilots to validate the approach and secured executive sponsorship for the investment."
                     }
                 ]
             },
@@ -817,7 +844,6 @@ const caseStudiesData: CaseStudiesData = {
                         number: "1",
                         title: "Rebuild vs. iterate core dashboard",
                         text: "Product leadership wanted incremental improvements to avoid a long development cycle. I pushed back, arguing that technical debt and inconsistent UX patterns meant iteration would actually take longer and produce worse results. I proposed a parallel-run approach: build new dashboard alongside existing one, validate with users, then migrate. This 9-month investment required executive sponsorship but ultimately delivered the breakthrough experience we needed.",
-                        image: "/images/coutts-wireframe-progression.svg",
                         caption: "Dashboard evolution: from legacy interface to redesigned experience"
                     },
                     {
@@ -864,7 +890,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Component Library Investment",
                         text: "I convinced leadership to pause feature work for 6 weeks to establish a component library. This was the right call: we built 150+ components that ensured consistency across touchpoints and accelerated development velocity. The investment reduced development bugs by 40% in subsequent quarters and became the foundation for all Business Banking products.",
-                        image: "/images/coutts-design-system.svg",
                         caption: "Design system components: buttons, cards, and form elements"
                     },
                     {
@@ -881,7 +906,6 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Research Synthesis",
                         text: "I implemented AI-assisted user research synthesis using Claude for interview analysis. This accelerated insight extraction without replacing human judgment. AI handled the mechanical parts of analysis — identifying patterns, categorising feedback, surfacing quotes — giving designers more time for synthesis and strategic thinking.",
-                        image: "/images/cognism-ai-workflow.svg",
                         caption: "AI-augmented design workflow for research and ideation"
                     },
                     {
@@ -1161,7 +1185,7 @@ const caseStudiesData: CaseStudiesData = {
         subtitle: "From Zero to Four Designers at a $50M ARR SaaS Scale-up",
         role: "Head of UX",
         period: "2022–2024",
-        thumbnail: "/images/cognism-team-photo.svg",
+        thumbnail: "/images/case-study-hero-cognism.png",
         summary: "Cognism had grown rapidly to $50M ARR but the product experience hadn't kept pace. Sales teams were churning because the platform felt dated, inconsistent, and hard to use. NPS had dropped to -16. As the first UX hire, I built the team from scratch, grew it to 4 designers over 18 months, and improved NPS from -16 to +12 through strategic design investment.",
         tldrTakeaways: [
             "Grew UX team from 0 to 4 designers over 18 months with clear career ladders",
@@ -1388,11 +1412,11 @@ const caseStudiesData: CaseStudiesData = {
         subtitle: "Digitising SME Lending at the UK's Largest Bank",
         role: "UX Lead | SME Banking Transformation",
         period: "2019–2021",
-        thumbnail: "/images/case-study-hero-hsbc.png",
-        summary: "Small business owners were abandoning mid-flow lending applications at alarming rates. The legacy process was built for branches, not phones, and HSBC was losing market share to digital-first lenders. As UX Lead, I led the redesign of the end-to-end lending journey, scaled the design team from 2 to 8 designers, and built the patterns and processes that would define HSBC's SME digital experience going forward.",
+        thumbnail: "/videos/HSBC_Kinetic.mp4",
+        summary: "Small business owners were abandoning mid-flow lending applications at alarming rates. The legacy process was built for branches, not phones, and HSBC was losing market share to digital-first lenders. As UX Lead, I led the redesign of the end-to-end lending journey, built up the design team to 3 designers, and built the patterns and processes that would define HSBC's SME digital experience going forward.",
         tldrTakeaways: [
             "Achieved 35% adoption within 6 months (target: 25%) through iterative validation",
-            "Scaled design team from 2 to 8 designers with clear ownership and career paths",
+            "Scaled design team to 3 designers with clear ownership and career paths",
             "Built shared pattern library with 80%+ component reuse across SME products",
             "Reduced lending application drop-off by 40% through journey optimisation"
         ],
@@ -1407,7 +1431,7 @@ const caseStudiesData: CaseStudiesData = {
             role: "UX Lead - SME Banking",
             date: "2019-2021",
             stakeholders: ["Product Leadership", "Engineering", "Business Banking", "Risk & Compliance", "Technology"],
-            teamSize: "Scaled from 2 to 8 designers (2 Senior, 4 Mid, 2 Junior)"
+            teamSize: "Scaled the team to 3 designers (1 Lead, 1 Senior, 1 UI Designer)"
         },
         sections: [
             {
@@ -1467,7 +1491,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         number: "2",
                         title: "Built pattern library before features",
-                        text: "Rather than rushing to design screens, I invested 6 weeks in a shared pattern library. This was painful — stakeholders wanted to see progress, and screens are more tangible than components. But with 8 designers working on different parts of the journey, consistency would have been impossible without it. The 80% component reuse proved the investment was right."
+                        text: "Rather than rushing to design screens, I invested 6 weeks in a shared pattern library. This was painful — stakeholders wanted to see progress, and screens are more tangible than components. But with 3 designers working on different parts of the journey, consistency would have been impossible without it. The 80% component reuse proved the investment was right."
                     },
                     {
                         number: "3",
@@ -1727,11 +1751,23 @@ export default function CaseStudy() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="rounded-lg overflow-hidden"
                     >
-                        <img
-                            src={caseStudy.thumbnail}
-                            alt={`${caseStudy.company} project`}
-                            className="w-full h-auto max-h-[640px] object-cover"
-                        />
+                        {caseStudy.thumbnail.match(/\.(mov|mp4|webm|avi)$/i) ? (
+                            <video
+                                src={caseStudy.thumbnail}
+                                controls
+                                muted
+                                className="w-full h-auto max-h-[640px] object-cover"
+                                poster="/images/hero-pattern.png"
+                            >
+                                Your browser does not support the video tag.
+                            </video>
+                        ) : (
+                            <img
+                                src={caseStudy.thumbnail}
+                                alt={`${caseStudy.company} project`}
+                                className="w-full h-auto max-h-[640px] object-cover"
+                            />
+                        )}
                     </motion.div>
                 </div>
             </section>

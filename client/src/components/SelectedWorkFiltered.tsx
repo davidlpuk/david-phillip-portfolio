@@ -30,6 +30,23 @@ interface CaseStudy {
 }
 
 const caseStudies: readonly CaseStudy[] = [
+
+
+  {
+    slug: "coutts",
+    company: "Coutts",
+    title: "Wealth Management App",
+    role: "Director · Private Banking",
+    category: "Wealth Management",
+    description: "Launched 4.2+ rated private banking app with zero security incidents, +22 NPS improvement and 30% digital adoption.",
+    metrics: [
+      { value: "+22pts", label: "NPS", icon: "trending" },
+      { value: "30%", label: "Digital Adoption", icon: "users" },
+      { value: "5→15", label: "Team Size", icon: "users" }
+    ],
+    thumbnail: "/images/case-study-coutts-hero.png",
+    gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
+  },
   {
     slug: "ux-sidekick",
     company: "UX Sidekick",
@@ -57,69 +74,10 @@ const caseStudies: readonly CaseStudy[] = [
       { value: "4x", label: "ARR Growth", icon: "star" },
       { value: "0→4", label: "Team Built", icon: "users" }
     ],
-    thumbnail: "/images/cognism-team-photo.svg",
+    thumbnail: "/images/case-study-hero-cognism.png",
     gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
   },
-  {
-    slug: "hsbc-kinetic",
-    company: "HSBC Kinetic",
-    title: "Rebuilding Lending for Small Business",
-    role: "UX Lead · SME Banking Transformation",
-    category: "Fintech",
-    description: "Transformed lending UX for a £14B initiative, achieving 35% adoption and scaling the design team from 2 to 8.",
-    metrics: [
-      { value: "35%", label: "Adoption", icon: "trending" },
-      { value: "2→8", label: "Team Size", icon: "users" },
-      { value: "30%", label: "Cycle Time", icon: "target" }
-    ],
-    thumbnail: "/images/case-study-hero-hsbc.png",
-    gradient: "from-red-500/20 via-pink-500/10 to-transparent",
-  },
-  {
-    slug: "hsbc",
-    company: "HSBC",
-    title: "Small Business App",
-    role: "Design Lead · Commercial Banking",
-    category: "Enterprise",
-    description: "Revamped business banking platform, improving task completion from 62% to 81% with 85% design system adoption.",
-    metrics: [
-      { value: "81%", label: "Task Complete", icon: "target" },
-      { value: "+32%", label: "Mobile", icon: "trending" },
-      { value: "85%", label: "Design System", icon: "star" }
-    ],
-    thumbnail: "/images/fintech-abstract-1.png",
-    gradient: "from-green-500/20 via-emerald-500/10 to-transparent",
-  },
-  {
-    slug: "coutts",
-    company: "Coutts",
-    title: "Wealth Management App",
-    role: "Director · Private Banking",
-    category: "Wealth Management",
-    description: "Launched 4.2+ rated private banking app with zero security incidents, +22 NPS improvement and 30% digital adoption.",
-    metrics: [
-      { value: "+22pts", label: "NPS", icon: "trending" },
-      { value: "30%", label: "Digital Adoption", icon: "users" },
-      { value: "5→15", label: "Team Size", icon: "users" }
-    ],
-    thumbnail: "/images/case-study-hero-coutts.png",
-    gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
-  },
-  {
-    slug: "schroders",
-    company: "Schroders",
-    title: "Private Banking Digital Transformation",
-    role: "UX Lead · Wealth Management",
-    category: "Wealth Management",
-    description: "Unified 12 legacy systems into one platform, delivering 65% engagement increase and 3x digital transactions.",
-    metrics: [
-      { value: "+65%", label: "Engagement", icon: "trending" },
-      { value: "3x", label: "Transactions", icon: "star" },
-      { value: "94%", label: "Retention", icon: "target" }
-    ],
-    thumbnail: "/images/regulatory-collaboration.png",
-    gradient: "from-indigo-500/20 via-blue-500/10 to-transparent",
-  },
+
 ] as const;
 
 // Protected case studies require password

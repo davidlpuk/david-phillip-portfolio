@@ -38,7 +38,7 @@ const caseStudies: readonly CaseStudy[] = [
     role: "Head of UX · B2B SaaS Scale-up",
     description: "Built the first product design team from scratch, lifting NPS from -16 to +12 during £20M→£80M ARR growth.",
     metrics: [{ value: "-16→+12", label: "NPS", icon: "trending" }, { value: "4x", label: "ARR Growth", icon: "star" }, { value: "0→4", label: "Team Built", icon: "users" }],
-    thumbnail: "/images/cognism-team-photo.svg", gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
+    thumbnail: "/images/case-study-hero-cognism.png", gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
   },
   {
     slug: "hsbc-kinetic", company: "HSBC Kinetic", title: "Rebuilding Lending for Small Business",
