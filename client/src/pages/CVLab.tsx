@@ -332,6 +332,65 @@ export default function CVLab() {
         }
     }, [markdown, pushUndo, handleContentChange]);
 
+    // Helper function to parse inline markdown (bold, italic, links) and return React elements
+    const parseInlineMarkdown = (text: string): React.ReactNode => {
+        const parts: { type: "text" | "bold" | "italic" | "link"; content: string; url?: string }[] = [];
+        let remaining = text;
+        let pos = 0;
+
+        while (pos < remaining.length) {
+            // Check for bold **text**
+            const boldMatch = remaining.match(/\*\*(.+?)\*\*/);
+            // Check for italic *text* (but not at start of line for lists)
+            const italicMatch = remaining.match(/\*([^*]+)\*/);
+            // Check for link [text](url)
+            const linkMatch = remaining.match(/\[([^\]]+)\]\(([^)]+)\)/);
+
+            // Find which comes first
+            const matches = [
+                { type: "bold", match: boldMatch, index: boldMatch ? remaining.indexOf(boldMatch[0]) : Infinity },
+                { type: "italic", match: italicMatch, index: italicMatch ? remaining.indexOf(italicMatch[0]) : Infinity },
+                { type: "link", match: linkMatch, index: linkMatch ? remaining.indexOf(linkMatch[0]) : Infinity },
+            ];
+
+            const earliest = matches.reduce((min, m) => m.index < min.index ? m : min, { type: "", match: null, index: Infinity } as any);
+
+            if (earliest.match && earliest.index === pos) {
+                if (earliest.type === "bold") {
+                    parts.push({ type: "bold", content: earliest.match[1] });
+                } else if (earliest.type === "italic") {
+                    parts.push({ type: "italic", content: earliest.match[1] });
+                } else if (earliest.type === "link") {
+                    parts.push({ type: "link", content: earliest.match[1], url: earliest.match[2] });
+                }
+                remaining = remaining.slice(earliest.match[0].length);
+            } else if (earliest.match && earliest.index > pos) {
+                // Add text before the match
+                parts.push({ type: "text", content: remaining.slice(0, earliest.index - pos) });
+                remaining = remaining.slice(earliest.index - pos);
+            } else {
+                // No more matches, add remaining text
+                parts.push({ type: "text", content: remaining });
+                break;
+            }
+        }
+
+        return parts.map((part, i) => {
+            if (part.type === "bold") {
+                return <span key={i} className="font-semibold">{part.content}</span>;
+            } else if (part.type === "italic") {
+                return <span key={i} className="italic">{part.content}</span>;
+            } else if (part.type === "link") {
+                return (
+                    <a key={i} href={part.url} className="text-violet-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                        {part.content}
+                    </a>
+                );
+            }
+            return <span key={i}>{part.content}</span>;
+        });
+    };
+
     // Improved markdown to React elements with table support
     const renderPreview = (content: string) => {
         const lines = content.split("\n");
@@ -346,7 +405,6 @@ export default function CVLab() {
                 const tableLines: string[] = [];
                 const headerIndex = i;
 
-                // Collect all table rows
                 while (
                     i < lines.length &&
                     lines[i].trim().startsWith("|") &&
@@ -368,7 +426,7 @@ export default function CVLab() {
                             .filter((s) => s),
                     );
 
-                    const getColWidth = (header: string, index: number) => {
+                    const getColWidth = (header: string) => {
                         if (header === "Period") return "w-16";
                         if (header === "Highlights") return "flex-1";
                         return "w-24";
@@ -382,9 +440,9 @@ export default function CVLab() {
                                         {headers.map((h, j) => (
                                             <th
                                                 key={j}
-                                                className={`text-left p-1.5 font-semibold text-zinc-700 bg-zinc-100 ${getColWidth(h, j)}`}
+                                                className={`text-left p-1.5 font-semibold text-zinc-700 bg-zinc-100 ${getColWidth(h)}`}
                                             >
-                                                {h}
+                                                {parseInlineMarkdown(h)}
                                             </th>
                                         ))}
                                     </tr>
@@ -393,11 +451,8 @@ export default function CVLab() {
                                     {dataRows.map((row, j) => (
                                         <tr key={j} className="border-b border-zinc-100">
                                             {row.map((cell, k) => (
-                                                <td
-                                                    key={k}
-                                                    className={`p-1.5 text-zinc-600 ${getColWidth(headers[k], k)}`}
-                                                >
-                                                    {cell}
+                                                <td key={k} className={`p-1.5 text-zinc-600 ${getColWidth(headers[k])}`}>
+                                                    {parseInlineMarkdown(cell)}
                                                 </td>
                                             ))}
                                         </tr>
@@ -416,11 +471,11 @@ export default function CVLab() {
                 continue;
             }
 
-            // Regular markdown rendering
+            // Regular markdown rendering with inline formatting
             if (line.startsWith("# ")) {
                 elements.push(
                     <h1 key={i} className="text-2xl font-bold mb-2">
-                        {line.replace("# ", "")}
+                        {parseInlineMarkdown(line.replace("# ", ""))}
                     </h1>,
                 );
             } else if (line.startsWith("## ")) {
@@ -429,46 +484,27 @@ export default function CVLab() {
                         key={i}
                         className="text-lg font-bold mt-6 mb-3 text-zinc-800 border-b border-zinc-200 pb-2"
                     >
-                        {line.replace("## ", "")}
+                        {parseInlineMarkdown(line.replace("## ", ""))}
                     </h2>,
                 );
             } else if (line.startsWith("### ")) {
                 elements.push(
                     <h3 key={i} className="text-sm font-bold mt-4 mb-1 text-zinc-700">
-                        {line.replace("### ", "")}
+                        {parseInlineMarkdown(line.replace("### ", ""))}
                     </h3>,
                 );
             } else if (line.startsWith("- ")) {
                 elements.push(
                     <li key={i} className="text-xs text-zinc-600 ml-4 mb-1 list-disc">
-                        {line.replace("- ", "")}
+                        {parseInlineMarkdown(line.replace("- ", ""))}
                     </li>,
-                );
-            } else if (line.startsWith("**") && line.endsWith("**")) {
-                elements.push(
-                    <p key={i} className="text-sm font-semibold text-zinc-700">
-                        {line.replace(/\*\*/g, "")}
-                    </p>,
-                );
-            } else if (line.startsWith("*") && line.endsWith("*")) {
-                elements.push(
-                    <p key={i} className="text-xs italic text-zinc-500">
-                        {line.replace(/\*/g, "")}
-                    </p>,
-                );
-            } else if (line.includes("|")) {
-                // Fallback for any table-like lines that weren't caught
-                elements.push(
-                    <p key={i} className="text-xs text-zinc-400 font-mono">
-                        {line}
-                    </p>,
                 );
             } else if (line.trim() === "") {
                 elements.push(<div key={i} className="h-3" />);
             } else {
                 elements.push(
                     <p key={i} className="text-xs text-zinc-600 leading-relaxed">
-                        {line}
+                        {parseInlineMarkdown(line)}
                     </p>,
                 );
             }

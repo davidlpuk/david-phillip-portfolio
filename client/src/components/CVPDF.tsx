@@ -35,6 +35,29 @@ Font.register({
   ],
 });
 
+const renderTextWithBold = (text: string) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <Text key={i} style={{ fontWeight: "bold" }}>{part.slice(2, -2)}</Text>;
+    }
+    return <Text key={i}>{part}</Text>;
+  });
+};
+
+const cleanContactItem = (item: string) => {
+  const linkMatch = item.match(/\[([^\]]+)\]\(([^)]+)\)/);
+  if (linkMatch) {
+    const url = linkMatch[2];
+    // Remove protocol and www
+    let cleanUrl = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
+    // Remove trailing slash
+    cleanUrl = cleanUrl.replace(/\/$/, '');
+    return cleanUrl.toUpperCase();
+  }
+  return item;
+};
+
 const styles = StyleSheet.create({
   page: {
     padding: 40,
@@ -83,14 +106,14 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   section: {
-    marginTop: 15,
-    marginBottom: 5,
+    marginTop: 20,
+    marginBottom: 10,
   },
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    marginTop: 5,
+    marginBottom: 12,
+    marginTop: 8,
   },
   sectionTitle: {
     fontSize: 14,
@@ -114,7 +137,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   experienceItem: {
-    marginBottom: 15,
+    marginBottom: 20,
   },
   experienceHeader: {
     flexDirection: "row",
@@ -137,16 +160,16 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontStyle: "italic",
     color: "#666666",
-    marginBottom: 4,
+    marginBottom: 6,
   },
   jobDescription: {
     fontSize: 9,
     lineHeight: 1.3,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   bulletPointContainer: {
     flexDirection: "row",
-    marginBottom: 2,
+    marginBottom: 3,
     paddingLeft: 4,
   },
   bulletPoint: {
@@ -178,17 +201,19 @@ const styles = StyleSheet.create({
   table: {
     width: "100%",
     marginTop: 5,
+    borderWidth: 1,
+    borderColor: "#EEEEEE",
   },
   tableHeader: {
     flexDirection: "row",
     backgroundColor: "#F9F9F9",
     borderBottomWidth: 1,
     borderBottomColor: "#EEEEEE",
-    paddingVertical: 3,
+    paddingVertical: 4,
     paddingHorizontal: 4,
   },
   tableHeaderCell: {
-    fontSize: 6,
+    fontSize: 7,
     fontWeight: 700,
     textTransform: "uppercase",
     color: "#666666",
@@ -198,11 +223,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "rgba(0,0,0,0.05)",
-    paddingVertical: 3,
+    paddingVertical: 4,
     paddingHorizontal: 4,
   },
   tableCell: {
-    fontSize: 6.5,
+    fontSize: 7,
     color: "#333333",
     flex: 1,
     lineHeight: 1.2,
@@ -294,13 +319,13 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
           <View style={styles.contactRow as any} {...({} as any)}>
             {contactItems.map((item, i) => (
               <Text key={i} style={styles.contactItem as any} {...({} as any)}>
-                {item}
+                {cleanContactItem(item)}
               </Text>
             ))}
           </View>
           {summaryParagraphs.map((p, i) => (
             <Text key={i} style={styles.summary as any} {...({} as any)}>
-              {p.replace(/\*\*/g, "")}
+              {renderTextWithBold(p)}
             </Text>
           ))}
         </View>
@@ -317,10 +342,10 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
               <View
                 key={idx}
                 style={styles.section as any}
-                wrap={false}
+                keepTogether={true}
                 {...({} as any)}
               >
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} {...({} as any)}>
+                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
@@ -350,7 +375,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                           style={styles.capabilityText as any}
                           {...({} as any)}
                         >
-                          {bText.replace(/- /g, "")}
+                          {renderTextWithBold(bText.replace(/- /g, ""))}
                         </Text>
                       </View>
                     );
@@ -361,10 +386,14 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
           }
 
           if (title === "Professional Experience") {
-            const jobs = content.split(/\n(?=### )/);
+            const earlierCareerIndex = content.indexOf("### Earlier Career");
+            const jobsContent = earlierCareerIndex >= 0 ? content.substring(0, earlierCareerIndex) : content;
+            const tableContent = earlierCareerIndex >= 0 ? content.substring(earlierCareerIndex) : "";
+
+            const jobs = jobsContent.split(/\n(?=### )/);
             return (
-              <View key={idx} style={styles.section as any} {...({} as any)}>
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} {...({} as any)}>
+              <View key={idx} style={styles.section as any} keepTogether={true} {...({} as any)}>
+                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
@@ -374,6 +403,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                   </Text>
                 </View>
                 {jobs.map((job, i) => {
+                  if (!job.trim()) return null;
                   const jobHeaderMatch = job.match(/^### (.*?)\n/);
                   const jobHeader = jobHeaderMatch ? jobHeaderMatch[1] : "";
                   const headerParts = jobHeader.split("|").map((s) => s.trim());
@@ -436,7 +466,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                           style={styles.jobDescription as any}
                           {...({} as any)}
                         >
-                          {description.replace(/\*\*/g, "")}
+                          {renderTextWithBold(description)}
                         </Text>
                       )}
                       {bullets.map((bullet, j) => (
@@ -455,7 +485,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                             style={styles.bulletText as any}
                             {...({} as any)}
                           >
-                            {bullet.replace(/\*\*/g, "")}
+                            {renderTextWithBold(bullet)}
                           </Text>
                         </View>
                       ))}
@@ -473,12 +503,133 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                           }
                           {...({} as any)}
                         >
-                          {scope}
+                          {renderTextWithBold(scope)}
                         </Text>
                       )}
                     </View>
                   );
                 })}
+                {tableContent && (() => {
+                  const tableTitleMatch = tableContent.match(/^### (.*?)\n/);
+                  const tableTitle = tableTitleMatch ? tableTitleMatch[1] : "";
+                  const tableBody = tableContent.replace(/^### .*?\n+/, "");
+
+                  const tableLines = tableBody.split("\n");
+                  const tableStartIndex = tableLines.findIndex(
+                    (l) => l.trim().startsWith("|") && !l.includes("---"),
+                  );
+                  const tableEndIndex = tableLines.findIndex(
+                    (l, i) => i > tableStartIndex && l.trim() === "",
+                  );
+
+                  if (tableStartIndex >= 0) {
+                    const tableContentSlice =
+                      tableEndIndex > 0
+                        ? tableLines.slice(tableStartIndex, tableEndIndex)
+                        : tableLines.slice(tableStartIndex);
+
+                    const filteredLines = tableContentSlice.filter(
+                      (l) =>
+                        l.trim().startsWith("|") &&
+                        !l.includes("---") &&
+                        l.trim() !== "|",
+                    );
+
+                    if (filteredLines.length >= 1) {
+                      const headerCells = filteredLines[0]
+                        .split("|")
+                        .map((s: string) => s.trim())
+                        .filter((s: string) => s);
+                      const dataRows = filteredLines.slice(1).map((row: string) =>
+                        row
+                          .split("|")
+                          .map((s: string) => s.trim())
+                          .filter((s: string) => s),
+                      );
+
+                      const dateRangeMatch = tableTitle.match(/\((\d{4}.*?)\)/);
+                      const dateRange = dateRangeMatch ? dateRangeMatch[1] : "";
+                      const displayTitle = tableTitle.replace(/\s*\(.*?\)\s*/, "").trim();
+
+                      return (
+                        <View
+                          style={styles.section as any}
+                          keepTogether={true}
+                          {...({} as any)}
+                        >
+                          <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
+                            <Text style={styles.sectionTitle as any} {...({} as any)}>
+                              {displayTitle}
+                            </Text>
+                            <View
+                              style={styles.sectionLine as any}
+                              {...({} as any)}
+                            />
+                            {dateRange && (
+                              <Text style={styles.sectionTag as any} {...({} as any)}>
+                                {dateRange}
+                              </Text>
+                            )}
+                          </View>
+                          <View style={styles.table as any} wrap={true} {...({} as any)}>
+                            <View style={styles.tableHeader as any} {...({} as any)}>
+                              {headerCells.map((h: string, i: number) => {
+                                let flexValue = 0.8;
+                                if (h === "Period") flexValue = 0.6;
+                                else if (h === "Highlights") flexValue = 1.8;
+                                return (
+                                  <Text
+                                    key={i}
+                                    style={
+                                      [
+                                        styles.tableHeaderCell as any,
+                                        { flex: flexValue },
+                                      ] as any
+                                    }
+                                    {...({} as any)}
+                                  >
+                                    {h}
+                                  </Text>
+                                );
+                              })}
+                            </View>
+                            {dataRows.map((row: string[], i: number) => (
+                              <View
+                                key={i}
+                                style={styles.tableRow as any}
+                                wrap={true}
+                                {...({} as any)}
+                              >
+                                {row.map((cell: string, j: number) => {
+                                  let flexValue = 0.8;
+                                  if (j === 0)
+                                    flexValue = 0.6; // Period column
+                                  else if (headerCells[j] === "Highlights")
+                                    flexValue = 1.8;
+                                  return (
+                                    <Text
+                                      key={j}
+                                      style={
+                                        [
+                                          styles.tableCell as any,
+                                          { flex: flexValue },
+                                        ] as any
+                                      }
+                                      {...({} as any)}
+                                    >
+                                      {renderTextWithBold(cell)}
+                                    </Text>
+                                  );
+                                })}
+                              </View>
+                            ))}
+                          </View>
+                        </View>
+                      );
+                    }
+                  }
+                  return null;
+                })()}
               </View>
             );
           }
@@ -534,7 +685,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                   <View
                     key={idx}
                     style={styles.section as any}
-                    wrap={false}
+                    keepTogether={true}
                     {...({} as any)}
                   >
                     <View style={styles.sectionHeader as any} minPresenceAhead={60} {...({} as any)}>
@@ -616,10 +767,10 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
               <View
                 key={idx}
                 style={styles.section as any}
-                wrap={false}
+                keepTogether={true}
                 {...({} as any)}
               >
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} {...({} as any)}>
+                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
@@ -643,7 +794,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                           {bTitle}
                         </Text>
                         <Text style={styles.toolItems as any} {...({} as any)}>
-                          {bText}
+                          {renderTextWithBold(bText)}
                         </Text>
                       </View>
                     );
@@ -658,17 +809,17 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
               <View
                 key={idx}
                 style={styles.section as any}
-                wrap={false}
+                keepTogether={true}
                 {...({} as any)}
               >
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} {...({} as any)}>
+                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
                   <View style={styles.sectionLine as any} {...({} as any)} />
                 </View>
                 <Text style={styles.bulletText as any} {...({} as any)}>
-                  {content.replace(/- /g, "").trim()}
+                  {renderTextWithBold(content.replace(/- /g, "").trim())}
                 </Text>
               </View>
             );
