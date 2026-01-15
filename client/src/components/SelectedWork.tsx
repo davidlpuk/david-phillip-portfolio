@@ -41,10 +41,10 @@ const caseStudies: readonly CaseStudy[] = [
     thumbnail: "/images/cognism-team-photo.svg", gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
   },
   {
-    slug: "hsbc-kinetic", company: "HSBC Kinetic", title: "Rebuilding Lending for Small Business",
-    role: "UX Lead · SME Banking Transformation",
-    description: "Transformed lending UX for a £14B initiative, achieving 35% adoption and scaling the design team from 2 to 8.",
-    metrics: [{ value: "35%", label: "Adoption", icon: "trending" }, { value: "2→8", label: "Team Size", icon: "users" }, { value: "30%", label: "Cycle Time", icon: "target" }],
+    slug: "hsbc-kinetic", company: "HSBC Kinetic", title: "Award-Winning Business Banking",
+    role: "UX Lead · Business Lending Products",
+    description: "Led UX for HSBC's mobile-first business banking app, managing 3 designers across lending products. Won 'Best App Based Business Bank Account' for 4 consecutive years (2022-2025).",
+    metrics: [{ value: "4 Years", label: "Best App Award", icon: "star" }, { value: "3 Core", label: "Products", icon: "target" }, { value: "5 Months", label: "To Launch", icon: "trending" }],
     thumbnail: "/images/case-study-hero-hsbc.png", gradient: "from-red-500/20 via-pink-500/10 to-transparent",
   },
   {
