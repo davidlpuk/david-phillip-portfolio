@@ -1215,7 +1215,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Growth Outpacing Experience",
                         text: "Cognism had grown rapidly to $50M ARR, but the product experience hadn't kept pace. Sales teams were churning because the platform felt dated, inconsistent, and hard to use. NPS had dropped to -16, and the leadership team recognised that product experience was now a competitive differentiator in the sales intelligence market.",
-                        image: "/images/cognism-before-after.svg",
+                        image: "/images/cognism-case-study-01.png",
                         caption: "Legacy interface (left) versus the redesigned experience (right) that drove NPS improvement"
                     },
                     {
@@ -1236,7 +1236,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Building from Scratch",
                         text: "As the first UX hire, I had the unusual opportunity — and responsibility — of building the function from nothing. This meant not just hiring designers, but establishing the processes, culture, and credibility that would make design a trusted partner across the organisation.",
-                        image: "/images/cognism-team-photo.svg",
+                        image: "/images/cognism-case-study-02.png",
                         caption: "The Cognism UX team at full size: 4 designers with clear ownership areas"
                     },
                     {
@@ -1257,7 +1257,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Hiring Strategy",
                         text: "I hired for trajectory over pedigree. Given Cognism was a scale-up, I needed designers who could thrive in ambiguity, build processes from scratch, and grow with the company. I established clear hiring frameworks and design career ladders that gave the team visibility into growth paths.",
-                        image: "/images/cognism-design-system.svg",
+                        image: "/images/cognism-case-study-03.png",
                         caption: "Design system components established during my tenure"
                     },
                     {
@@ -1279,7 +1279,7 @@ const caseStudiesData: CaseStudiesData = {
                         number: "1",
                         title: "Prioritised design system over features",
                         text: "For Q1-Q2, I made the controversial decision to invest in a component library and design tokens rather than shipping new features. This sacrificed short-term velocity but created the foundation for everything that followed. By Q3, we were iterating 3x faster than competitors who were still building from scratch.",
-                        image: "/images/cognism-design-system.svg",
+                        image: "/images/cognism-case-study-04.png",
                         caption: "Design system investment enabled rapid iteration across the product"
                     },
                     {
@@ -1307,7 +1307,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "The Problem",
                         text: "Cognism's search was its most used feature — and its most frustrating. Users couldn't find the right companies or contacts. Results felt random rather than ranked. The list view that followed was cluttered and overwhelming. These weren't just UX problems; they were business problems affecting customer retention.",
-                        image: "/images/cognism-search-redesign.svg",
+                        image: "/images/cognism-case-study-05.png",
                         caption: "Before and after: the redesigned search and list view experience"
                     },
                     {
@@ -1328,7 +1328,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "Research Synthesis",
                         text: "I implemented AI-assisted user research synthesis using Claude to accelerate insight extraction. This wasn't about replacing human judgment — it was about giving designers more time for the work that matters by automating the mechanical parts of analysis.",
-                        image: "/images/cognism-ai-workflow.svg",
+                        image: "/images/cognism-case-study-06.png",
                         caption: "AI-augmented design workflow for research and ideation"
                     },
                     {
@@ -1349,7 +1349,7 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         subtitle: "User Metrics",
                         text: "NPS improved from -16 to +12 over 18 months. User satisfaction scores for core workflows increased 40%. These weren't vanity metrics — they translated directly to customer retention and sales team confidence in the platform.",
-                        image: "/images/cognism-impact-metrics.svg",
+                        image: "/images/cognism-case-study-07.svg",
                         caption: "Key metrics: NPS improvement, team growth, and efficiency gains"
                     },
                     {
