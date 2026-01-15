@@ -110,7 +110,7 @@ SOFT_SKILL_MAPPINGS = {
 SAMPLE_CV = """
 # DAVID PHILLIP
 **Head of Design | AI-Native Design Leader | Fintech & SaaS | London**
-London, UK | david.phillip@gmail.com | linkedin.com/in/davidphillip
+London, UK | david.phillip@gmail.com | https://www.linkedin.com/in/davidphillip/
 
 ## SUMMARY
 Design leader with 20+ years in financial services and SaaS, operating as an AI-native practitioner who orchestrates design, research, and engineering into unified delivery systems. Track record of scaling teams (5→15), launching award-winning products, and driving measurable business impact ($20M→$80M revenue).

@@ -12,6 +12,7 @@ const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const CV = lazy(() => import("./pages/CV"));
 const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 const CVLab = lazy(() => import("./pages/CVLab")); // 🔒 Secret page
+const CVBuilder = lazy(() => import("./pages/CVBuilder")); // 🔒 AI CV Builder
 
 // Loading fallback component
 const PageLoader = React.memo(function PageLoader() {
@@ -61,6 +62,12 @@ function Router() {
             <CVLab />
           </Suspense>
         </Route>
+        {/* 🔒 CV Builder - AI-Optimized ATS Resume Builder */}
+        <Route path="/admin/cv-builder">
+          <Suspense fallback={<PageLoader />}>
+            <CVBuilder />
+          </Suspense>
+        </Route>
         <Route path="/404" component={NotFound} />
         {/* Final fallback route */}
         <Route component={NotFound} />
@@ -68,7 +75,6 @@ function Router() {
     </PageTransition>
   );
 }
-
 
 function App() {
   return (
@@ -82,4 +88,3 @@ function App() {
 }
 
 export default App;
-

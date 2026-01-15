@@ -196,12 +196,34 @@ export default function CV() {
                                         if (text.includes('|') && (text.includes('LinkedIn') || text.includes('@'))) {
                                             return (
                                                 <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 py-4 border-y border-border/30 text-xs md:text-sm font-bold uppercase tracking-widest text-foreground/80">
-                                                    {text.split('|').map((part: string, i: number) => (
-                                                        <span key={i} className="flex items-center gap-2">
-                                                            {i > 0 && <span className="text-accent">•</span>}
-                                                            {part.trim()}
-                                                        </span>
-                                                    ))}
+                                                    {text.split('|').map((part: string, i: number) => {
+                                                        const trimmedPart = part.trim();
+                                                        // Check if this part contains a markdown link
+                                                        const linkMatch = trimmedPart.match(/\[([^\]]+)\]\(([^)]+)\)/);
+                                                        if (linkMatch) {
+                                                            const linkText = linkMatch[1];
+                                                            const linkUrl = linkMatch[2];
+                                                            return (
+                                                                <span key={i} className="flex items-center gap-2">
+                                                                    {i > 0 && <span className="text-accent">•</span>}
+                                                                    <a
+                                                                        href={linkUrl}
+                                                                        className="text-accent hover:underline"
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        {linkText}
+                                                                    </a>
+                                                                </span>
+                                                            );
+                                                        }
+                                                        return (
+                                                            <span key={i} className="flex items-center gap-2">
+                                                                {i > 0 && <span className="text-accent">•</span>}
+                                                                {trimmedPart}
+                                                            </span>
+                                                        );
+                                                    })}
                                                 </div>
                                             );
                                         }

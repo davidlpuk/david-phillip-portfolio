@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   Font,
+  Link,
 } from "@react-pdf/renderer";
 
 // Register Montserrat from GitHub raw files (more reliable than gstatic for react-pdf)
@@ -317,11 +318,25 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
             {role}
           </Text>
           <View style={styles.contactRow as any} {...({} as any)}>
-            {contactItems.map((item, i) => (
-              <Text key={i} style={styles.contactItem as any} {...({} as any)}>
-                {cleanContactItem(item)}
-              </Text>
-            ))}
+            {contactItems.map((item, i) => {
+              const linkMatch = item.match(/\[([^\]]+)\]\(([^)]+)\)/);
+              if (linkMatch && linkMatch[1].toLowerCase().includes('linkedin')) {
+                const url = linkMatch[2];
+                // Clean URL for display
+                let cleanUrl = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
+                cleanUrl = cleanUrl.replace(/\/$/, '');
+                return (
+                  <Link key={i} src={url} style={styles.contactItem as any} {...({} as any)}>
+                    {cleanUrl.toUpperCase()}
+                  </Link>
+                );
+              }
+              return (
+                <Text key={i} style={styles.contactItem as any} {...({} as any)}>
+                  {cleanContactItem(item)}
+                </Text>
+              );
+            })}
           </View>
           {summaryParagraphs.map((p, i) => (
             <Text key={i} style={styles.summary as any} {...({} as any)}>

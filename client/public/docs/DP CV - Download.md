@@ -1,7 +1,7 @@
 # David Phillip
 
 **Head of Design | AI-Native Design Leader | Fintech & SaaS | London**
-London, UK | [LinkedIn](https://www.linkedin.com/in/davidphillip/) | david.phillip@gmail.com 
+London, UK | [LinkedIn](https://www.linkedin.com/in/davidphillip/) | [Portfolio: david-phillip-portfolio.vercel.app](https://david-phillip-portfolio.vercel.app) | david.phillip@gmail.com 
 
 **Design leader** with 20+ years in financial services and SaaS, now operating as an **AI-native practitioner** who orchestrates design, research, and engineering into unified delivery systems.
 

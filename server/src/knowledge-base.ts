@@ -384,14 +384,14 @@ David prefers to discuss specific opportunities rather than committing to one em
         content: `David Phillip's contact information:
 
 - Email: david.phillip@gmail.com
-- LinkedIn: linkedin.com/in/davidphillip
+- LinkedIn: https://www.linkedin.com/in/davidphillip/
 - Location: London, United Kingdom
 
 When users ask "how can I contact you", "what's your email", "how do I reach you", or similar questions, provide the email address david.phillip@gmail.com and LinkedIn profile link.
 
 David welcomes inquiries about senior Product Design and Head of Design roles, particularly in Fintech, B2B SaaS, and regulated industries. He is open to discussing opportunities where he can apply his 20+ years of experience to drive measurable commercial outcomes.`,
         category: 'bio',
-        keywords: ['contact', 'email', 'david.phillip@gmail.com', 'linkedin', 'linkedin.com/in/davidphillip', 'phone', 'reach', 'how to contact', 'get in touch', 'message', 'london']
+        keywords: ['contact', 'email', 'david.phillip@gmail.com', 'linkedin', 'https://www.linkedin.com/in/davidphillip/', 'phone', 'reach', 'how to contact', 'get in touch', 'message', 'london']
     },
 
     // Education & Credentials
