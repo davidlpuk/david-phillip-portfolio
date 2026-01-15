@@ -1,12 +1,11 @@
-import { useState, useMemo, memo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { memo } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, Lock, TrendingUp, Users, Target, Star } from "lucide-react";
 
 /**
- * Selected Work Section - Filtered Grid Layout
+ * Selected Work Section - Grid Layout
  *
  * Features:
- * - Pill-based category filtering
  * - Grid layout (2 cols desktop, 1 col mobile)
  * - Smooth fade transitions
  * - Keyboard accessible
@@ -96,9 +95,6 @@ const caseStudies: readonly CaseStudy[] = [
 const isProtected = (slug: string): boolean =>
   ["coutts", "hsbc", "schroders", "hsbc-kinetic", "cognism"].includes(slug);
 
-// Get unique categories for filters
-const categories = ["All", ...Array.from(new Set(caseStudies.map(study => study.category)))];
-
 // ============================================================================
 // Icon Helper - Memoized for performance
 // ============================================================================
@@ -113,50 +109,6 @@ const iconComponents = {
 const getIcon = (icon?: string) => {
   return iconComponents[icon as keyof typeof iconComponents] || iconComponents.star;
 };
-
-// ============================================================================
-// Filter Pills Component - Memoized
-// ============================================================================
-
-interface FilterPillsProps {
-  categories: readonly string[];
-  activeFilter: string;
-  onFilterChange: (filter: string) => void;
-}
-
-const FilterPills = memo(function FilterPills({ categories, activeFilter, onFilterChange }: FilterPillsProps) {
-  return (
-    <div
-      className="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide"
-      role="tablist"
-      aria-label="Filter case studies by category"
-    >
-      {categories.map((category) => {
-        const isActive = activeFilter === category;
-        return (
-          <button
-            key={category}
-            onClick={() => onFilterChange(category)}
-            role="tab"
-            aria-selected={isActive}
-            aria-controls="case-studies-grid"
-            className={`
-              px-5 py-2.5 rounded-full font-sans text-sm font-medium whitespace-nowrap
-              transition-all duration-300 ease-out
-              focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2
-              ${isActive
-                ? 'bg-foreground text-background shadow-lg shadow-foreground/20 scale-105'
-                : 'bg-card border border-border/50 text-muted-foreground hover:border-border hover:text-foreground hover:bg-secondary/50'
-              }
-            `}
-          >
-            {category}
-          </button>
-        );
-      })}
-    </div>
-  );
-});
 
 // ============================================================================
 // Case Study Card Component - Memoized
@@ -277,19 +229,6 @@ const SectionHeader = memo(function SectionHeader() {
 // ============================================================================
 
 export default function SelectedWorkFiltered() {
-  const [activeFilter, setActiveFilter] = useState<string>("All");
-
-  // Memoized filter handler to prevent unnecessary re-renders
-  const handleFilterChange = useCallback((filter: string) => {
-    setActiveFilter(filter);
-  }, []);
-
-  // Filter case studies based on active filter
-  const filteredStudies = useMemo(() => {
-    if (activeFilter === "All") return caseStudies;
-    return caseStudies.filter(study => study.category === activeFilter);
-  }, [activeFilter]);
-
   // Empty state check
   if (caseStudies.length === 0) {
     return (
@@ -311,42 +250,18 @@ export default function SelectedWorkFiltered() {
       <div className="container max-w-6xl">
         <SectionHeader />
 
-        {/* Filter Pills */}
-        <FilterPills
-          categories={categories}
-          activeFilter={activeFilter}
-          onFilterChange={handleFilterChange}
-        />
-
         {/* Case Studies Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            id="case-studies-grid"
-            role="tabpanel"
-            aria-label={`${activeFilter} case studies`}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {filteredStudies.map((study) => (
-              <CaseStudyCard key={study.slug} study={study} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Result Count */}
-        <motion.p
-          key={`count-${activeFilter}`}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mt-8 font-sans text-sm text-muted-foreground"
+        <motion.div
+          id="case-studies-grid"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
         >
-          Showing {filteredStudies.length} {filteredStudies.length === 1 ? 'project' : 'projects'}
-          {activeFilter !== "All" && ` in ${activeFilter}`}
-        </motion.p>
+          {caseStudies.map((study) => (
+            <CaseStudyCard key={study.slug} study={study} />
+          ))}
+        </motion.div>
       </div>
     </section>
   );
