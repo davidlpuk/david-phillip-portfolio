@@ -3,8 +3,6 @@ import { FileText, Mail, Linkedin, MapPin, ArrowRight, Star, TrendingUp, Users, 
 import Header from "@/components/Header";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { pdf } from "@react-pdf/renderer";
-import { CVPDF } from "@/components/CVPDF";
 
 export default function CV() {
     const [markdown, setMarkdown] = useState<string>("");
@@ -32,6 +30,12 @@ export default function CV() {
 
         setPdfLoading(true);
         try {
+            // Lazy load PDF dependencies to reduce initial bundle size
+            const [{ pdf }, { CVPDF }] = await Promise.all([
+                import("@react-pdf/renderer"),
+                import("@/components/CVPDF")
+            ]);
+
             const blob = await (pdf(<CVPDF markdown={markdown} /> as any).toBlob() as Promise<Blob>);
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');

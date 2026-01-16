@@ -67,7 +67,6 @@ router.post(
       }
 
       const draftsPath = getDraftsPath();
-      console.log("Saving drafts to:", draftsPath);
 
       if (!fs.existsSync(draftsPath)) {
         fs.mkdirSync(draftsPath, { recursive: true });
@@ -111,7 +110,6 @@ router.post(
 router.get("/drafts", (req: Request, res: Response) => {
   try {
     const draftsPath = getDraftsPath();
-    console.log("Reading drafts from:", draftsPath);
 
     if (!fs.existsSync(draftsPath)) {
       return res.json({ drafts: [] });

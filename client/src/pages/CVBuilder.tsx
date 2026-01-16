@@ -43,8 +43,6 @@ import {
   Upload,
   File,
 } from "lucide-react";
-import { pdf } from "@react-pdf/renderer";
-import { CVPDF } from "../components/CVPDF";
 
 /**
  * 🔒 CAS CV Builder
@@ -519,6 +517,12 @@ export default function CVBuilder() {
     const markdown = generateMarkdown();
     setPdfLoading(true);
     try {
+      // Lazy load PDF dependencies to reduce initial bundle size
+      const [{ pdf }, { CVPDF }] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("../components/CVPDF")
+      ]);
+
       const blob = await (pdf(
         (<CVPDF markdown={markdown} />) as any,
       ).toBlob() as Promise<Blob>);
@@ -818,9 +822,9 @@ export default function CVBuilder() {
             year,
             details: parts[1]
               ? parts[0]
-                  .split(/[\(\)]/)[0]
-                  .replace(institution, "")
-                  .trim()
+                .split(/[\(\)]/)[0]
+                .replace(institution, "")
+                .trim()
               : "",
           });
         }

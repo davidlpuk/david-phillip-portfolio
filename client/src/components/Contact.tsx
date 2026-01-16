@@ -2,8 +2,6 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight, Loader2, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { pdf } from "@react-pdf/renderer";
-import { CVPDF } from "@/components/CVPDF";
 
 /**
  * Contact / Footer Section
@@ -45,7 +43,13 @@ export default function Contact() {
       if (!res.ok) throw new Error(`Status: ${res.status}`);
       const markdown = await res.text();
 
-      // 2. Generate PDF
+      // 2. Lazy load PDF dependencies to reduce initial bundle size
+      const [{ pdf }, { CVPDF }] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("@/components/CVPDF")
+      ]);
+
+      // 3. Generate PDF
       const blob = await (pdf(<CVPDF markdown={markdown} /> as any).toBlob() as Promise<Blob>);
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

@@ -1,8 +1,8 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import PageTransition from "./components/PageTransition";
 
@@ -37,6 +37,39 @@ const PageLoader = React.memo(function PageLoader() {
  */
 
 function Router() {
+  const [location] = useLocation();
+
+  // Handle anchor scrolling when location changes
+  useEffect(() => {
+    // Check if there's a hash in the URL
+    const hash = window.location.hash;
+    if (hash) {
+      // Remove the # from the hash
+      const targetId = hash.substring(1);
+
+      // Small delay to ensure the page has rendered
+      const scrollToElement = () => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          // Add some offset for the fixed header
+          const headerHeight = 80; // Approximate header height
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      };
+
+      // Try immediately, and also after a short delay in case content is still loading
+      scrollToElement();
+      setTimeout(scrollToElement, 100);
+      setTimeout(scrollToElement, 500);
+    }
+  }, [location]);
+
   return (
     <PageTransition>
       <Switch>

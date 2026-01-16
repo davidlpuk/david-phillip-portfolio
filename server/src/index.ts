@@ -1,7 +1,7 @@
- /**
- * Chat API Server for David's AI Digital Twin
- * Uses Ollama for chat completions with RAG
- */
+/**
+* Chat API Server for David's AI Digital Twin
+* Uses Ollama for chat completions with RAG
+*/
 
 import 'dotenv/config';
 import express from 'express';
@@ -68,11 +68,9 @@ app.get('/api/test', (req, res) => {
 
 // Save article endpoint
 app.post('/api/save-article', (req, res) => {
-    console.log('Save article request received:', req.body);
     const { content, filename } = req.body;
 
     if (!content || !filename) {
-        console.log('Missing content or filename');
         return res.status(400).json({ error: 'Content and filename are required' });
     }
 
@@ -83,18 +81,14 @@ app.post('/api/save-article', (req, res) => {
     const articlesPath = path.resolve(import.meta.dirname, '..', '..', 'client', 'src', 'articles');
     const filePath = path.join(articlesPath, safeFilename);
 
-    console.log('Saving to:', filePath);
-
     try {
         // Ensure articles directory exists
         if (!fs.existsSync(articlesPath)) {
             fs.mkdirSync(articlesPath, { recursive: true });
-            console.log('Created articles directory');
         }
 
         // Write the file
         fs.writeFileSync(filePath, content, 'utf8');
-        console.log('File written successfully');
 
         res.json({ success: true, message: `Article saved as ${safeFilename}` });
     } catch (error) {
@@ -233,9 +227,8 @@ app.get('*', (req, res) => {
 // Initialise vector store on startup
 async function startServer() {
     try {
-        // Temporarily skip vector store initialization for debugging
-        // console.log('Initialising vector store...');
-        // await initialiseVectorStore();
+        console.log('Initialising vector store...');
+        await initialiseVectorStore();
 
         app.listen(PORT, () => {
             console.log(`Chat API server running on http://localhost:${PORT}`);

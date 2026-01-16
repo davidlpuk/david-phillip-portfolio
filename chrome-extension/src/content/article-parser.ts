@@ -10,119 +10,17 @@ const turndownService = new TurndownService({
   linkStyle: "inlined",
 });
 
-turndownService.addRule("removeEmptyElements", {
-  filter: (node: HTMLElement) => {
-    return node.nodeName === "P" && node.textContent?.trim() === "";
-  },
-});
-
-turndownService.addRule("cleanLinkedInCards", {
-  filter: (node: HTMLElement) => {
-    return (
-      node.nodeName === "DIV" &&
-      (node.className.includes("feed-shared-update") ||
-        node.className.includes("update-components") ||
-        node.className.includes("feed-shared-actor") ||
-        node.className.includes("article-poster"))
-    );
-  },
-  replacement: () => "",
-});
-
-turndownService.addRule("handleLinkedInText", {
-  filter: (node: HTMLElement) => {
-    return (
-      node.nodeName === "SPAN" &&
-      node.className.includes("feed-shared-text") &&
-      !node.className.includes("see-more")
-    );
-  },
-  replacement: (_, options) => {
-    return turndownService.turndown(node.textContent || "", options);
-  },
-});
-
-turndownService.addRule("removeShowMore", {
-  filter: (node: HTMLElement) => {
-    return (
-      node.nodeName === "BUTTON" ||
-      (node.nodeName === "SPAN" && node.className.includes("see-more"))
-    );
-  },
-  replacement: () => "",
-});
-
-turndownService.addRule("cleanReactions", {
-  filter: (node: HTMLElement) => {
-    return (
-      node.nodeName === "DIV" &&
-      (node.className.includes("reactions") ||
-        node.className.includes("comments") ||
-        node.className.includes("social-actions") ||
-        node.className.includes("analytics"))
-    );
-  },
-  replacement: () => "",
-});
-
-turndownService.addRule("cleanMentions", {
-  filter: (node: HTMLElement) => {
-    const anchor = node as HTMLAnchorElement;
-    return (
-      node.nodeName === "A" &&
-      !anchor.className.includes("feed-shared-actor") &&
-      (anchor.href?.includes("linkedin.com/in/") ||
-        anchor.href?.includes("li/"))
-    );
-  },
-  replacement: (_, options) => {
-    const anchor = node as HTMLAnchorElement;
-    const text = anchor.textContent?.trim() || "";
-    return `[${text}](${anchor.href})`;
-  },
-});
-
-turndownService.addRule("cleanHashtags", {
-  filter: (node: HTMLElement) => {
-    const anchor = node as HTMLAnchorElement;
-    return (
-      node.nodeName === "A" &&
-      !anchor.className.includes("topic") &&
-      (anchor.href?.includes("/feed/tag/") ||
-        node.textContent?.trim()?.startsWith("#"))
-    );
-  },
-  replacement: (_, options) => {
-    return node.textContent?.trim() || "";
-  },
-});
-
 function cleanHtml(html: string): string {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
 
-  const interactiveSelectors = [
-    ".feed-shared-inline-show-more-text__see-more",
-    ".feed-shared-reactions",
-    ".feed-shared-comments",
-    ".social-actions",
-    ".analytics",
-    ".article-poster",
-    ".feed-shared-actor",
-    ".feed-shared-control",
-    '[role="button"]',
-    '[data-test-id="see-more"]',
-  ];
-
-  interactiveSelectors.forEach((selector) => {
-    doc.querySelectorAll(selector).forEach((el) => el.remove());
-  });
-
   doc
-    .querySelectorAll("script, style, nav, header, footer, iframe")
-    .forEach((el) => {
-      el.remove();
-    });
+    .querySelectorAll(
+      ".feed-shared-inline-show-more-text__see-more, .feed-shared-reactions, .feed-shared-comments, " +
+        ".social-actions, .analytics, .article-poster, .feed-shared-actor, .feed-shared-control, " +
+        '[role="button"], [data-test-id="see-more"], script, style, nav, header, footer, iframe',
+    )
+    .forEach((el) => el.remove());
 
   doc.querySelectorAll("[data-*], [aria-*]").forEach((el) => {
     Array.from(el.attributes).forEach((attr) => {
@@ -136,27 +34,12 @@ function cleanHtml(html: string): string {
     el.replaceWith(el.textContent || "");
   });
 
-  doc.querySelectorAll('div[class=""]').forEach((el) => {
-    if (
-      el.children.length === 1 &&
-      el.children[0]?.nodeType === Node.TEXT_NODE
-    ) {
-      el.replaceWith(el.textContent || "");
-    }
-  });
-
   return doc.body.innerHTML;
 }
 
 function normalizeStructure(html: string): string {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
-
-  doc.querySelectorAll("ul, ol").forEach((list) => {
-    if (list.children.length === 0) {
-      list.remove();
-    }
-  });
 
   doc.querySelectorAll("p").forEach((p) => {
     if (p.textContent?.trim() === "") {
@@ -167,13 +50,6 @@ function normalizeStructure(html: string): string {
   doc.querySelectorAll("br").forEach((br, index) => {
     if (index > 0 && br.previousSibling?.nodeType === Node.TEXT_NODE) {
       br.remove();
-    }
-  });
-
-  doc.querySelectorAll("blockquote").forEach((blockquote) => {
-    const innerText = blockquote.textContent?.trim() || "";
-    if (innerText.length === 0) {
-      blockquote.remove();
     }
   });
 
@@ -279,10 +155,9 @@ function extractArticleBody(): string {
     if (element) {
       const clone = element.cloneNode(true) as HTMLElement;
 
-      const showMoreButtons = clone.querySelectorAll(
-        ".feed-shared-inline-show-more-text__see-more",
-      );
-      showMoreButtons.forEach((btn) => btn.remove());
+      clone
+        .querySelectorAll(".feed-shared-inline-show-more-text__see-more")
+        .forEach((btn) => btn.remove());
 
       const cleanedHtml = cleanHtml(clone.innerHTML);
       const normalizedHtml = normalizeStructure(cleanedHtml);
@@ -295,10 +170,11 @@ function extractArticleBody(): string {
     document.querySelector("main") || document.querySelector("article");
   if (mainContent) {
     const clone = mainContent.cloneNode(true) as HTMLElement;
-    const unwanted = clone.querySelectorAll(
-      'nav, header, footer, .comments, .reactions, [role="navigation"]',
-    );
-    unwanted.forEach((el) => el.remove());
+    clone
+      .querySelectorAll(
+        'nav, header, footer, .comments, .reactions, [role="navigation"]',
+      )
+      .forEach((el) => el.remove());
 
     const cleanedHtml = cleanHtml(clone.innerHTML);
     const normalizedHtml = normalizeStructure(cleanedHtml);
@@ -315,16 +191,6 @@ function extractImages(): Array<{ src: string; alt: string }> {
   const articleContainer = document.querySelector(
     ".feed-shared-inline-show-more-text, .article-body, main",
   );
-  const containers = articleContainer
-    ? [articleContainer]
-    : document.querySelectorAll("article, main, .feed-shared-update");
-
-  const selector = articleContainer
-    ? [articleContainer]
-    : document.querySelectorAll("img");
-  const imagesContainer = articleContainer
-    ? articleContainer.querySelectorAll("img")
-    : document.querySelectorAll("img");
 
   const relevantImages = articleContainer
     ? Array.from(articleContainer.querySelectorAll("img"))

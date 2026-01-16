@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
  * Color: Off-white background, deep charcoal text, gold accent
  */
 
-export default function Header() {
+const Header = React.memo(function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
   const { scrollProgress } = useScrollProgress();
@@ -98,7 +98,7 @@ export default function Header() {
       };
     }
     return {
-      transition: { duration: 0.3, ease: "easeOut" },
+      transition: { duration: 0.3 },
       initial: { opacity: 0, scale: 0.95, y: -10 },
       animate: { opacity: 1, scale: 1, y: 0 },
       exit: { opacity: 0, scale: 0.95, y: -10 },
@@ -237,4 +237,8 @@ export default function Header() {
       </header>
     </>
   );
-}
+});
+
+Header.displayName = 'Header';
+
+export default Header;

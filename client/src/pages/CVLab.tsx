@@ -30,8 +30,6 @@ import {
   Target,
   Zap,
 } from "lucide-react";
-import { pdf } from "@react-pdf/renderer";
-import { CVPDF } from "../components/CVPDF";
 
 /**
  * 🔒 CAS (Content Administration System)
@@ -42,13 +40,13 @@ import { CVPDF } from "../components/CVPDF";
 interface CVSection {
   id: string;
   type:
-    | "header"
-    | "summary"
-    | "experience"
-    | "skills"
-    | "education"
-    | "personal"
-    | "tools";
+  | "header"
+  | "summary"
+  | "experience"
+  | "skills"
+  | "education"
+  | "personal"
+  | "tools";
   title: string;
   content: string;
   collapsed: boolean;
@@ -272,6 +270,12 @@ export default function CVLab() {
     if (!liveMarkdown || pdfLoading) return;
     setPdfLoading(true);
     try {
+      // Lazy load PDF dependencies to reduce initial bundle size
+      const [{ pdf }, { CVPDF }] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("../components/CVPDF")
+      ]);
+
       const blob = await (pdf(
         (<CVPDF markdown={liveMarkdown} />) as any,
       ).toBlob() as Promise<Blob>);
