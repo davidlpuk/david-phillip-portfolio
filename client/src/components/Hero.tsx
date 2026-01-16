@@ -29,7 +29,7 @@ const achievements = [
   { value: "Enterprise Scale", label: "21-country deployment (BlackRock)" },
   { value: "Team Velocity", label: "5→15 specialists, zero attrition (Coutts)" },
   { value: "Revenue Impact", label: "4× growth: $20M→$80M (Cognism)" },
-  { value: "Fintech Depth", label: "C5 major institutions, regulated environments" },
+  { value: "Fintech Depth", label: "5 major institutions, regulated environments" },
 ];
 
 // Memoized animation variants
