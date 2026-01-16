@@ -65,6 +65,8 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
     backgroundColor: "#FFFFFF",
     color: "#000000",
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   header: {
     marginBottom: 20,
@@ -102,9 +104,13 @@ const styles = StyleSheet.create({
   },
   summary: {
     fontSize: 9,
-    lineHeight: 1.4,
+    lineHeight: 1.6,
     marginTop: 10,
     color: "#000000",
+    orphans: 2,
+    widows: 2,
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   section: {
     marginTop: 20,
@@ -165,12 +171,16 @@ const styles = StyleSheet.create({
   },
   jobDescription: {
     fontSize: 9,
-    lineHeight: 1.3,
+    lineHeight: 1.5,
     marginBottom: 8,
+    orphans: 2,
+    widows: 2,
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   bulletPointContainer: {
     flexDirection: "row",
-    marginBottom: 3,
+    marginBottom: 4,
     paddingLeft: 4,
   },
   bulletPoint: {
@@ -180,7 +190,11 @@ const styles = StyleSheet.create({
   bulletText: {
     flex: 1,
     fontSize: 8.5,
-    lineHeight: 1.3,
+    lineHeight: 1.4,
+    orphans: 2,
+    widows: 2,
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   capabilitiesGrid: {
     flexDirection: "row",
@@ -197,7 +211,11 @@ const styles = StyleSheet.create({
   },
   capabilityText: {
     fontSize: 8.5,
-    lineHeight: 1.3,
+    lineHeight: 1.4,
+    orphans: 2,
+    widows: 2,
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   table: {
     width: "100%",
@@ -231,7 +249,11 @@ const styles = StyleSheet.create({
     fontSize: 7,
     color: "#333333",
     flex: 1,
-    lineHeight: 1.2,
+    lineHeight: 1.4,
+    orphans: 2,
+    widows: 2,
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   toolsGrid: {
     flexDirection: "row",
@@ -239,7 +261,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   toolCategory: {
-    width: "30%",
+    width: "46%",
     marginBottom: 8,
   },
   toolTitle: {
@@ -251,7 +273,12 @@ const styles = StyleSheet.create({
   },
   toolItems: {
     fontSize: 8.5,
+    lineHeight: 1.4,
     color: "#000000",
+    orphans: 2,
+    widows: 2,
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
   },
   footer: {
     position: "absolute",
@@ -349,7 +376,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
         {sections.map((section, idx) => {
           const titleMatch = section.match(/^## (.*?)\n/);
           const title = titleMatch ? titleMatch[1].trim() : "";
-          const content = section.replace(/^## .*?\n+/, "");
+          const content = section.replace(/^## .*?\n+/, "").trim();
 
           if (title === "Core Capabilities") {
             const subBlocks = content.split(/\n\n(?=\*\*)/);
@@ -357,10 +384,14 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
               <View
                 key={idx}
                 style={styles.section as any}
-                keepTogether={true}
                 {...({} as any)}
               >
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
+                <View
+                  style={styles.sectionHeader as any}
+                  minPresenceAhead={120}
+                  keepTogether={true}
+                  {...({} as any)}
+                >
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
@@ -374,6 +405,10 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                     const bTitleMatch = block.match(/^\*\*(.*?)\*\*/);
                     const bTitle = bTitleMatch ? bTitleMatch[1] : "";
                     const bText = block.replace(/^\*\*(.*?)\*\*\n/, "").trim();
+                    const bulletPoints = bText
+                      .split("\n")
+                      .filter((line) => line.trim().startsWith("-"))
+                      .map((line) => line.replace(/^- /, "").trim());
                     return (
                       <View
                         key={i}
@@ -386,12 +421,26 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                         >
                           {bTitle}
                         </Text>
-                        <Text
-                          style={styles.capabilityText as any}
-                          {...({} as any)}
-                        >
-                          {renderTextWithBold(bText.replace(/- /g, ""))}
-                        </Text>
+                        {bulletPoints.map((point, j) => (
+                          <View
+                            key={j}
+                            style={styles.bulletPointContainer as any}
+                            {...({} as any)}
+                          >
+                            <Text
+                              style={styles.bulletPoint as any}
+                              {...({} as any)}
+                            >
+                              •
+                            </Text>
+                            <Text
+                              style={styles.bulletText as any}
+                              {...({} as any)}
+                            >
+                              {renderTextWithBold(point)}
+                            </Text>
+                          </View>
+                        ))}
                       </View>
                     );
                   })}
@@ -407,8 +456,13 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
 
             const jobs = jobsContent.split(/\n(?=### )/);
             return (
-              <View key={idx} style={styles.section as any} keepTogether={true} {...({} as any)}>
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
+              <View key={idx} style={styles.section as any} break="page" {...({} as any)}>
+                <View
+                  style={styles.sectionHeader as any}
+                  minPresenceAhead={120}
+                  keepTogether={true}
+                  {...({} as any)}
+                >
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
@@ -570,9 +624,15 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                         <View
                           style={styles.section as any}
                           keepTogether={true}
+                          break="page"
                           {...({} as any)}
                         >
-                          <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
+                          <View
+                            style={styles.sectionHeader as any}
+                            minPresenceAhead={120}
+                            keepTogether={true}
+                            {...({} as any)}
+                          >
                             <Text style={styles.sectionTitle as any} {...({} as any)}>
                               {displayTitle}
                             </Text>
@@ -703,7 +763,12 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                     keepTogether={true}
                     {...({} as any)}
                   >
-                    <View style={styles.sectionHeader as any} minPresenceAhead={60} {...({} as any)}>
+                    <View
+                      style={styles.sectionHeader as any}
+                      minPresenceAhead={120}
+                      keepTogether={true}
+                      {...({} as any)}
+                    >
                       <Text style={styles.sectionTitle as any} {...({} as any)}>
                         {displayTitle}
                       </Text>
@@ -763,7 +828,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                                 }
                                 {...({} as any)}
                               >
-                                {cell}
+                                {renderTextWithBold(cell)}
                               </Text>
                             );
                           })}
@@ -777,7 +842,14 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
           }
 
           if (title === "Tools & Methods") {
-            const toolBlocks = content.split(/\n\n(?=\*\*)/);
+            const toolBlocks = content
+              .split("\n")
+              .filter((line) => line.trim().startsWith("-"))
+              .map((line) => line.replace(/^- /, "").trim());
+            const midPoint = Math.ceil(toolBlocks.length / 2);
+            const leftColumn = toolBlocks.slice(0, midPoint);
+            const rightColumn = toolBlocks.slice(midPoint);
+
             return (
               <View
                 key={idx}
@@ -785,7 +857,12 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                 keepTogether={true}
                 {...({} as any)}
               >
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
+                <View
+                  style={styles.sectionHeader as any}
+                  minPresenceAhead={120}
+                  keepTogether={true}
+                  {...({} as any)}
+                >
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
@@ -794,32 +871,77 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                     STACK
                   </Text>
                 </View>
-                <View style={styles.toolsGrid as any} {...({} as any)}>
-                  {toolBlocks.map((block, i) => {
-                    const bTitleMatch = block.match(/^\*\*(.*?)\*\*/);
-                    const bTitle = bTitleMatch ? bTitleMatch[1] : "";
-                    const bText = block.replace(/^\*\*(.*?)\*\*/, "").trim();
-                    return (
-                      <View
-                        key={i}
-                        style={styles.toolCategory as any}
-                        {...({} as any)}
-                      >
-                        <Text style={styles.toolTitle as any} {...({} as any)}>
-                          {bTitle}
-                        </Text>
-                        <Text style={styles.toolItems as any} {...({} as any)}>
-                          {renderTextWithBold(bText)}
-                        </Text>
-                      </View>
-                    );
-                  })}
+                <View style={styles.capabilitiesGrid as any} {...({} as any)}>
+                  <View style={styles.capabilityBlock as any} {...({} as any)}>
+                    {leftColumn.map((block, i) => {
+                      const colonIndex = block.indexOf(':');
+                      const bTitle = colonIndex > 0 ? block.substring(0, colonIndex).replace(/^\*\*/, '').replace(/\*\*$/, '').trim() : block;
+                      const bText = colonIndex > 0 ? block.substring(colonIndex + 1).replace(/\*\*/g, '').trim() : '';
+                      return (
+                        <View
+                          key={i}
+                          style={styles.bulletPointContainer as any}
+                          {...({} as any)}
+                        >
+                          <Text
+                            style={styles.bulletPoint as any}
+                            {...({} as any)}
+                          >
+                            •
+                          </Text>
+                          <Text
+                            style={styles.bulletText as any}
+                            {...({} as any)}
+                          >
+                            <Text style={{ fontWeight: "bold" } as any} {...({} as any)}>
+                              {bTitle}
+                            </Text>
+                            {bText && `: ${bText}`}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                  <View style={styles.capabilityBlock as any} {...({} as any)}>
+                    {rightColumn.map((block, i) => {
+                      const colonIndex = block.indexOf(':');
+                      const bTitle = colonIndex > 0 ? block.substring(0, colonIndex).replace(/^\*\*/, '').replace(/\*\*$/, '').trim() : block;
+                      const bText = colonIndex > 0 ? block.substring(colonIndex + 1).replace(/\*\*/g, '').trim() : '';
+                      return (
+                        <View
+                          key={i}
+                          style={styles.bulletPointContainer as any}
+                          {...({} as any)}
+                        >
+                          <Text
+                            style={styles.bulletPoint as any}
+                            {...({} as any)}
+                          >
+                            •
+                          </Text>
+                          <Text
+                            style={styles.bulletText as any}
+                            {...({} as any)}
+                          >
+                            <Text style={{ fontWeight: "bold" } as any} {...({} as any)}>
+                              {bTitle}
+                            </Text>
+                            {bText && `: ${bText}`}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
                 </View>
               </View>
             );
           }
 
-          if (title === "Education & Development" || title === "Personal") {
+          if (title === "Education & Development") {
+            const bulletPoints = content
+              .split("\n")
+              .filter((line) => line.trim().startsWith("-") && !line.trim().match(/^-\s*-+$/))
+              .map((line) => line.replace(/^- /, "").trim());
             return (
               <View
                 key={idx}
@@ -827,14 +949,62 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                 keepTogether={true}
                 {...({} as any)}
               >
-                <View style={styles.sectionHeader as any} minPresenceAhead={60} keepTogether={true} {...({} as any)}>
+                <View
+                  style={styles.sectionHeader as any}
+                  minPresenceAhead={120}
+                  keepTogether={true}
+                  {...({} as any)}
+                >
+                  <Text style={styles.sectionTitle as any} {...({} as any)}>
+                    {title}
+                  </Text>
+                  <View style={styles.sectionLine as any} {...({} as any)} />
+                </View>
+                {bulletPoints.map((point, i) => (
+                  <View
+                    key={i}
+                    style={styles.bulletPointContainer as any}
+                    {...({} as any)}
+                  >
+                    <Text
+                      style={styles.bulletPoint as any}
+                      {...({} as any)}
+                    >
+                      •
+                    </Text>
+                    <Text
+                      style={styles.bulletText as any}
+                      {...({} as any)}
+                    >
+                      {renderTextWithBold(point)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            );
+          }
+
+          if (title === "Personal") {
+            return (
+              <View
+                key={idx}
+                style={styles.section as any}
+                keepTogether={true}
+                {...({} as any)}
+              >
+                <View
+                  style={styles.sectionHeader as any}
+                  minPresenceAhead={120}
+                  keepTogether={true}
+                  {...({} as any)}
+                >
                   <Text style={styles.sectionTitle as any} {...({} as any)}>
                     {title}
                   </Text>
                   <View style={styles.sectionLine as any} {...({} as any)} />
                 </View>
                 <Text style={styles.bulletText as any} {...({} as any)}>
-                  {renderTextWithBold(content.replace(/- /g, "").trim())}
+                  {renderTextWithBold(content.trim())}
                 </Text>
               </View>
             );
@@ -853,6 +1023,6 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
           </Text>
         </View>
       </Page>
-    </Document>
+    </Document >
   );
 };
