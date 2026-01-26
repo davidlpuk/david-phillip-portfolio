@@ -160,10 +160,10 @@ const Header = React.memo(function Header() {
               href="https://www.linkedin.com/in/davidphillip/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
-              title="LinkedIn Profile"
+              className="p-2 text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white transition-colors"
+              aria-label="LinkedIn Profile (opens in a new tab)"
             >
-              <Linkedin size={20} />
+              <Linkedin size={20} aria-hidden="true" />
             </a>
             <a
               href="/cv"
@@ -229,9 +229,10 @@ const Header = React.memo(function Header() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 px-6 py-4 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-full font-bold hover:bg-secondary/50 transition-colors"
+                    className="flex items-center justify-center gap-2 px-6 py-4 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-50 rounded-full font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                    aria-label="LinkedIn Profile (opens in a new tab)"
                   >
-                    <Linkedin size={20} />
+                    <Linkedin size={20} aria-hidden="true" />
                     LinkedIn
                   </a>
                   <a
