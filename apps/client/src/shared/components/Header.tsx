@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Linkedin } from "lucide-react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useScrollProgress } from "@/shared/hooks/useScrollProgress";
@@ -157,6 +157,15 @@ const Header = React.memo(function Header() {
           {/* Right Side Controls - Desktop */}
           <div className="hidden md:flex items-center gap-4">
             <a
+              href="https://www.linkedin.com/in/davidphillip/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+              title="LinkedIn Profile"
+            >
+              <Linkedin size={20} />
+            </a>
+            <a
               href="/cv"
               className="px-4 py-2 bg-primary text-primary-foreground rounded-full font-sans text-sm font-medium hover:bg-primary/90 transition-colors"
             >
@@ -215,6 +224,16 @@ const Header = React.memo(function Header() {
                   );
                 })}
                 <div className="flex flex-col gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
+                  <a
+                    href="https://www.linkedin.com/in/davidphillip/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2 px-6 py-4 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-full font-bold hover:bg-secondary/50 transition-colors"
+                  >
+                    <Linkedin size={20} />
+                    LinkedIn
+                  </a>
                   <a
                     href="/cv"
                     onClick={() => setIsOpen(false)}
