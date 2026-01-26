@@ -22,6 +22,7 @@ const clients = [
   { name: "BlackRock", industry: "Asset Management", logo: "/images/logos/logo-blackrock.svg" },
   { name: "Deutsche Bank", industry: "Global Banking", logo: "/images/logos/logo-deustche-bank.svg" },
   { name: "Barclays", industry: "Financial Services", logo: "/images/logos/logo-barclays.svg" },
+  { name: "TSB", industry: "Retail Banking", logo: "/images/logos/tsb-logo.svg" },
 ];
 
 // Key achievements data
@@ -50,7 +51,7 @@ export default function Hero() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: "easeOut" as const },
     },
   }), []);
 
