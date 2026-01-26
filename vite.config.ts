@@ -26,13 +26,13 @@ export default defineConfig({
   plugins,
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@": path.resolve(import.meta.dirname, "apps", "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "packages", "shared"),
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
   envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
+  root: path.resolve(import.meta.dirname, "apps", "client"),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
@@ -74,7 +74,7 @@ export default defineConfig({
     manifest: true,
   },
   server: {
-    port: 3001,
+    port: 3000,
     strictPort: false, // Will find next available port if 3001 is busy
     host: true,
     allowedHosts: ["localhost", "127.0.0.1"],
@@ -83,8 +83,8 @@ export default defineConfig({
       deny: ["**/.*"],
     },
     proxy: {
-      '/api': {
-        target: 'http://localhost:3002',
+      "/api": {
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
     },

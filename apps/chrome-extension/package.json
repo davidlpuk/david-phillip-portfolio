@@ -1,0 +1,47 @@
+{
+  "name": "linkedin-article-to-markdown",
+  "version": "1.0.0",
+  "description": "Extract LinkedIn articles and convert them to Markdown files",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:popup && npm run build:scripts && npm run copy:assets && npm run move:files",
+    "build:optimized": "./build.sh",
+    "build:popup": "vite build",
+    "build:scripts": "esbuild src/content/ContentScript.ts src/content/article-parser.ts src/utils/*.ts --bundle --outdir=dist/temp-content --format=iife --loader:.ts=ts --platform=browser && esbuild src/background/BackgroundService.ts --bundle --outdir=dist/temp-background --format=iife --loader:.ts=ts --platform=browser",
+    "build:content": "esbuild src/content/ContentScript.ts --bundle --outfile=dist/content.js --format=iife --minify --tree-shaking=true --loader:.ts=ts --platform=browser",
+    "build:background": "esbuild src/background/BackgroundService.ts --bundle --outfile=dist/background.js --format=iife --minify --tree-shaking=true --loader:.ts=ts --platform=browser",
+    "copy:assets": "cp src/manifest/manifest.json dist/ && cp -r icons dist/",
+    "move:files": "cd dist && cp temp-content/content/ContentScript.js . && cp temp-content/content/article-parser.js . && cp temp-content/utils/md-converter.js . && cp temp-content/utils/types.js . && cp temp-content/utils/api.js . && cp temp-background/BackgroundService.js . && rm -rf temp-content temp-background && mv index.html popup.html",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "lint": "echo 'Add your linter here (eslint, etc.)'",
+    "test": "echo 'Add your test runner here (vitest, jest, etc.)'",
+    "clean": "rm -rf dist",
+    "watch": "vite build --watch"
+  },
+  "keywords": [
+    "chrome-extension",
+    "linkedin",
+    "markdown",
+    "article"
+  ],
+  "author": "David Phillip",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "turndown": "^7.2.2"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.33",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/turndown": "^5.0.4",
+    "@vitejs/plugin-react": "^4.2.0",
+    "esbuild": "^0.25.12",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}

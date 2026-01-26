@@ -1,8 +1,8 @@
 {
   "include": [
-    "client/src/**/*",
-    "shared/**/*",
-    "server/**/*",
+    "apps/client/src/**/*",
+    "packages/shared/**/*",
+    "apps/server/**/*",
     "api/**/*"
   ],
   "exclude": [
@@ -30,10 +30,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./client/src/*"
+        "./apps/client/src/*"
       ],
       "@shared/*": [
-        "./shared/*"
+        "./packages/shared/*"
       ]
     }
   }

@@ -1,0 +1,105 @@
+
+> david-phillip-portfolio@1.0.0 check
+> tsc --noEmit
+
+api/index.ts(1,17): error TS2307: Cannot find module '../server/index' or its corresponding type declarations.
+apps/client/src/features/ai-assistant/AIAssistant.tsx(4,21): error TS2307: Cannot find module './ChatBot' or its corresponding type declarations.
+apps/client/src/features/chat/ChatBot.tsx(3,30): error TS2307: Cannot find module './chat/types' or its corresponding type declarations.
+apps/client/src/features/chat/ChatBot.tsx(4,50): error TS2307: Cannot find module './chat/types' or its corresponding type declarations.
+apps/client/src/features/chat/ChatBot.tsx(5,38): error TS2307: Cannot find module './chat/welcomeMessage' or its corresponding type declarations.
+apps/client/src/features/chat/ChatBot.tsx(6,31): error TS2307: Cannot find module './chat/MessageBubble' or its corresponding type declarations.
+apps/client/src/features/chat/ChatBot.tsx(240,33): error TS7006: Parameter 'question' implicitly has an 'any' type.
+apps/client/src/features/chat/ChatBot.tsx(240,43): error TS7006: Parameter 'index' implicitly has an 'any' type.
+apps/client/src/features/chat/index.ts(5,10): error TS2305: Module '"./welcomeMessage"' has no exported member 'WELCOME_MESSAGE'.
+apps/client/src/features/contact/Contact.tsx(49,16): error TS2307: Cannot find module '@/components/CVPDF' or its corresponding type declarations.
+apps/client/src/features/hero/Hero.tsx(102,21): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/features/hero/Hero.tsx(112,15): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/features/hero/Hero.tsx(121,15): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/features/hero/Hero.tsx(130,15): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/features/hero/Hero.tsx(143,15): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/features/hero/Hero.tsx(161,15): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/features/hero/Hero.tsx(188,23): error TS2322: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: string; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: string; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: string; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: string; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: string; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'string' is not assignable to type 'Easing | Easing[] | undefined'.
+apps/client/src/shared/components/ui/highlighter-stroke.tsx(2,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.
+apps/client/src/shared/components/ui/toggle-group.tsx(8,32): error TS2307: Cannot find module '@/shared/components/ui/toggle' or its corresponding type declarations.
+apps/client/src/shared/constants/theme.ts(19,9): error TS2322: Type '"warm-minimal"' is not assignable to type 'ThemePreset'.
+apps/client/src/views/ArticleGenerator.tsx(20,19): error TS7006: Parameter 'content' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(24,14): error TS7006: Parameter 'node' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(25,19): error TS7006: Parameter 'content' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(29,14): error TS7006: Parameter 'node' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(30,19): error TS7006: Parameter 'content' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(35,14): error TS7006: Parameter 'node' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(40,19): error TS7006: Parameter 'content' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(45,14): error TS7006: Parameter 'node' implicitly has an 'any' type.
+apps/client/src/views/ArticleGenerator.tsx(50,19): error TS7006: Parameter 'content' implicitly has an 'any' type.
+apps/client/src/views/CV.tsx(36,24): error TS2307: Cannot find module '@/components/CVPDF' or its corresponding type declarations.
+apps/client/src/views/CVBuilder.tsx(523,16): error TS2307: Cannot find module '../components/CVPDF' or its corresponding type declarations.
