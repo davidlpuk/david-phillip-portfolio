@@ -27,6 +27,7 @@ const Header = React.memo(function Header() {
     { label: "Work", href: "/#work", hash: "#work" },
     { label: "About", href: "/#about", hash: "#about" },
     { label: "Experience", href: "/#experience", hash: "#experience" },
+    { label: "Articles", href: "/articles", hash: "/articles" },
     { label: "Contact", href: "/#contact", hash: "#contact" },
   ];
 

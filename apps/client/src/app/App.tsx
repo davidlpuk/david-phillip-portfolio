@@ -8,7 +8,7 @@ import PageTransition from "@/shared/components/PageTransition";
 
 // Lazy-loaded page components for code splitting
 const Home = lazy(() => import("@/views/Home"));
-const Articles = lazy(() => import("@/views/Articles"));
+const Articles = lazy(() => import("@/views/LinkedInArticlesView"));
 const Article = lazy(() => import("@/views/Article"));
 const CaseStudy = lazy(() => import("@/views/CaseStudy"));
 const CV = lazy(() => import("@/views/CV"));
