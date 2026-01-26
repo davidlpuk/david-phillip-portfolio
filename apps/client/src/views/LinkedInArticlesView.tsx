@@ -58,70 +58,84 @@ export default function LinkedInArticlesView() {
                         aria-label="Articles list"
                         className="pb-24"
                     >
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                            {linkedInArticles.map((article) => (
-                                <motion.article
-                                    key={article.id}
-                                    variants={item}
-                                    className="group"
-                                >
-                                    <a
-                                        href={article.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block h-full"
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 md:gap-12">
+                            {linkedInArticles.map((article, index) => {
+                                const isFeatured = index < 2;
+                                return (
+                                    <motion.article
+                                        key={article.id}
+                                        variants={item}
+                                        className={`group ${isFeatured
+                                            ? "md:col-span-2 lg:col-span-3"
+                                            : "md:col-span-1 lg:col-span-2"
+                                            }`}
                                     >
-                                        <div className="relative h-full flex flex-col bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent/5 hover:-translate-y-1 transition-all duration-500">
-                                            {/* Image Container */}
-                                            <div className="relative aspect-[16/9] overflow-hidden">
-                                                <img
-                                                    src={article.thumbnail}
-                                                    alt=""
-                                                    loading="lazy"
-                                                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                                                    <span className="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                                                        Read on LinkedIn <ExternalLink size={12} />
-                                                    </span>
+                                        <a
+                                            href={article.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block h-full"
+                                        >
+                                            <div className="relative h-full flex flex-col bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent/5 hover:-translate-y-1 transition-all duration-500">
+                                                {/* Image Container */}
+                                                <div className={`relative overflow-hidden ${isFeatured ? "aspect-[21/9]" : "aspect-[16/9]"}`}>
+                                                    <img
+                                                        src={article.thumbnail}
+                                                        alt=""
+                                                        loading="lazy"
+                                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                                                        <span className="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                                                            Read on LinkedIn <ExternalLink size={12} />
+                                                        </span>
+                                                    </div>
+                                                    <div className="absolute top-4 left-4 flex gap-2">
+                                                        <span className="inline-block px-3 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-700 shadow-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-foreground">
+                                                            {article.category}
+                                                        </span>
+                                                        {isFeatured && (
+                                                            <span className="inline-block px-3 py-1.5 bg-accent shadow-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-accent-foreground border border-accent-foreground/10">
+                                                                Latest Insight
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <div className="absolute top-4 left-4">
-                                                    <span className="inline-block px-3 py-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/50 dark:border-slate-700/50 rounded-full text-[10px] font-bold uppercase tracking-wider text-foreground">
-                                                        {article.category}
-                                                    </span>
+
+                                                {/* Content */}
+                                                <div className={`flex-1 flex flex-col ${isFeatured ? "p-10" : "p-8"}`}>
+                                                    <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
+                                                        <span className="flex items-center gap-1.5">
+                                                            <Calendar size={12} className="text-foreground/40" />
+                                                            {new Date(article.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}
+                                                        </span>
+                                                        <span className="flex items-center gap-1.5">
+                                                            <Clock size={12} className="text-foreground/40" />
+                                                            {article.readTime} min
+                                                        </span>
+                                                    </div>
+
+                                                    <h2 className={`font-display font-bold text-foreground leading-tight mb-4 transition-colors duration-300 ${isFeatured ? "text-2xl md:text-3xl" : "text-xl"}`}>
+                                                        {article.title}
+                                                    </h2>
+
+                                                    <p className={`font-sans text-muted-foreground leading-relaxed mb-6 flex-1 ${isFeatured ? "text-base line-clamp-4" : "text-sm line-clamp-3"}`}>
+                                                        {article.excerpt}
+                                                    </p>
+
+                                                    <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-foreground group-hover:gap-4 transition-all duration-300">
+                                                        <span className="relative">
+                                                            View Article
+                                                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                                                        </span>
+                                                        <ArrowRight size={14} className="text-primary group-hover:translate-x-1 transition-transform" />
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            {/* Content */}
-                                            <div className="p-8 flex-1 flex flex-col">
-                                                <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
-                                                    <span className="flex items-center gap-1.5">
-                                                        <Calendar size={12} className="text-accent" />
-                                                        {new Date(article.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}
-                                                    </span>
-                                                    <span className="flex items-center gap-1.5">
-                                                        <Clock size={12} className="text-accent" />
-                                                        {article.readTime} min
-                                                    </span>
-                                                </div>
-
-                                                <h2 className="font-display text-xl font-bold text-foreground group-hover:text-accent transition-colors leading-tight mb-4">
-                                                    {article.title}
-                                                </h2>
-
-                                                <p className="font-sans text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-6 flex-1">
-                                                    {article.excerpt}
-                                                </p>
-
-                                                <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent group-hover:gap-4 transition-all duration-300">
-                                                    <span>View Article</span>
-                                                    <ArrowRight size={14} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </motion.article>
-                            ))}
+                                        </a>
+                                    </motion.article>
+                                );
+                            })}
                         </div>
                     </motion.section>
                 </div>

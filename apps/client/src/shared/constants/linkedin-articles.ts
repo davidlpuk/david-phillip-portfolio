@@ -17,7 +17,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/designer-revolt-why-your-design-handoff-process-just-became-phillip-8oqhe",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQEz2jd5WDUqiw/article-cover_image-shrink_600_2000/B4EZvr03h_GQAQ-/0/1769188066372?e=1770854400&v=beta&t=5t8OE78ZuDCO-5nKpNSSLWW_h8rIlJmevRmsyXcmJVg",
         readTime: 9,
-        date: "2024-05-15",
+        date: "2026-01-23",
         category: "Design Process"
     },
     {
@@ -27,7 +27,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/vibe-coding-question-what-happens-when-everyone-can-david-phillip-0dfke",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQH8Eu-DPlsh0g/article-cover_image-shrink_600_2000/B4EZuiWihtMIAU-/0/1767955381454?e=1770854400&v=beta&t=7NkqXTFEKpfqa5xfg_HN3I6ET9OqMBem5x2q9eU4DgQ",
         readTime: 6,
-        date: "2024-04-20",
+        date: "2026-01-09",
         category: "AI & Prototyping"
     },
     {
@@ -37,7 +37,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/ai-product-design-separating-genuine-capability-from-industry-david-nh98e",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHq7pMVkBqzDA/article-cover_image-shrink_600_2000/B4EZtvFnauJQAQ-/0/1767095303880?e=1770854400&v=beta&t=ksEN_ERukKRE2ngSa8rmHvj2d4Q0S0lbEIkx_jxUFfQ",
         readTime: 6,
-        date: "2024-03-10",
+        date: "2025-12-30",
         category: "AI Strategy"
     },
     {
@@ -47,7 +47,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/first-step-learning-see-david-phillip-ctnae",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHQVAJ9I9mV9Q/article-cover_image-shrink_600_2000/B4EZtQV_gxKMAQ-/0/1766579506376?e=1770854400&v=beta&t=Cjwz7P3vGhd7J9NF5WbPj_Bo3y_B2jtkvYp7evu8YPk",
         readTime: 5,
-        date: "2024-02-15",
+        date: "2025-12-26",
         category: "Design Philosophy"
     },
     {
@@ -57,7 +57,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/augmenting-ai-your-product-design-process-2026-david-phillip-chtxe",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHOWVNe_Imgvg/article-cover_image-shrink_600_2000/B4EZtP23HhIMAQ-/0/1766571348798?e=1770854400&v=beta&t=hoS9jIonVpbYnbaAsFcJegqsyz3FnOe7eVK7TkGrs5k",
         readTime: 5,
-        date: "2024-01-25",
+        date: "2025-12-24",
         category: "AI & Careers"
     },
     {
@@ -67,7 +67,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/why-chasing-pixel-perfect-code-hurting-your-product-david-phillip-hqzne",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHfX3dYyOS9rg/article-cover_image-shrink_600_2000/B4EZrA.TagIoAU-/0/1764174153914?e=1770854400&v=beta&t=lzxi8EnJSsSZ7PPxyOUNx-dUD4e_VgqBl-M4XOrRBDc",
         readTime: 3,
-        date: "2023-12-05",
+        date: "2025-12-03",
         category: "Development"
     },
     {
@@ -77,7 +77,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/static-mocks-lie-code-doesnt-david-phillip-izsde",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQH4xxc0X34XiA/article-cover_image-shrink_600_2000/B4EZrAyp3DIoAU-/0/1764171100267?e=1770854400&v=beta&t=MeAqklW3PKOVqkW6QKjLqqTwj4HmNZn3gG4Yc4ZJHKU",
         readTime: 3,
-        date: "2023-11-20",
+        date: "2025-11-30",
         category: "Vibe Coding"
     },
     {
@@ -87,7 +87,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/why-smart-designers-automating-boring-bits-david-phillip-6h29e",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHyW94T9w3QZg/article-cover_image-shrink_600_2000/B4EZrAQRa0JgAY-/0/1764162087268?e=1770854400&v=beta&t=w7Ow3rXDLKpDTSpHETJa9G-oRS5T0ixhAo3d9EXJPF0",
         readTime: 10,
-        date: "2023-10-15",
+        date: "2025-11-27",
         category: "Automation"
     },
     {
@@ -97,7 +97,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/shift-from-designer-shipper-why-ai-changes-everything-david-phillip-fmpje",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHCl-QmFtu60Q/article-cover_image-shrink_600_2000/B4EZq7hFg9JgAQ-/0/1764082609694?e=1770854400&v=beta&t=LIvJRc5XRioQwgS2DGMv8_pd_BW-6WrCLavKOVgTqBc",
         readTime: 6,
-        date: "2023-09-01",
+        date: "2025-11-25",
         category: "AI & Product"
     },
     {
@@ -107,7 +107,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/ai-hype-vs-reality-why-designers-frustrated-whats-next-david-phillip-xceje",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQGFx9ub0qIsxA/article-cover_image-shrink_600_2000/B4EZgx55zrHoAU-/0/1753183922750?e=1770854400&v=beta&t=iuaNz1tu0IcGBReHIoVC5_81LSs-R-NAkdT9kpl3Mj4",
         readTime: 5,
-        date: "2023-08-10",
+        date: "2025-07-28",
         category: "AI Strategy"
     },
     {
@@ -117,7 +117,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/rising-above-noise-why-ux-leadership-matters-more-than-david-phillip-vy9oe",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQGaeLT9GwfBmw/article-cover_image-shrink_600_2000/B4EZgx1PR7GoAU-/0/1753182700273?e=1770854400&v=beta&t=8KwYCO4v5EVEc3wmbC1h5cmwFYI2AH_VU3cofZDg3BM",
         readTime: 5,
-        date: "2023-07-25",
+        date: "2025-07-23",
         category: "UX Leadership"
     },
     {
@@ -127,7 +127,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/crafting-portfolio-ux-director-why-still-matters-how-get-phillip-kvybe",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHQNWY39Ohu9A/article-cover_image-shrink_600_2000/B4EZawNMDDGcAQ-/0/1746712971304?e=1770854400&v=beta&t=Kk6ZDgz1pfYc6cknCI5OCmbQuU6P7cuD--BH2lfl4Uc",
         readTime: 7,
-        date: "2023-06-15",
+        date: "2025-05-15",
         category: "Career Growth"
     },
     {
@@ -137,7 +137,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/beyond-pixels-how-design-becomes-strategic-david-phillip-lnque",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQE__c02roCTZA/article-cover_image-shrink_600_2000/B4EZav3rK8HMAQ-/0/1746707331860?e=1770854400&v=beta&t=zEl-1xhVUudvNePNVl-lLJxoQZYstqtAmpYH_-xrC2A",
         readTime: 6,
-        date: "2023-05-30",
+        date: "2025-05-08",
         category: "Design Strategy"
     },
     {
@@ -147,7 +147,7 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/bridging-gap-why-design-research-matters-more-than-ever-david-phillip-ywdte",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQEOM8Z79sprQg/article-cover_image-shrink_600_2000/B4EZWE._fWH0AU-/0/1741692866355?e=1770854400&v=beta&t=p2hKhu919HZpcqFB0gnj9PBHwEms-PNDv9oyZDR6OSE",
         readTime: 2,
-        date: "2023-04-10",
+        date: "2025-03-11",
         category: "Research"
     },
     {
@@ -157,7 +157,8 @@ export const linkedInArticles: LinkedInArticle[] = [
         url: "https://www.linkedin.com/pulse/navigating-ethical-maze-ai-driven-interfaces-ux-design-david-phillip-xjide",
         thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQHORuCuO7KtUA/article-cover_image-shrink_600_2000/B4EZWE_uXuGwAY-/0/1741693059785?e=1770854400&v=beta&t=RTJUPRZasfdtoepDIXDp0GT42nhjRXHNymisipge7ao",
         readTime: 4,
-        date: "2023-03-20",
+        date: "2025-03-05",
         category: "Ethics & AI"
-    }
+    },
 ];
+
