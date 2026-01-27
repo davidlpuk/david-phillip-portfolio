@@ -98,48 +98,79 @@ export function generateFinnResponse(input: string): FinnResponse {
 
     // 3. STRATEGIC TOPICS (Trigger Blueprints)
 
-    // Scale & Leadership
-    if (lower.includes("scale") || lower.includes("team") || lower.includes("manage") || lower.includes("leadership")) {
+    // CV & Credentials
+    if (lower.includes("cv") || lower.includes("resume") || lower.includes("credentials") || lower.includes("background") || lower.includes("profile")) {
         return {
-            text: "David specialises in building high-performance design cultures. He achieved **100% senior retention** at Cognism (vs industry avg 78%) and scaled the Coutts team from 5 to 15 with zero attrition. His philosophy relies on psychological safety and 'clarity on outcomes, autonomy on execution.'",
+            text: "David's career spans over two decades of digital transformation. He isn't just a designer; he's a commercial leader who has successfully navigated the complexities of global banking and high-growth SaaS. Here is a summary of his credentials:",
+            blueprintId: "cv"
+        };
+    }
+
+    // Portfolio & Work
+    if (lower.includes("portfolio") || lower.includes("work") || lower.includes("project") || lower.includes("see") || lower.includes("show")) {
+        // Narrow down if specific project mentioned
+        if (lower.includes("cognism")) {
+            return {
+                text: "At Cognism, David was the first design hire (1 to 5). He was brought in to fix 'enterprise UX debt' that was costing them deals. He transformed the NPS from -16 to +8, which was a major factor in their 4x revenue growth.",
+                blueprintId: "cognism-deep-dive"
+            };
+        }
+        return {
+            text: "David’s portfolio highlights his ability to deliver across three distinct sectors: Fintech, SaaS, and Private Banking. Each of these projects was a major commercial bet. Which would you like to explore deeper?",
+            blueprintId: "portfolio"
+        };
+    }
+
+    // Cognism Deep Dive (Explicit)
+    if (lower.includes("cognism")) {
+        return {
+            text: "The Cognism journey is a blueprint for scaling for exit. David established the design function from scratch, implemented a robust Figma design system, and shifted the culture from 'feature-factory' to outcome-driven design.",
+            blueprintId: "cognism-deep-dive"
+        };
+    }
+
+    // Scale & Leadership
+    if (lower.includes("scale") || lower.includes("team") || lower.includes("manage") || lower.includes("leadership") || lower.includes("direct reports") || lower.includes("culture")) {
+        return {
+            text: "Most companies struggle to scale design because they focus on 'hiring more hands.' David focuses on 'hiring more signal.' He specialises in building high-performance cultures where senior designers have the autonomy to execute against commercial outcomes.",
             blueprintId: "scale"
         };
     }
 
     // Commercial Impact / ROI
-    if (lower.includes("impact") || lower.includes("roi") || lower.includes("revenue") || lower.includes("value") || lower.includes("business")) {
+    if (lower.includes("impact") || lower.includes("roi") || lower.includes("revenue") || lower.includes("value") || lower.includes("business") || lower.includes("metrics") || lower.includes("numbers")) {
         return {
-            text: "David speaks the language of Revenue and Risk. At Cognism, he spearheaded the design function during a period of **4x revenue growth ($20M to $80M ARR)**. At HSBC Kinetic, his initiatives drove a **35% adoption rate** for new lending products.",
+            text: "Commercial success is the only metric that truly matters for a Head of Design. David speaks the language of the CFO. Whether it is increasing assets at Coutts or driving 4x revenue at Cognism, his work is directly tied to the bottom line.",
             blueprintId: "impact"
         };
     }
 
     // Conflict Resolution
-    if (lower.includes("conflict") || lower.includes("stakeholder") || lower.includes("difficult")) {
+    if (lower.includes("conflict") || lower.includes("stakeholder") || lower.includes("difficult") || lower.includes("argument") || lower.includes("deadlock")) {
         return {
-            text: "David views conflict as an opportunity to align on commercial goals. He uses a 'Strategic Audit' approach to depersonalise friction and focus on evidence. Here is a breakdown of how he resolved a critical 'Engineering vs. Product' deadlock.",
+            text: "David views stakeholder conflict as 'unmet commercial needs.' He uses a Strategic Audit approach to depersonalise friction. By mapping technical debt against business risk, he moves teams from 'I think' to 'We know.'",
             blueprintId: "conflict"
         };
     }
 
     // AI Strategy
-    if (lower.includes("ai") || lower.includes("future") || lower.includes("operations")) {
+    if (lower.includes("ai") || lower.includes("future") || lower.includes("operations") || lower.includes("ops") || lower.includes("prompt") || lower.includes("automation")) {
         return {
-            text: "David views AI as 'workflow, not gimmick.' It shifts the role from Designer to Shipper. He integrates AI to automate synthesis and documentation, allowing his teams to focus on strategy and problem-solving.",
+            text: "David’s AI strategy is 'Efficiency through Orchestration.' He uses AI to automate the low-value 'grunt work' of design (documentation, synthesis) so his leads can stay focussed on high-value strategic problems.",
             blueprintId: "ai-strategy"
         };
     }
 
     // Legacy Transformation
-    if (lower.includes("legacy") || lower.includes("migration") || lower.includes("modern") || lower.includes("transformation")) {
+    if (lower.includes("legacy") || lower.includes("migration") || lower.includes("modern") || lower.includes("transformation") || lower.includes("banking") || lower.includes("regulated")) {
         return {
-            text: "Navigating regulation is a core strength. At Coutts, David led the digital transformation of a 300-year-old bank, reducing loan approval times from **4 weeks to <60 seconds** while maintaining zero security incidents.",
+            text: "Transforming legacy systems in regulated environments is David's 'superpower.' At Coutts (300+ yrs old), he didn't just 'make it pretty'—he redesigned the entire SME lending process, reducing 4-week lead times to under 60 seconds.",
             blueprintId: "legacy"
         };
     }
 
     // Fallback (Generic "Hook")
     return {
-        text: "David helps companies scale by focusing on Revenue, Risk, and Retention. He has led design at global institutions like HSBC and high-growth scale-ups like Cognism. Would you like to see his Leadership Profile or Commercial Impact?"
+        text: "I am trained to help you de-risk your next leadership hire. Would you like to see David's **Portfolio**, his **Cognism Deep-Dive**, or are you ready to **Schedule a Call**?"
     };
 }

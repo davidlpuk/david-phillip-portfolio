@@ -153,6 +153,62 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                     </div>
                 );
 
+            case "portfolio-grid":
+                return (
+                    <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {blueprint.data.projects.map((p: any, idx: number) => (
+                            <div key={idx} className="group relative bg-muted/30 rounded-xl border border-border/50 overflow-hidden hover:border-primary/50 transition-all duration-300">
+                                <div className="aspect-video relative overflow-hidden">
+                                    <img
+                                        src={p.image}
+                                        alt={p.name}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = `https://placehold.co/600x400/1a1a1a/ffffff?text=${p.name}`;
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
+                                </div>
+                                <div className="p-4 relative">
+                                    <h4 className="font-bold text-foreground mb-0.5">{p.name}</h4>
+                                    <p className="text-xs text-muted-foreground mb-2">{p.role}</p>
+                                    <div className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
+                                        {p.impact}
+                                    </div>
+                                    <a href={`/case-study/${p.id}`} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-background/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <ArrowRight size={14} className="text-foreground" />
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                );
+
+            case "credentials-card":
+                return (
+                    <div className="mt-6 space-y-6">
+                        <p className="text-muted-foreground leading-relaxed italic border-l-2 border-primary/30 pl-4">
+                            "{blueprint.data.summary}"
+                        </p>
+                        <div className="grid grid-cols-3 gap-4">
+                            {blueprint.data.stats.map((s: any, idx: number) => (
+                                <div key={idx} className="bg-secondary/20 p-3 rounded-lg border border-border/50 text-center">
+                                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{s.label}</p>
+                                    <p className="text-lg font-bold text-foreground">{s.value}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="pt-2">
+                            <a
+                                href={blueprint.data.link}
+                                className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                            >
+                                View Interactive CV <ArrowRight size={16} />
+                            </a>
+                        </div>
+                    </div>
+                );
+
             case "calendly":
                 return (
                     <div className="mt-6 w-full h-[650px] bg-background rounded-lg overflow-hidden border border-border">

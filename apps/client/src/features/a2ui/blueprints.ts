@@ -3,7 +3,8 @@ import {
     CheckCircle, BarChart3, PieChart
 } from "lucide-react";
 
-export type BlueprintType = 'metrics-card' | 'impact-table' | 'star-method' | 'diagram' | 'calendly';
+export type BlueprintType = 'metrics-card' | 'impact-table' | 'star-method' | 'diagram' | 'calendly' | 'portfolio-grid' | 'credentials-card';
+
 
 export interface Blueprint {
     id: string;
@@ -21,6 +22,50 @@ export const EXECUTIVE_BLUEPRINTS: Record<string, Blueprint> = {
             url: "https://calendly.com/david-phillip/30min"
         }
     },
+    // Portfolio Highlights
+    "portfolio": {
+        id: "portfolio",
+        type: "portfolio-grid",
+        title: "Selected Work Highlights",
+        data: {
+            projects: [
+                { id: "cognism", name: "Cognism", role: "Head of Design", impact: "4x Revenue Growth", image: "/images/case-study-hero-cognism.png" },
+                { id: "coutts", name: "Coutts", role: "Design Lead", impact: "4-week to 60s wait reduction", image: "/images/case-study-hero-coutts.png" },
+                { id: "hsbc", name: "HSBC Kinetic", role: "Design Lead", impact: "$14bn Fintech initiative", image: "/images/case-study-hero-hsbc.png" }
+            ]
+        }
+    },
+    // Cognism Deep Dive
+    "cognism-deep-dive": {
+        id: "cognism-deep-dive",
+        type: "metrics-card",
+        title: "Cognism: Scaling for Exit ($20M to $80M ARR)",
+        data: {
+            metrics: [
+                { label: "Revenue Growth", value: "4x", sub: "$20M to $80M ARR" },
+                { label: "NPS Shift", value: "+24 pts", sub: "-16 to +8" },
+                { label: "Retention", value: "100%", sub: "Senior Designers" },
+                { label: "Efficiency", value: "40%", sub: "Faster Dev Cycles" }
+            ],
+            methodologies: ["Figma Design System", "Outcome-Driven Design", "Strategic Research", "Team Scaling (1 to 5)"]
+        }
+    },
+    // CV & Credentials
+    "cv": {
+        id: "cv",
+        type: "credentials-card",
+        title: "Professional Credentials",
+        data: {
+            summary: "Executive Design Leader with 24+ years of experience across Fintech, SaaS, and Private Banking.",
+            stats: [
+                { label: "Experience", value: "24+ Years" },
+                { label: "Leading Teams", value: "10+ Years" },
+                { label: "Specialization", value: "Strategic UX / AI Ops" }
+            ],
+            link: "/cv"
+        }
+    },
+
     // 1. Scale & Leadership
     "scale": {
         id: "scale",
@@ -99,9 +144,10 @@ export const EXECUTIVE_BLUEPRINTS: Record<string, Blueprint> = {
 };
 
 export const RECRUITER_QUESTIONS = [
-    { id: "scale", label: "Scale & Leadership", question: "What scale of teams and budgets have you managed?" },
+    { id: "portfolio", label: "Selected Portfolio", question: "Can I see your portfolio highlights?" },
+    { id: "cv", label: "Interactive CV", question: "Tell me about your background and CV." },
     { id: "impact", label: "Commercial Impact", question: "Can you prove design ROI in hard numbers?" },
-    { id: "conflict", label: "Conflict Resolution", question: "How do you manage difficult stakeholder conflicts?" },
+    { id: "scale", label: "Scale & Leadership", question: "What scale of teams and budgets have you managed?" },
     { id: "ai-strategy", label: "AI Strategy", question: "How are you integrating AI into design ops?" },
     { id: "legacy", label: "Legacy Modernization", question: "Have you transformed complex legacy systems?" },
 ];
