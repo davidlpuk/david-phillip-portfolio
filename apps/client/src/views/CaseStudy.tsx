@@ -7,7 +7,7 @@ import {
     Target, Lightbulb, Shield, TrendingUp as TrendingUpIcon,
     Search, FileText, PenTool, TestTube, Rocket, LayoutTemplate,
     ChevronDown, ChevronUp, Clock, Minus, BarChart,
-    Cpu, Zap, Eye, Code, Globe, Sparkles, MessageCircle
+    Cpu, Zap, Eye, Code, Globe, Sparkles, MessageCircle, Layers
 } from "lucide-react";
 import { Link } from "wouter";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/shared/components/ui/collapsible";
@@ -1266,20 +1266,17 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         number: "01",
                         title: "High-Velocity Pod Leadership",
-                        text: "I built and led a multidisciplinary design pod (UX/UI) focused on five key verticals: Business Loans, Credit Cards, Overdrafts, Marketplace Integrations, and Open Banking. I transitioned the team from slow-moving waterfall methods to a rapid prototyping framework, allowing us to validate complex lending flows before a single line of code was written.",
-                        image: "/images/case-study-hsbc-kinectic-journeys-1.png"
+                        text: "I built and led a multidisciplinary design pod (UX/UI) focused on five key verticals: Business Loans, Credit Cards, Overdrafts, Marketplace Integrations, and Open Banking. I transitioned the team from slow-moving waterfall methods to a rapid prototyping framework, allowing us to validate complex lending flows before a single line of code was written."
                     },
                     {
                         number: "02",
                         title: "De-Risking through Evidence",
-                        text: "To bridge the gap between Product and Engineering, I facilitated design sprints that demonstrated how early-stage UX could identify technical constraints. This \"design as an accelerator\" approach gained stakeholder buy-in to embed designers directly into agile squads, breaking down traditional silos.",
-                        image: "/images/case-study-hsbc-kinectic-journey-3.png"
+                        text: "To bridge the gap between Product and Engineering, I facilitated design sprints that demonstrated how early-stage UX could identify technical constraints. This \"design as an accelerator\" approach gained stakeholder buy-in to embed designers directly into agile squads, breaking down traditional silos."
                     },
                     {
                         number: "03",
                         title: "Systemic Consistency",
-                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern.",
-                        image: "/images/case-study-hsbc-kinectic-journeys-zoom-2.png"
+                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern."
                     }
                 ]
             },
@@ -1303,6 +1300,28 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         title: "Process Optimisation",
                         text: "Implemented a repeatable sprint framework that reduced time-to-market for feature iterations by 30%."
+                    }
+                ]
+            },
+            {
+                id: "work-built",
+                title: "Examples of Work Built",
+                icon: Layers,
+                items: [
+                    {
+                        title: "Overdraft Extension Flow",
+                        text: "A streamlined, mobile-first journey allowing business customers to extend their overdrafts in minutes.",
+                        image: "/images/case-study-hsbc-kinectic-journeys-1.png"
+                    },
+                    {
+                        title: "Contextual Offers",
+                        text: "Presenting overdraft extensions at the point of need within the transaction feed.",
+                        image: "/images/case-study-hsbc-kinectic-journey-3.png"
+                    },
+                    {
+                        title: "Transparent Repayment",
+                        text: "Clear visualization of repayment terms and cost, designed to build trust.",
+                        image: "/images/case-study-hsbc-kinectic-journeys-zoom-2.png"
                     }
                 ]
             },
