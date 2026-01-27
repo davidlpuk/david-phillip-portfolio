@@ -1277,7 +1277,8 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         number: "03",
                         title: "Systemic Consistency",
-                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern."
+                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern.",
+                        image: "/images/case-study-hsbc-kinectic-journey-6.png"
                     }
                 ]
             },
