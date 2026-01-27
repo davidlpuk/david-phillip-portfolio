@@ -1309,19 +1309,19 @@ const caseStudiesData: CaseStudiesData = {
                 icon: Layers,
                 items: [
                     {
-                        title: "Overdraft Extension Flow",
-                        text: "A streamlined, mobile-first journey allowing business customers to extend their overdrafts in minutes.",
-                        image: "/images/case-study-hsbc-kinectic-journeys-1.png"
+                        title: "Full Flow: Personal Guarantee Overdraft Extension",
+                        image: "/images/case-study-hsbc-kinectic-journeys-1.png",
+                        caption: "An example of a Personal Guarantee Overdraft Extension journey showing full flow with edge cases."
                     },
                     {
-                        title: "Contextual Offers",
-                        text: "Presenting overdraft extensions at the point of need within the transaction feed.",
-                        image: "/images/case-study-hsbc-kinectic-journey-3.png"
+                        title: "Detailed Interaction",
+                        image: "/images/case-study-hsbc-kinectic-journeys-zoom-2.png",
+                        caption: "Zoomed up example of the detail of each screen showing precise detail and different interactions with other journeys within the wider-app."
                     },
                     {
-                        title: "Transparent Repayment",
-                        text: "Clear visualization of repayment terms and cost, designed to build trust.",
-                        image: "/images/case-study-hsbc-kinectic-journeys-zoom-2.png"
+                        title: "Screen Details",
+                        image: "/images/case-study-hsbc-kinectic-journey-3.png",
+                        caption: "Example of zoomed up screens."
                     }
                 ]
             },
