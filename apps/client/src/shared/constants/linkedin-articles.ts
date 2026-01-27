@@ -11,6 +11,16 @@ export interface LinkedInArticle {
 
 export const linkedInArticles: LinkedInArticle[] = [
     {
+        id: "translation-fatigue",
+        title: "The Cost of \"Translation Fatigue\"",
+        excerpt: "Why has this problem been so resistant to traditional tooling? It’s not a lack of effort; it’s a lack of shared context. Logic vs. Vision: Designers w",
+        url: "https://www.linkedin.com/pulse/cost-translation-fatigue-david-phillip-f21ze?trackingId=tTo9WCs9TFe2YCrMNb0hLg%3D%3D",
+        thumbnail: "https://media.licdn.com/dms/image/v2/D4E12AQFQ7Q-T0hHG7w/article-cover_image-shrink_423_752/B4EZv_RdC7HkAU-/0/1769514329362?e=1770854400&v=beta&t=_tD1pZioWKIoK9fTWz-PYRCvedFsV_FpwcKWuamaYQk",
+        readTime: 4,
+        date: "2026-01-27",
+        category: "Design Process"
+    },
+    {
         id: "designer-revolt",
         title: "The Designer Revolt: Why Your Design Handoff Process Just Became Obsolete",
         excerpt: "I watched a designer build a fully functional calculator app in 20 minutes last week. No engineer involved. No handoff documentation. No red-lined spe",
