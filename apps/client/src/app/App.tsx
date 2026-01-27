@@ -17,6 +17,7 @@ const CVLab = lazy(() => import("@/views/CVLab")); // 🔒 Secret page
 const CVBuilder = lazy(() => import("@/views/CVBuilder")); // 🔒 AI CV Builder
 const ArticleGenerator = lazy(() => import("@/views/ArticleGenerator")); // 🔒 Article Generator
 const ArticleManager = lazy(() => import("@/views/ArticleManager")); // 🔒 Article Manager
+const ExecutiveExplorer = lazy(() => import("@/views/ExecutiveExplorer")); // 🔒 Agentic Explorer
 
 // Loading fallback component
 const PageLoader = React.memo(function PageLoader() {
@@ -125,6 +126,12 @@ function Router() {
         <Route path="/admin/article-generator">
           <Suspense fallback={<PageLoader />}>
             <ArticleGenerator />
+          </Suspense>
+        </Route>
+        {/* 🔒 Agentic Explorer Interface */}
+        <Route path="/explorer">
+          <Suspense fallback={<PageLoader />}>
+            <ExecutiveExplorer />
           </Suspense>
         </Route>
         <Route path="/404" component={NotFound} />
