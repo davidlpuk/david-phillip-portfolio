@@ -1346,7 +1346,8 @@ const caseStudiesData: CaseStudiesData = {
                     },
                     {
                         subtitle: "Team Growth",
-                        text: "Successfully mentored a lean design pod, establishing user-centred design (UCD) as a standard practice within the mobile banking division."
+                        text: "Successfully mentored a lean design pod, establishing user-centred design (UCD) as a standard practice within the mobile banking division.",
+                        image: "/images/case-study-hsbc-kinectic-journey-5.png"
                     }
                 ],
                 testimonials: [
