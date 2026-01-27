@@ -17,7 +17,6 @@ import { Button } from "@/shared/components/ui/button";
 const clients = [
   { name: "Coutts", industry: "Private Banking", logo: "/images/logos/logo-coutts.svg" },
   { name: "HSBC", industry: "Global Banking", logo: "/images/logos/logo-hsbc.svg" },
-  { name: "Schroders", industry: "Investment Management", logo: "/images/logos/logo-schorders.svg" },
   { name: "Cognism", industry: "B2B SaaS", logo: "/images/logos/logo-cognism.svg" },
   { name: "BlackRock", industry: "Asset Management", logo: "/images/logos/logo-blackrock.svg" },
   { name: "Deutsche Bank", industry: "Global Banking", logo: "/images/logos/logo-deustche-bank.svg" },

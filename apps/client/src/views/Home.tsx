@@ -9,7 +9,6 @@ import About from "@/features/about/About";
 import Experience from "@/features/experience/Experience";
 import Testimonials from "@/features/testimonials/Testimonials";
 import Contact from "@/features/contact/Contact";
-import AIAssistant from "@/features/ai-assistant/AIAssistant";
 
 /**
  * Home Page - David Phillip Portfolio
@@ -122,9 +121,6 @@ export default function Home() {
           © {new Date().getFullYear()} David Phillip. All rights reserved.
         </p>
       </footer>
-
-      {/* AI Assistant - Floating chatbot with clever trigger */}
-      <AIAssistant />
     </div>
   );
 }

@@ -135,12 +135,15 @@ function Router() {
   );
 }
 
+import { FloatingChat } from "@/features/chat/FloatingChat";
+
 function App() {
   return (
     <ThemeProvider defaultMode="light" defaultPreset="theme-x">
       <TooltipProvider>
         <Toaster />
         <Router />
+        {/* <FloatingChat /> */}
       </TooltipProvider>
     </ThemeProvider>
   );

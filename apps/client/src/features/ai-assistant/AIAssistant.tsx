@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, X } from "lucide-react";
-import ChatBot from "@/features/chat/ChatBot";
+import { A2UIChatBot } from "@/features/chat/A2UIChatBot";
 
 /**
  * AI Assistant - Clever, subtle chatbot trigger
@@ -126,7 +126,7 @@ export default function AIAssistant() {
 
               {/* ChatBot Component */}
               <div className="h-full sm:h-auto">
-                <ChatBot onClose={() => setIsOpen(false)} context={context} />
+                <A2UIChatBot onClose={() => setIsOpen(false)} context={context} />
               </div>
 
               {/* Keyboard hint (desktop only) */}

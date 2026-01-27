@@ -236,13 +236,13 @@ These interests complement his professional experience working across global mar
     // Call to Action
     {
         id: 'cta-1',
-        content: `When engaging with potential employers or clients, David's standard call to action is to "book a 30-minute call" or "review case studies." He is transparent about his availability and eager to discuss how his experience can solve specific business challenges.
+        content: `When engaging with potential employers or clients, David's standard call to action is to "book a 15-minute call" or "review case studies." He is transparent about his availability and eager to discuss how his experience can solve specific business challenges.
 
 David is particularly interested in roles where he can apply his 20+ years of Fintech and SaaS experience to drive measurable commercial outcomes. He is not looking for purely creative positions but strategic roles where design can be a revenue driver.
 
 His commitment to outcomes means he will ask pointed questions about the business problem you're trying to solve. This isn't rudeness — it's his way of understanding how he can add value. He prefers to under-promise and over-deliver.`,
         category: 'bio',
-        keywords: ['contact', 'book a call', '30 minutes', 'case study', 'availability', 'strategic', 'revenue', 'value']
+        keywords: ['contact', 'book a call', '15 minutes', 'case study', 'availability', 'strategic', 'revenue', 'value']
     },
 
     // Approach to Questions
@@ -529,11 +529,11 @@ You are speaking with executive recruiters, hiring managers based in the UK, and
 ## Common Questions
 - "What went wrong?" → Deutsche Bank story: redesign struggled to articulate value to business — this shaped my commercial focus
 - "Skills?" → Yes, but include senior context (team size, business impact)
-- "Availability?" → Interested in strategic roles; book a 30-minute call
+- "Availability?" → Interested in strategic roles; book a 15-minute call
 - "Personal?" → Travelling, international cinema (particularly Spanish), photography
 
 ## Call to Action
-When discussing availability, hiring, or next steps, always include a clear CTA: "Book a 30-minute call" with email: david.phillip@gmail.com
+When discussing availability, hiring, or next steps, always include a clear CTA: "Book a 15-minute call" with email: david.phillip@gmail.com
 
 ## Rules
 - Never make up information — stay grounded in the knowledge base

@@ -1,29 +1,9 @@
 import React, { memo, type ReactNode } from 'react';
 import ReactMarkdownRaw from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Markdown = ReactMarkdownRaw as any as (props: { children: ReactNode; components?: Record<string, unknown> }) => ReactNode;
-
-// Function to linkify plain emails and URLs (skips already markdown-formatted links)
-function linkifyText(text: string): string {
-    // Skip if text already contains markdown links
-    if (/\[.*?\]\(.*?\)/.test(text)) {
-        return text;
-    }
-
-    // Email regex
-    const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
-    // URL regex - matches http/https, www., or domain.com patterns
-    const urlRegex = /\b(?:https?:\/\/|www\.|[a-zA-Z0-9-]+\.[a-zA-Z]{2,})(?:[^\s<>"{}|\\^`[\]]*)?/g;
-
-    return text
-        .replace(emailRegex, (email) => `[${email}](mailto:${email})`)
-        .replace(urlRegex, (url) => {
-            // Add https:// if not present
-            const fullUrl = url.startsWith('http') ? url : `https://${url}`;
-            return `[${url}](${fullUrl})`;
-        });
-}
+const Markdown = ReactMarkdownRaw as any as (props: { children: ReactNode; components?: Record<string, unknown>; remarkPlugins?: any[] }) => ReactNode;
 
 // Move components object outside to prevent recreation on each render
 const MARKDOWN_COMPONENTS = {
@@ -44,10 +24,9 @@ interface MarkdownContentProps {
 }
 
 export const MarkdownContent = memo(function MarkdownContent({ content }: MarkdownContentProps) {
-    const linkifiedContent = linkifyText(content);
     return (
-        <Markdown components={MARKDOWN_COMPONENTS}>
-            {linkifiedContent}
+        <Markdown components={MARKDOWN_COMPONENTS} remarkPlugins={[remarkGfm]}>
+            {content}
         </Markdown>
     );
 });

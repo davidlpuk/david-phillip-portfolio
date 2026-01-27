@@ -230,7 +230,7 @@ export default function About() {
                 {
                   icon: Building2,
                   title: "Global Scale",
-                  description: "Led design across 21 countries at Schroders. I know how to deliver across cultures and regulatory frameworks.",
+                  description: "Led design across 21 countries at BlackRock. I know how to deliver across cultures and regulatory frameworks.",
                   color: "from-neutral-800 to-neutral-950",
                   bgGlow: "bg-neutral-700/20",
                 },
