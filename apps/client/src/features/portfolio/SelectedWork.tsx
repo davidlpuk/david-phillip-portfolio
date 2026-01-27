@@ -35,10 +35,10 @@ const caseStudies: readonly CaseStudy[] = [
     thumbnail: "/images/case-study-hero-cognism.png", gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
   },
   {
-    slug: "hsbc-kinetic", company: "HSBC Kinetic", title: "HSBC Kinetic: Global Fintech Scale-up & $80M Growth",
-    role: "UX Lead · SME Banking Transformation",
-    description: "Transformed lending UX for a £14B initiative, achieving 35% adoption and leading a design team of 3 specialists.",
-    metrics: [{ value: "35%", label: "Adoption", icon: "trending" }, { value: "3", label: "Team Size", icon: "users" }, { value: "30%", label: "Cycle Time", icon: "target" }],
+    slug: "hsbc-kinetic", company: "HSBC Kinetic", title: "HSBC Kinetic: Transforming Small Business Lending",
+    role: "Strategic UX Lead | SME Banking",
+    description: "Led design strategy for a £14B initiative, establishing a high-velocity pod to deliver 5 core products and achieve 35% adoption.",
+    metrics: [{ value: "35%", label: "Adoption", icon: "trending" }, { value: "5", label: "Products", icon: "target" }, { value: "30%", label: "Cycle Time", icon: "target" }],
     thumbnail: "/images/case-study-hero-hsbc.png", gradient: "from-red-500/20 via-pink-500/10 to-transparent",
   },
   {
