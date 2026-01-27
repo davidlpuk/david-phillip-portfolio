@@ -37,14 +37,14 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                             <div key={idx} className="bg-secondary/20 p-4 rounded-lg border border-border/50">
                                 <p className="text-sm text-muted-foreground">{m.label}</p>
                                 <p className="text-2xl font-bold text-foreground my-1">{m.value}</p>
-                                <p className="text-xs text-primary">{m.sub}</p>
+                                <p className="text-xs text-blue-600 dark:text-sky-400">{m.sub}</p>
                             </div>
                         ))}
                         <div className="col-span-full mt-4">
                             <p className="text-sm font-semibold mb-2 text-muted-foreground">Key Methodologies:</p>
                             <div className="flex flex-wrap gap-2">
                                 {blueprint.data.methodologies.map((method: string, idx: number) => (
-                                    <span key={idx} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full border border-primary/20">
+                                    <span key={idx} className="px-2 py-1 bg-blue-500/10 text-blue-700 dark:text-sky-300 text-xs rounded-full border border-blue-500/20">
                                         {method}
                                     </span>
                                 ))}
@@ -71,7 +71,7 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                                         <TableRow key={idx}>
                                             <TableCell className="font-medium">{row.project}</TableCell>
                                             <TableCell>
-                                                <div className="flex items-center gap-2 text-primary font-bold">
+                                                <div className="flex items-center gap-2 text-blue-600 dark:text-sky-400 font-bold">
                                                     <Icon size={16} />
                                                     {row.metric}
                                                 </div>
@@ -107,15 +107,15 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                                 <h4 className="font-semibold text-foreground text-sm uppercase tracking-wider mb-2">Action</h4>
                                 <ul className="space-y-2">
                                     <li className="flex gap-2 items-start text-sm text-muted-foreground">
-                                        <span className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0">1</span>
+                                        <span className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center text-xs font-bold text-blue-600 dark:text-sky-400 shrink-0">1</span>
                                         {blueprint.data.action.step1}
                                     </li>
                                     <li className="flex gap-2 items-start text-sm text-muted-foreground">
-                                        <span className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0">2</span>
+                                        <span className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center text-xs font-bold text-blue-600 dark:text-sky-400 shrink-0">2</span>
                                         {blueprint.data.action.step2}
                                     </li>
                                     <li className="flex gap-2 items-start text-sm text-muted-foreground">
-                                        <span className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0">3</span>
+                                        <span className="w-5 h-5 rounded-full bg-blue-500/10 flex items-center justify-center text-xs font-bold text-blue-600 dark:text-sky-400 shrink-0">3</span>
                                         {blueprint.data.action.step3}
                                     </li>
                                 </ul>
@@ -172,7 +172,7 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                                 <div className="p-4 relative">
                                     <h4 className="font-bold text-foreground mb-0.5">{p.name}</h4>
                                     <p className="text-xs text-muted-foreground mb-2">{p.role}</p>
-                                    <div className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
+                                    <div className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-sky-400 bg-blue-500/10 px-2 py-0.5 rounded">
                                         {p.impact}
                                     </div>
                                     <a href={`/case-study/${p.id}`} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-background/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -242,7 +242,7 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                             <CardTitle className="text-xl font-bold">{blueprint.title}</CardTitle>
                             <CardDescription>Strategic Insight generated for recruiter query.</CardDescription>
                         </div>
-                        <div className="px-3 py-1 bg-primary/10 text-primary text-xs font-mono rounded border border-primary/20">
+                        <div className="px-3 py-1 bg-blue-500/10 text-blue-600 dark:text-sky-400 text-xs font-mono rounded border border-blue-500/20">
                             A2UI_RENDERED
                         </div>
                     </div>

@@ -117,7 +117,7 @@ export default function ExecutiveExplorer() {
                                         <div dangerouslySetInnerHTML={{
                                             __html: msg.text.replace(
                                                 /\[([^\]]+)\]\(([^)]+)\)/g,
-                                                '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline font-medium text-primary hover:text-primary/80">$1</a>'
+                                                '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline font-medium text-blue-600 dark:text-sky-400 hover:opacity-80 transition-opacity">$1</a>'
                                             ).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                         }} />
                                     </div>
