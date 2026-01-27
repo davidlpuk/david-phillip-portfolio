@@ -135,7 +135,7 @@ export function PasswordGate({ slug, onUnlock, isLocked, title = "Protected Case
                             </Button>
                         </form>
 
-                        <p className="text-center text-xs text-muted-foreground mt-8">
+                        <p className="text-center text-sm text-muted-foreground mt-8">
                             This case study involved sensitive commercial information. Reach out for a private walkthrough: <a href="mailto:david.phillip@gmail.com" className="text-accent hover:underline font-bold">david.phillip@gmail.com</a>
                         </p>
                     </motion.div>
