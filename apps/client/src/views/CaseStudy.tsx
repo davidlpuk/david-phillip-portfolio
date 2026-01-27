@@ -1716,6 +1716,14 @@ export default function CaseStudy() {
                                                                 {item.text}
                                                             </p>
                                                         ) : null}
+                                                        {item.image && (
+                                                            <PlaceholderImage
+                                                                src={item.image}
+                                                                alt={item.caption || item.title}
+                                                                caption={item.caption}
+                                                                className="max-w-3xl mt-6 rounded-lg border border-border/50 shadow-sm"
+                                                            />
+                                                        )}
                                                     </div>
                                                 ))}
                                             </div>
