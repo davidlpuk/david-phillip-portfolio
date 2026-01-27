@@ -153,6 +153,19 @@ export function A2UIRenderer({ blueprintId }: A2UIRendererProps) {
                     </div>
                 );
 
+            case "calendly":
+                return (
+                    <div className="mt-6 w-full h-[650px] bg-background rounded-lg overflow-hidden border border-border">
+                        <iframe
+                            src={`${blueprint.data.url}?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=1a1a1a&text_color=ffffff&primary_color=3b82f6`}
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            title="Select a Date & Time"
+                        ></iframe>
+                    </div>
+                );
+
             default:
                 return <div>Unknown blueprint type</div>;
         }

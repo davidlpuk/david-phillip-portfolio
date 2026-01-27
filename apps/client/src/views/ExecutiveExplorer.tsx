@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 // import { Helmet } from "react-helmet"; // Removed
 import { RECRUITER_QUESTIONS } from "@/features/a2ui/blueprints";
 import { A2UIRenderer } from "@/features/a2ui/A2UIRenderer";
+import { generateFinnResponse } from "@/features/a2ui/finn";
 import Header from "@/shared/components/Header";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, TerminalSquare, User, Sparkles, ArrowUp } from "lucide-react";
@@ -41,38 +42,18 @@ export default function ExecutiveExplorer() {
 
         // 2. Simulate "Thinking" delay
         setTimeout(() => {
-            const lowerText = text.toLowerCase();
-            let blueprintId: string | undefined;
-            let responseText = "I don't have a specific executive briefing for that yet. Try asking about Scale, Impact, or AI.";
-
-            // Simple Keyword Matcher
-            if (lowerText.includes("scale") || lowerText.includes("team") || lowerText.includes("manage")) {
-                blueprintId = "scale";
-                responseText = "Here is the executive profile regarding team scale and leadership.";
-            } else if (lowerText.includes("impact") || lowerText.includes("roi") || lowerText.includes("value")) {
-                blueprintId = "impact";
-                responseText = "Here is the consolidated impact ledger across major programmes.";
-            } else if (lowerText.includes("conflict") || lowerText.includes("stakeholder") || lowerText.includes("difficult")) {
-                blueprintId = "conflict";
-                responseText = "Here is a breakdown of my conflict resolution methodology using a real example.";
-            } else if (lowerText.includes("ai") || lowerText.includes("future") || lowerText.includes("ops")) {
-                blueprintId = "ai-strategy";
-                responseText = "Here is my operational model for integrating AI into design workflows.";
-            } else if (lowerText.includes("legacy") || lowerText.includes("migration") || lowerText.includes("modern")) {
-                blueprintId = "legacy";
-                responseText = "Here is my track record for complex legacy system transformation.";
-            }
+            const response = generateFinnResponse(text);
 
             const agentMsg: Message = {
                 id: (Date.now() + 1).toString(),
                 role: "agent",
-                text: responseText,
-                blueprintId
+                text: response.text,
+                blueprintId: response.blueprintId
             };
 
             setMessages(prev => [...prev, agentMsg]);
             setIsTyping(false);
-        }, 1200);
+        }, 1500);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -94,9 +75,9 @@ export default function ExecutiveExplorer() {
                         <div className="w-16 h-16 rounded-2xl bg-secondary/30 flex items-center justify-center mb-6 border border-border">
                             <TerminalSquare size={32} className="text-foreground/70" />
                         </div>
-                        <h1 className="text-3xl font-bold mb-3 tracking-tight">Executive Intelligence Engine</h1>
+                        <h1 className="text-3xl font-bold mb-3 tracking-tight">Digital Chief of Staff</h1>
                         <p className="text-muted-foreground max-w-md mb-8 leading-relaxed">
-                            Ask me strategic questions about leadership style, commercial impact, or AI operations.
+                            Hello. I am Finn. I can guide you through David's commercial impact, leadership philosophy, or specific case studies. How can I help you de-risk your next leadership hire?
                         </p>
 
                         {/* Quick Prompts (Neutral Colors) */}
@@ -133,7 +114,12 @@ export default function ExecutiveExplorer() {
                                         ? "bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-900 ml-auto rounded-tr-sm"
                                         : "bg-secondary/40 text-foreground border border-border/50 rounded-tl-sm"
                                         }`}>
-                                        {msg.text}
+                                        <div dangerouslySetInnerHTML={{
+                                            __html: msg.text.replace(
+                                                /\[([^\]]+)\]\(([^)]+)\)/g,
+                                                '<a href="$2" target="_blank" rel="noopener noreferrer" class="underline font-medium text-primary hover:text-primary/80">$1</a>'
+                                            ).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                        }} />
                                     </div>
 
                                     {/* Inline Blueprint Renderer */}

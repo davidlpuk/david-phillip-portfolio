@@ -3,14 +3,24 @@ import {
     CheckCircle, BarChart3, PieChart
 } from "lucide-react";
 
+export type BlueprintType = 'metrics-card' | 'impact-table' | 'star-method' | 'diagram' | 'calendly';
+
 export interface Blueprint {
     id: string;
-    type: "metrics-card" | "impact-table" | "star-method" | "diagram";
+    type: BlueprintType;
     title: string;
     data: any;
 }
 
 export const EXECUTIVE_BLUEPRINTS: Record<string, Blueprint> = {
+    "book-call": {
+        id: "book-call",
+        type: "calendly",
+        title: "Schedule a Call",
+        data: {
+            url: "https://calendly.com/david-phillip/30min"
+        }
+    },
     // 1. Scale & Leadership
     "scale": {
         id: "scale",
