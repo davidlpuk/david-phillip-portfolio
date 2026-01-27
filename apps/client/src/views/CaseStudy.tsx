@@ -1213,30 +1213,30 @@ const caseStudiesData: CaseStudiesData = {
     },
     "hsbc-kinetic": {
         company: "HSBC Kinetic",
-        title: "Rebuilding Lending for Small Business",
+        title: "HSBC Kinetic: Transforming Small Business Lending",
         subtitle: "Digitising SME Lending at the UK's Largest Bank",
-        role: "UX Lead | SME Banking Transformation",
-        period: "2021 (6 Months)",
+        role: "Strategic UX Lead | SME Banking Transformation",
+        period: "May 2019 – Nov 2019",
         thumbnail: "/videos/HSBC_Kinetic.mp4",
-        summary: "Led design for HSBC Kinetic, a mobile banking app for small businesses as part of a multi-billion pound transformation programme. I was responsible for transforming the end-to-end lending journey, shifting from a branch-first process to a streamlined digital experience that balanced user needs with rigorous compliance constraints.",
+        summary: "Led the design strategy for the lending and integration workstreams of HSBC Kinetic, a £14 billion strategic digital transformation initiative. By establishing a high-velocity design pod and moving from legacy banking cycles to rapid prototyping, I oversaw the delivery of five core products, achieving a 35% lending adoption rate and a 30% reduction in development cycles.",
         tldrTakeaways: [
-            "Scaled UX/UI team working across 5 core lending products",
-            "Introduced design sprints that cut development cycles by 30%",
-            "Built shared pattern library achieving 80%+ component reuse",
-            "Embedded continuous user research into product roadmap decisions"
+            "Market Context: Moved from offline lending to seamless mobile-first ecosystem",
+            "High-Velocity Pods: Transitioned from waterfall to rapid prototyping",
+            "Systemic Consistency: Unified brand voice across 5 parallel products",
+            "De-Risking: Used design sprints to validate technical constraints early"
         ],
         metrics: [
-            { label: "Adoption", value: "35%", description: "Within 6 months (target was 25%)" },
-            { label: "Dev Velocity", value: "+30%", description: "Cycle time reduction via sprints" },
-            { label: "Component Reuse", value: "80%+", description: "Across all lending products" },
-            { label: "Design Team", value: "3", description: "Specialists led and mentored" },
-            { label: "Research Impact", value: "Continuous", description: "Embedded in monthly cycles" }
+            { label: "Adoption Rate", value: "35%", description: "Lending product uptake" },
+            { label: "Delivery Speed", value: "+30%", description: "Faster cycles via prototyping" },
+            { label: "Design Team", value: "3", description: "Designers led & mentored" },
+            { label: "Programme", value: "£14B", description: "Strategic transformation" },
+            { label: "Products", value: "5", description: "Core verticals delivered" }
         ],
         meta: {
-            role: "UX Lead - SME Banking",
-            date: "2021 (6 Months)",
-            stakeholders: ["Product Leadership", "Engineering", "Business Banking", "Risk & Compliance", "Technology"],
-            teamSize: "Led team of 3 designers across business banking and lending products"
+            role: "Strategic UX Lead",
+            date: "May 2019 – Nov 2019",
+            stakeholders: ["Product Leadership", "Engineering", "Business Banking", "Risk & Compliance"],
+            teamSize: "Led team of 3 designers across lending & integrations"
         },
         sections: [
             {
@@ -1245,51 +1245,106 @@ const caseStudiesData: CaseStudiesData = {
                 icon: Target,
                 content: [
                     {
-                        subtitle: "A Branch-First Process",
-                        text: "HSBC's small business lending process was historically designed for in-branch conversations. Small business owners were abandoning digital applications at high rates because the process felt clunky and asked for information they didn't have readily available on their phones.",
-                        caption: "Scaling design for a multi-billion pound transformation at HSBC Kinetic"
+                        subtitle: "Market Context",
+                        text: "HSBC needed a digital-first \"challenger\" brand to capture the SME market. Success required moving traditionally slow, offline lending processes (loans, overdrafts) into a seamless, mobile-first ecosystem."
+                    },
+                    {
+                        subtitle: "The Bottleneck",
+                        text: "Existing engineering and product silos within the bank were resulting in fragmented hand-offs and inconsistent UX across the lending portfolio."
+                    },
+                    {
+                        subtitle: "The Stake",
+                        text: "Navigating the regulatory rigour of a global bank while delivering the \"fast-paced\" experience expected by modern business owners."
                     }
                 ]
             },
             {
-                id: "what-i-did",
-                title: "What I Did",
+                id: "strategy",
+                title: "My Strategic Approach",
+                icon: Lightbulb,
+                items: [
+                    {
+                        number: "01",
+                        title: "High-Velocity Pod Leadership",
+                        text: "I built and led a multidisciplinary design pod (UX/UI) focused on five key verticals: Business Loans, Credit Cards, Overdrafts, Marketplace Integrations, and Open Banking. I transitioned the team from slow-moving waterfall methods to a rapid prototyping framework, allowing us to validate complex lending flows before a single line of code was written."
+                    },
+                    {
+                        number: "02",
+                        title: "De-Risking through Evidence",
+                        text: "To bridge the gap between Product and Engineering, I facilitated design sprints that demonstrated how early-stage UX could identify technical constraints. This \"design as an accelerator\" approach gained stakeholder buy-in to embed designers directly into agile squads, breaking down traditional silos."
+                    },
+                    {
+                        number: "03",
+                        title: "Systemic Consistency",
+                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern."
+                    }
+                ]
+            },
+            {
+                id: "deliverables",
+                title: "Key Deliverables & Actions",
                 icon: CheckCircle,
                 items: [
                     {
-                        title: "Scaled the UX/UI Team",
-                        text: "I grew and led a team of 3 specialists working across 5 different lending products, establishing clear ownership and career paths within the 6-month transformation window."
+                        title: "End-to-End Lending Suite",
+                        text: "Directed the UX strategy for Business Loans, Credit Cards, and Overdrafts."
                     },
                     {
-                        title: "Introduced Design Sprints",
-                        text: "By introducing structured design sprints, we successfully cut development cycles by 30%, moving from months of planning to weeks of validated prototyping."
+                        title: "Ecosystem Integration",
+                        text: "Led the design for Marketplace Integrations and Open Banking, positioning the app as a holistic business tool rather than just a bank account."
                     },
                     {
-                        title: "Built Shared Pattern Library",
-                        text: "I invested in a foundational pattern library that achieved over 80% component reuse across SME products, significantly accelerating both design and development."
+                        title: "Onboarding Transformation",
+                        text: "Personally led the redesign of the digital onboarding journey to remove friction for new applicants, establishing the standard for all subsequent lending products."
                     },
                     {
-                        title: "Embedded User Research",
-                        text: "Instead of isolated studies, I embedded continuous user research directly into the product decision-making process, ensuring every roadmap item was validated by small business owners."
+                        title: "Process Optimisation",
+                        text: "Implemented a repeatable sprint framework that reduced time-to-market for feature iterations by 30%."
                     }
                 ]
             },
             {
                 id: "impact",
-                title: "Impact & Outcomes",
+                title: "Impact & Results",
                 icon: TrendingUpIcon,
                 content: [
                     {
-                        subtitle: "Adoption & Growth",
-                        text: "The redesigned journey achieved 35% adoption within just 6 months, comfortably exceeding the initial business target of 25%."
+                        subtitle: "35% Adoption Rate",
+                        text: "High uptake of lending products among the initial Kinetic user base."
                     },
                     {
-                        subtitle: "Compliance & UX",
-                        text: "Successfully balanced a premium user experience with intense regulatory and compliance constraints, turning potential blockers into built-in design features."
+                        subtitle: "30% Faster Delivery",
+                        text: "Reduced development cycles through high-fidelity prototyping and early stakeholder alignment."
                     },
                     {
-                        subtitle: "Rapid Prototyping",
-                        text: "Established a rapid prototyping practice that was eventually adopted by other teams across HSBC, setting a new standard for how the bank validates digital products."
+                        subtitle: "£14bn Programme Support",
+                        text: "Provided critical design leadership for one of HSBC’s largest-ever digital investments."
+                    },
+                    {
+                        subtitle: "Team Growth",
+                        text: "Successfully mentored a lean design pod, establishing user-centred design (UCD) as a standard practice within the mobile banking division."
+                    }
+                ],
+                testimonials: [
+                    {
+                        quote: "David is an extremely competent UX lead with expert understanding of design. His work balancing user experience with technical constraints is exceptional while ensuring quality is not compromised.",
+                        author: "Usha Sanku",
+                        role: "Product Consultant, HSBC Kinetic"
+                    }
+                ]
+            },
+            {
+                id: "reflections",
+                title: "Critical Reflections",
+                icon: Shield,
+                items: [
+                    {
+                        title: "The Power of Lean Teams",
+                        text: "Leading a small, focused pod allowed for faster decision-making and tighter consistency across the five products compared to larger, more bloated design departments."
+                    },
+                    {
+                        title: "Navigating Complexity",
+                        text: "The project proved that even in highly regulated environments, rapid prototyping is the best tool for de-risking innovation and securing executive confidence."
                     }
                 ]
             }
