@@ -23,12 +23,12 @@ export function PasswordGate({ slug, onUnlock, isLocked, title = "Protected Case
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        const unlocked = sessionStorage.getItem(`case-study-${slug}-unlocked`);
+        const unlocked = sessionStorage.getItem(`portfolio-unlocked`);
         if (unlocked === "true") {
             onUnlock();
         }
         setIsLoaded(true);
-    }, [slug, onUnlock]);
+    }, [onUnlock]);
 
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ export function PasswordGate({ slug, onUnlock, isLocked, title = "Protected Case
         const { verifyPassword } = await import("@/shared/lib/password-utils");
 
         if (verifyPassword(slug, password)) {
-            sessionStorage.setItem(`case-study-${slug}-unlocked`, "true");
+            sessionStorage.setItem(`portfolio-unlocked`, "true");
             onUnlock();
         } else {
             setError("Incorrect password. Please try again.");

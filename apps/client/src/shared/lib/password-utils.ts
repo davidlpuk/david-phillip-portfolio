@@ -17,7 +17,7 @@ export function verifyPassword(slug: string, password: string): boolean {
     }
 
     const storedPassword = getCaseStudyPassword(slug);
-    
+
     if (storedPassword === "") {
         return false;
     }
@@ -28,12 +28,8 @@ export function verifyPassword(slug: string, password: string): boolean {
 /**
  * Check if user has access to a case study
  */
-export function hasAccess(slug: string): boolean {
-    if (!isCaseStudyProtected(slug)) {
-        return true;
-    }
-    
-    const unlocked = sessionStorage.getItem(`case-study-${slug}-unlocked`);
+export function hasAccess(_slug: string): boolean {
+    const unlocked = sessionStorage.getItem(`portfolio-unlocked`);
     return unlocked === "true";
 }
 

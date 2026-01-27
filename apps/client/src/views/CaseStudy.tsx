@@ -1216,27 +1216,27 @@ const caseStudiesData: CaseStudiesData = {
         title: "Rebuilding Lending for Small Business",
         subtitle: "Digitising SME Lending at the UK's Largest Bank",
         role: "UX Lead | SME Banking Transformation",
-        period: "2019–2021",
+        period: "2021 (6 Months)",
         thumbnail: "/videos/HSBC_Kinetic.mp4",
-        summary: "Small business owners were abandoning mid-flow lending applications at alarming rates. The legacy process was built for branches, not phones, and HSBC was losing market share to digital-first lenders. As UX Lead, I led the redesign of the end-to-end lending journey, built up the design team to 3 designers, and built the patterns and processes that would define HSBC's SME digital experience going forward.",
+        summary: "Led design for HSBC Kinetic, a mobile banking app for small businesses as part of a multi-billion pound transformation programme. I was responsible for transforming the end-to-end lending journey, shifting from a branch-first process to a streamlined digital experience that balanced user needs with rigorous compliance constraints.",
         tldrTakeaways: [
-            "Achieved 35% adoption within 6 months (target: 25%) through iterative validation",
-            "Scaled design team to 3 designers with clear ownership and career paths",
-            "Built shared pattern library with 80%+ component reuse across SME products",
-            "Reduced lending application drop-off by 40% through journey optimisation"
+            "Scaled UX/UI team working across 5 core lending products",
+            "Introduced design sprints that cut development cycles by 30%",
+            "Built shared pattern library achieving 80%+ component reuse",
+            "Embedded continuous user research into product roadmap decisions"
         ],
         metrics: [
             { label: "Adoption", value: "35%", description: "Within 6 months (target was 25%)" },
-            { label: "Team Growth", value: "2→8", description: "Designers scaled" },
-            { label: "Component Reuse", value: "80%+", description: "Across SME products" },
-            { label: "Drop-off Reduction", value: "-40%", description: "Lending application abandonment" },
-            { label: "Development Speed", value: "+50%", description: "After pattern library" }
+            { label: "Dev Velocity", value: "+30%", description: "Cycle time reduction via sprints" },
+            { label: "Component Reuse", value: "80%+", description: "Across all lending products" },
+            { label: "Design Team", value: "3", description: "Specialists led and mentored" },
+            { label: "Research Impact", value: "Continuous", description: "Embedded in monthly cycles" }
         ],
         meta: {
             role: "UX Lead - SME Banking",
-            date: "2019-2021",
+            date: "2021 (6 Months)",
             stakeholders: ["Product Leadership", "Engineering", "Business Banking", "Risk & Compliance", "Technology"],
-            teamSize: "Scaled the team to 3 designers (1 Lead, 1 Senior, 1 UI Designer)"
+            teamSize: "Led team of 3 designers across business banking and lending products"
         },
         sections: [
             {
@@ -1245,120 +1245,32 @@ const caseStudiesData: CaseStudiesData = {
                 icon: Target,
                 content: [
                     {
-                        subtitle: "A Branch-First Process in a Digital World",
-                        text: "HSBC's small business lending process was designed for in-branch conversations with relationship managers. When COVID-19 accelerated the shift to digital, the existing journey couldn't cope. Small business owners — already time-poor and stressed — were abandoning applications mid-flow at rates approaching 60%. The process asked for information they didn't have readily available and required steps that made sense for paper forms but not smartphones.",
-                        caption: "Legacy lending journey (left) versus redesigned digital experience (right)"
-                    },
-                    {
-                        subtitle: "Competitive Pressure",
-                        text: "Digital-first lenders like Funding Circle and Tide were capturing market share with applications that could be completed in minutes. HSBC's reputation for stability meant nothing if potential customers couldn't be bothered to finish an application that took 45 minutes. The business imperative was clear: digitise the journey or lose customers."
-                    },
-                    {
-                        subtitle: "Organisational Resistance",
-                        text: "This wasn't just a UX challenge — it was a cultural one. The bank had built its success on relationship-based banking. Some stakeholders viewed digital self-service as downmarket, a concession to competitors rather than an improvement. Convincing the organisation that digital could maintain the premium relationship experience while improving efficiency was as challenging as the design work itself."
+                        subtitle: "A Branch-First Process",
+                        text: "HSBC's small business lending process was historically designed for in-branch conversations. Small business owners were abandoning digital applications at high rates because the process felt clunky and asked for information they didn't have readily available on their phones.",
+                        caption: "Scaling design for a multi-billion pound transformation at HSBC Kinetic"
                     }
                 ]
             },
             {
-                id: "role",
-                title: "Role & Ownership",
+                id: "what-i-did",
+                title: "What I Did",
                 icon: CheckCircle,
-                content: [
-                    {
-                        subtitle: "Strategic Leadership",
-                        text: "As UX Lead for the SME Banking transformation, I owned the end-to-end lending experience design. This meant setting the vision, building the team, and partnering with Product and Engineering to execute. I reported into the Business Banking leadership and worked closely with Technology and Risk to navigate the complexity of regulated financial services.",
-                        caption: "The HSBC Kinetic team: designers, product managers, and engineers"
-                    },
-                    {
-                        subtitle: "Team Building",
-                        text: "When I joined, there were 2 designers covering all SME products. Over 18 months, I grew the team to 8, establishing clear ownership areas, career paths, and a design operations rhythm that scaled. This wasn't just hiring — it was building a design culture that could operate at the pace our business needed."
-                    },
-                    {
-                        subtitle: "Cross-Functional Partnership",
-                        text: "I embedded design into every stage of the product development lifecycle. Design reviews became mandatory. Research informed roadmap decisions. And I built relationships with Risk and Compliance that turned them from gatekeepers into collaborators. This was essential for moving at the speed we needed."
-                    }
-                ]
-            },
-            {
-                id: "key-decisions",
-                title: "Key Decisions",
-                icon: PenTool,
                 items: [
                     {
-                        number: "1",
-                        title: "Iterative over Big Bang Launch",
-                        text: "The business wanted a grand reveal — a complete transformation launched in one go. I pushed back, arguing that in a regulated environment, we needed continuous validation. We launched a minimum viable journey first, measured adoption and drop-off, then iterated. This approach meant we'd already learned what worked by the time competitors were still planning their big launches.",
-                        caption: "Iterative launch approach: from MVP to full journey"
+                        title: "Scaled the UX/UI Team",
+                        text: "I grew and led a team of 3 specialists working across 5 different lending products, establishing clear ownership and career paths within the 6-month transformation window."
                     },
                     {
-                        number: "2",
-                        title: "Built pattern library before features",
-                        text: "Rather than rushing to design screens, I invested 6 weeks in a shared pattern library. This was painful — stakeholders wanted to see progress, and screens are more tangible than components. But with 3 designers working on different parts of the journey, consistency would have been impossible without it. The 80% component reuse proved the investment was right."
+                        title: "Introduced Design Sprints",
+                        text: "By introducing structured design sprints, we successfully cut development cycles by 30%, moving from months of planning to weeks of validated prototyping."
                     },
                     {
-                        number: "3",
-                        title: "Designed for abandonment, not completion",
-                        text: "Most lending journeys assume users will complete the process. I designed for the opposite: what happens when someone stops midway? Can we capture enough value that even partial completion matters? Can we make it easy to resume? This mindset shift changed everything — from save points to progress indicators to the information hierarchy itself."
+                        title: "Built Shared Pattern Library",
+                        text: "I invested in a foundational pattern library that achieved over 80% component reuse across SME products, significantly accelerating both design and development."
                     },
                     {
-                        number: "4",
-                        title: "Embedded Risk in Design Sprints",
-                        text: "Regulatory requirements were often discovered late, causing rework and frustration. I changed this by including Risk and Compliance in design sprints from day one. They saw the designs evolve, understood the trade-offs, and could flag issues before we'd invested heavily. This collaboration was essential for moving faster than the organisation was used to."
-                    }
-                ]
-            },
-            {
-                id: "research",
-                title: "Research & Discovery",
-                icon: Search,
-                content: [
-                    {
-                        subtitle: "Understanding Abandonment",
-                        text: "I established a research programme focused on understanding why users abandoned applications. This wasn't just surveys — it was calling users who'd dropped off, observing them in their environments, and understanding the emotional state they were in when they gave up. The insight: they weren't rejecting HSBC — they were rejecting the cognitive load of a process that felt designed for branch staff, not business owners."
-                    },
-                    {
-                        subtitle: "What We Learned",
-                        text: "The legacy journey assumed users had all their financial information to hand. It asked for details business owners didn't track separately. It required documents they had to request from accountants. The redesigned journey worked with how business owners actually operated: mobile-first, partial information, interrupted by the demands of running a business."
-                    },
-                    {
-                        subtitle: "Continuous Validation",
-                        text: "Rather than one big research study, I established a continuous feedback loop. Every design iteration was tested. Every release was measured. We tracked drop-off points, support queries, and time-to-completion. This data-informed approach meant we were always learning and always improving."
-                    }
-                ]
-            },
-            {
-                id: "design-system",
-                title: "Pattern Library",
-                icon: LayoutTemplate,
-                content: [
-                    {
-                        subtitle: "Investment in Foundations",
-                        text: "I made the call to pause feature work for 6 weeks to build a shared pattern library. This covered components (buttons, inputs, cards), patterns (forms, error states, progress indicators), and templates (application screens, dashboards, reports). The 80% reuse across SME products validated the investment.",
-                        caption: "Pattern library components and their usage across products"
-                    },
-                    {
-                        subtitle: "Governance and Evolution",
-                        text: "A pattern library is only as good as its governance. I established a process for proposing new patterns, reviewing them with the team, and documenting decisions. This meant the library evolved with our needs while maintaining consistency. It became the source of truth for designers and developers alike."
-                    }
-                ]
-            },
-            {
-                id: "ai-integration",
-                title: "AI Integration",
-                icon: Rocket,
-                content: [
-                    {
-                        subtitle: "Research Synthesis",
-                        text: "With dozens of user interviews and hundreds of survey responses, synthesis was becoming a bottleneck. I implemented Claude to help organise findings, identify patterns, and surface quotes that supported different insights. This augmented our research capacity without replacing the human judgment needed for strategic interpretation.",
-                        caption: "AI-augmented research workflow"
-                    },
-                    {
-                        subtitle: "Design Ideation",
-                        text: "I created prompt libraries that helped the team generate ideas faster. These weren't about replacing creativity — they were about structured thinking that helped designers explore more possibilities before committing to a direction. The prompts covered competitive analysis, pattern matching, and problem reframing."
-                    },
-                    {
-                        subtitle: "Accessibility Testing",
-                        text: "AI tools helped us scale accessibility testing by automatically checking colour contrast, keyboard navigation, and screen reader compatibility. This augmented our manual testing and caught issues earlier in the process."
+                        title: "Embedded User Research",
+                        text: "Instead of isolated studies, I embedded continuous user research directly into the product decision-making process, ensuring every roadmap item was validated by small business owners."
                     }
                 ]
             },
@@ -1368,59 +1280,16 @@ const caseStudiesData: CaseStudiesData = {
                 icon: TrendingUpIcon,
                 content: [
                     {
-                        subtitle: "Adoption Metrics",
-                        text: "The redesigned lending journey achieved 35% adoption within 6 months — exceeding the 25% target. More importantly, completion rates improved from 40% to 65%, meaning fewer abandoned applications and more funded loans.",
-                        caption: "Impact metrics: 35% adoption, 40% reduction in drop-off"
+                        subtitle: "Adoption & Growth",
+                        text: "The redesigned journey achieved 35% adoption within just 6 months, comfortably exceeding the initial business target of 25%."
                     },
                     {
-                        subtitle: "Team and Process",
-                        text: "The design team grew from 2 to 8 specialists. Pattern library adoption reached 80%+ across SME products. Development speed increased by 50% because teams weren't rebuilding the same components."
+                        subtitle: "Compliance & UX",
+                        text: "Successfully balanced a premium user experience with intense regulatory and compliance constraints, turning potential blockers into built-in design features."
                     },
                     {
-                        subtitle: "Cultural Change",
-                        text: "Design became a respected function within SME Banking. The patterns and processes I established continued to be used long after I departed. Risk and Compliance started attending other teams' design sprints, spreading the collaborative approach we'd developed."
-                    }
-                ]
-            },
-            {
-                id: "reflection",
-                title: "Honest Reflection",
-                icon: Lightbulb,
-                content: [
-                    {
-                        subtitle: "What I'd Do Differently",
-                        text: "I should have involved the contact centre team earlier. They were the ones receiving calls from frustrated applicants, but I didn't engage them until after launch. Their insights on common questions and pain points would have accelerated our learning. Now I always include customer-facing teams in research planning."
-                    },
-                    {
-                        subtitle: "What I'd Do Sooner",
-                        text: "I should have established a design system governance group from the beginning. As the team grew, debates about component choices became more frequent. A small group empowered to make decisions would have reduced friction and kept us moving faster."
-                    },
-                    {
-                        subtitle: "What Worked",
-                        text: "The iterative launch approach was essential. It built trust with stakeholders because they could see real metrics rather than just promises. It also gave us permission to experiment because failures were contained and learnings were immediate."
-                    }
-                ]
-            },
-            {
-                id: "takeaways",
-                title: "Key Takeaways",
-                icon: CheckCircle,
-                items: [
-                    {
-                        title: "Design for how people actually work",
-                        text: "Business owners don't operate in focused sessions with all their documents to hand. The journey had to work with interruptions, mobile devices, and partial information."
-                    },
-                    {
-                        title: "Iterative wins over Big Bang",
-                        text: "In regulated environments, continuous validation reduces risk and builds stakeholder confidence. The grand reveal is a myth."
-                    },
-                    {
-                        title: "Pattern libraries enable scale",
-                        text: "With multiple teams working on connected products, consistency requires deliberate investment. The 6-week pause paid dividends throughout the programme."
-                    },
-                    {
-                        title: "Make gatekeepers collaborators",
-                        text: "Including Risk and Compliance in design sprints wasn't about approvals — it was about co-creation. Their constraints became inputs, not blockers."
+                        subtitle: "Rapid Prototyping",
+                        text: "Established a rapid prototyping practice that was eventually adopted by other teams across HSBC, setting a new standard for how the bank validates digital products."
                     }
                 ]
             }
@@ -1443,7 +1312,7 @@ export default function CaseStudy() {
         if (!isCaseStudyProtected(slug)) {
             setIsUnlocked(true);
         } else {
-            const unlocked = sessionStorage.getItem(`case-study-${slug}-unlocked`);
+            const unlocked = sessionStorage.getItem(`portfolio-unlocked`);
             if (unlocked === "true") {
                 setIsUnlocked(true);
             }

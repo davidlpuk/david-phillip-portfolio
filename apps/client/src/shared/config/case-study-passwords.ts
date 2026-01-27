@@ -14,17 +14,11 @@ export interface PasswordConfig {
 // Add case studies and their passwords here
 // Note: Passwords are stored in plain text for client-side demo
 // In production, use server-side validation with hashed passwords
-export const caseStudyPasswords: Record<string, string> = {
-    // Example: coutts: "coutts2024",
-    cognism: "cognism2024",
-    coutts: "coutts2024",
-    hsbc: "hsbc2024",
-    "hsbc-kinetic": "kinetic2024",
-};
+// Global password for all protected case studies
+export const GLOBAL_PASSWORD = "david2026ux";
 
 // List of protected case study slugs
 export const protectedCaseStudies: string[] = [
-    // Add slugs of case studies that require passwords
     "cognism",
     "coutts",
     "hsbc",
@@ -35,6 +29,6 @@ export function isCaseStudyProtected(slug: string): boolean {
     return protectedCaseStudies.includes(slug);
 }
 
-export function getCaseStudyPassword(slug: string): string {
-    return caseStudyPasswords[slug] || "";
+export function getCaseStudyPassword(_slug: string): string {
+    return GLOBAL_PASSWORD;
 }
