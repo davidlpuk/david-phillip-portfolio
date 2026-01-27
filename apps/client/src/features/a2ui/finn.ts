@@ -171,6 +171,6 @@ export function generateFinnResponse(input: string): FinnResponse {
 
     // Fallback (Generic "Hook")
     return {
-        text: "I am trained to help you de-risk your next leadership hire. Would you like to see David's **Portfolio**, his **Cognism Deep-Dive**, or are you ready to **Schedule a Call**?"
+        text: "I am trained to help you de-risk your next leadership hire. Would you like to see David's **Portfolio**, his **Cognism Deep-Dive**, or are you ready to **Book a 15 min call**?"
     };
 }

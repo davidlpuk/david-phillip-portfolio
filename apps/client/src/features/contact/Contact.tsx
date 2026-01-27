@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight, Loader2, FileText } from "lucide-react";
+import { Mail, ArrowRight, Loader2, FileText, Calendar } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 
 /**
@@ -79,7 +79,7 @@ export default function Contact() {
           {/* Section Label */}
           <motion.div variants={itemVariants} className="flex items-center justify-center gap-2 mb-4">
             <div className="h-px w-8 bg-accent-foreground/30"></div>
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Get in Touch</span>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Book a 15 min call</span>
             <div className="h-px w-8 bg-accent-foreground/30"></div>
           </motion.div>
 
@@ -106,9 +106,9 @@ export default function Contact() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button asChild size="xl">
-              <a href="mailto:david.phillip@gmail.com">
-                <Mail size={18} />
-                Get in Touch
+              <a href="https://calendly.com/david-phillip/30min" target="_blank" rel="noopener noreferrer">
+                <Calendar size={18} />
+                Book a 15 min call
                 <ArrowRight size={18} />
               </a>
             </Button>

@@ -17,7 +17,7 @@ export const EXECUTIVE_BLUEPRINTS: Record<string, Blueprint> = {
     "book-call": {
         id: "book-call",
         type: "calendly",
-        title: "Schedule a Call",
+        title: "Book a 15 min call",
         data: {
             url: "https://calendly.com/david-phillip/30min"
         }

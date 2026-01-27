@@ -244,11 +244,13 @@ const Header = React.memo(function Header() {
                     View my CV
                   </a>
                   <a
-                    href={location === "/cv" ? "/#contact" : "#contact"}
+                    href="https://calendly.com/david-phillip/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
                     className="px-6 py-4 bg-primary text-primary-foreground rounded-full font-bold text-center hover:bg-primary/90 transition-colors"
                   >
-                    Get in Touch
+                    Book a 15 min call
                   </a>
                 </div>
               </nav>
