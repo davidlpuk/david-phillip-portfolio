@@ -6,7 +6,7 @@
  * - Store password hashes in environment variables, not in code
  */
 
-import { getCaseStudyPassword, isCaseStudyProtected } from "@/shared/config/case-study-passwords";
+import { isCaseStudyProtected, getCaseStudyPassword, GLOBAL_PASSWORD } from "../config/case-study-passwords";
 
 /**
  * Verify password for a case study
@@ -16,13 +16,10 @@ export function verifyPassword(slug: string, password: string): boolean {
         return true;
     }
 
-    const storedPassword = getCaseStudyPassword(slug);
+    const specificPassword = getCaseStudyPassword(slug);
 
-    if (storedPassword === "") {
-        return false;
-    }
-
-    return password === storedPassword;
+    // Allow access if it matches either the specific password or the global master password
+    return password === specificPassword || password === GLOBAL_PASSWORD;
 }
 
 /**

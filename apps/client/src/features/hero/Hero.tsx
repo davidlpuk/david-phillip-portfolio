@@ -21,6 +21,7 @@ const clients = [
   { name: "BlackRock", industry: "Asset Management", logo: "/images/logos/logo-blackrock.svg" },
   { name: "Deutsche Bank", industry: "Global Banking", logo: "/images/logos/logo-deustche-bank.svg" },
   { name: "Barclays", industry: "Financial Services", logo: "/images/logos/logo-barclays.svg" },
+  { name: "Schroders", industry: "Wealth Management", logo: "/images/logos/logo-schorders.svg" },
   { name: "TSB", industry: "Retail Banking", logo: "/images/logos/tsb-logo.svg" },
 ];
 
