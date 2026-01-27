@@ -1266,17 +1266,20 @@ const caseStudiesData: CaseStudiesData = {
                     {
                         number: "01",
                         title: "High-Velocity Pod Leadership",
-                        text: "I built and led a multidisciplinary design pod (UX/UI) focused on five key verticals: Business Loans, Credit Cards, Overdrafts, Marketplace Integrations, and Open Banking. I transitioned the team from slow-moving waterfall methods to a rapid prototyping framework, allowing us to validate complex lending flows before a single line of code was written."
+                        text: "I built and led a multidisciplinary design pod (UX/UI) focused on five key verticals: Business Loans, Credit Cards, Overdrafts, Marketplace Integrations, and Open Banking. I transitioned the team from slow-moving waterfall methods to a rapid prototyping framework, allowing us to validate complex lending flows before a single line of code was written.",
+                        image: "/images/case-study-hsbc-kinectic-journeys-1.png"
                     },
                     {
                         number: "02",
                         title: "De-Risking through Evidence",
-                        text: "To bridge the gap between Product and Engineering, I facilitated design sprints that demonstrated how early-stage UX could identify technical constraints. This \"design as an accelerator\" approach gained stakeholder buy-in to embed designers directly into agile squads, breaking down traditional silos."
+                        text: "To bridge the gap between Product and Engineering, I facilitated design sprints that demonstrated how early-stage UX could identify technical constraints. This \"design as an accelerator\" approach gained stakeholder buy-in to embed designers directly into agile squads, breaking down traditional silos.",
+                        image: "/images/case-study-hsbc-kinectic-journey-3.png"
                     },
                     {
                         number: "03",
                         title: "Systemic Consistency",
-                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern."
+                        text: "With five products running in parallel, I enforced a \"systemic design\" philosophy. By leveraging and contributing to the Kinetic design system, we ensured that a user moving from an overdraft application to an Open Banking integration experienced a single, unified brand voice and UI pattern.",
+                        image: "/images/case-study-hsbc-kinectic-journeys-zoom-2.png"
                     }
                 ]
             },
