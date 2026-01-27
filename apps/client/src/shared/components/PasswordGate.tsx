@@ -70,7 +70,7 @@ export function PasswordGate({ slug, onUnlock, isLocked, title = "Protected Case
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="w-full max-w-md"
+                        className="w-full max-w-xl"
                     >
                         <div className="flex justify-center mb-8">
                             <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center">
