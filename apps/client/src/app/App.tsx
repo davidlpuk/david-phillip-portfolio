@@ -18,6 +18,8 @@ const CVBuilder = lazy(() => import("@/views/CVBuilder")); // 🔒 AI CV Builder
 const ArticleGenerator = lazy(() => import("@/views/ArticleGenerator")); // 🔒 Article Generator
 const ArticleManager = lazy(() => import("@/views/ArticleManager")); // 🔒 Article Manager
 const ExecutiveExplorer = lazy(() => import("@/views/ExecutiveExplorer")); // 🔒 Agentic Explorer
+const PortfolioV2 = lazy(() => import("@/views/PortfolioV2"));
+const PortfolioV2CaseStudy = lazy(() => import("@/views/PortfolioV2CaseStudy"));
 
 // Loading fallback component
 const PageLoader = React.memo(function PageLoader() {
@@ -55,11 +57,12 @@ function Router() {
           // Add some offset for the fixed header
           const headerHeight = 80; // Approximate header height
           const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+          const offsetPosition =
+            elementPosition + window.pageYOffset - headerHeight;
 
           window.scrollTo({
             top: offsetPosition,
-            behavior: 'smooth'
+            behavior: "smooth",
           });
         }
       };
@@ -102,6 +105,16 @@ function Router() {
         <Route path="/design-system">
           <Suspense fallback={<PageLoader />}>
             <DesignSystem />
+          </Suspense>
+        </Route>
+        <Route path="/portfolio-v2">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioV2 />
+          </Suspense>
+        </Route>
+        <Route path="/portfolio-v2/case-study/:slug">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioV2CaseStudy />
           </Suspense>
         </Route>
         {/* 🔒 SECRET ROUTE - Not linked anywhere */}

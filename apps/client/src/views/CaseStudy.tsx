@@ -945,71 +945,22 @@ const caseStudiesData: CaseStudiesData = {
                 ]
             },
             {
-                id: "deliverables",
-                title: "Key Deliverables & Actions",
-                icon: CheckCircle,
-                items: [
-                    {
-                        title: "End-to-End Lending Suite",
-                        text: "Directed the UX strategy for Business Loans, Credit Cards, and Overdrafts."
-                    },
-                    {
-                        title: "Ecosystem Integration",
-                        text: "Led the design for Marketplace Integrations and Open Banking, positioning the app as a holistic business tool rather than just a bank account."
-                    },
-                    {
-                        title: "Onboarding Transformation",
-                        text: "Personally led the redesign of the digital onboarding journey to remove friction for new applicants, establishing the standard for all subsequent lending products."
-                    },
-                    {
-                        title: "Process Optimisation",
-                        text: "Implemented a repeatable sprint framework that reduced time-to-market for feature iterations by 30%."
-                    }
-                ]
-            },
-            {
-                id: "work-built",
-                title: "Examples of Work Built",
-                icon: Layers,
-                items: [
-                    {
-                        title: "Full Flow: Personal Guarantee Overdraft Extension",
-                        image: "/images/case-study-hsbc-kinectic-journeys-1.png",
-                        caption: "An example of a Personal Guarantee Overdraft Extension journey showing full flow with edge cases."
-                    },
-                    {
-                        title: "Detailed Interaction",
-                        image: "/images/case-study-hsbc-kinectic-journeys-zoom-2.png",
-                        caption: "Zoomed up example of the detail of each screen showing precise detail and different interactions with other journeys within the wider-app."
-                    },
-                    {
-                        title: "Screen Details",
-                        image: "/images/case-study-hsbc-kinectic-journey-3.png",
-                        caption: "Example of zoomed up screens."
-                    }
-                ]
-            },
-            {
                 id: "impact",
                 title: "Impact & Results",
                 icon: TrendingUpIcon,
                 content: [
                     {
-                        subtitle: "35% Adoption Rate",
-                        text: "High uptake of lending products among the initial Kinetic user base."
+                        subtitle: "Measurable Outcomes",
+                        text: "Achieved 35% adoption rate for lending products and a 30% reduction in development cycles through high-fidelity prototyping and early stakeholder alignment. Successfully delivered the end-to-end lending suite (Business Loans, Credit Cards, Overdrafts) plus ecosystem integrations for Marketplace and Open Banking, positioning the app as a holistic business tool."
                     },
                     {
-                        subtitle: "30% Faster Delivery",
-                        text: "Reduced development cycles through high-fidelity prototyping and early stakeholder alignment."
-                    },
-                    {
-                        subtitle: "£14bn Programme Support",
-                        text: "Provided critical design leadership for one of HSBC’s largest-ever digital investments."
-                    },
-                    {
-                        subtitle: "Team Growth",
-                        text: "Successfully mentored a lean design pod, establishing user-centred design (UCD) as a standard practice within the mobile banking division.",
+                        subtitle: "Strategic Impact",
+                        text: "Provided critical design leadership for a £14 billion digital transformation programme. The systemic design approach ensured consistency across five parallel products while personally leading the onboarding redesign that removed friction for new applicants, establishing the standard for all subsequent lending products.",
                         image: "/images/case-study-hsbc-kinectic-journey-5.png"
+                    },
+                    {
+                        subtitle: "Organisational Change",
+                        text: "Successfully mentored a lean design pod, establishing user-centred design (UCD) as a standard practice within the mobile banking division. The rapid prototyping framework demonstrated how design sprints could de-risk innovation and secure executive confidence—even in highly regulated environments."
                     }
                 ],
                 testimonials: [
@@ -1021,17 +972,21 @@ const caseStudiesData: CaseStudiesData = {
                 ]
             },
             {
-                id: "reflections",
-                title: "Critical Reflections",
+                id: "takeaways",
+                title: "Key Takeaways",
                 icon: Shield,
                 items: [
                     {
                         title: "The Power of Lean Teams",
-                        text: "Leading a small, focused pod allowed for faster decision-making and tighter consistency across the five products compared to larger, more bloated design departments."
+                        text: "Leading a small, focused pod allowed for faster decision-making and tighter consistency across five products compared to larger design departments."
                     },
                     {
-                        title: "Navigating Complexity",
-                        text: "The project proved that even in highly regulated environments, rapid prototyping is the best tool for de-risking innovation and securing executive confidence."
+                        title: "Design as an Accelerator",
+                        text: "Design sprints proved to be the best tool for de-risking innovation and identifying technical constraints early, gaining stakeholder buy-in across Product and Engineering."
+                    },
+                    {
+                        title: "Systemic Thinking Scales",
+                        text: "A unified design system philosophy ensured consistent user experiences across parallel product streams, from lending applications to Open Banking integrations."
                     }
                 ]
             }
