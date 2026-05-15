@@ -908,16 +908,12 @@ const caseStudiesData: CaseStudiesData = {
                 content: [
                     {
                         subtitle: "Market Context",
-                        text: "HSBC needed a digital-first \"challenger\" brand to capture the SME market. Success required moving traditionally slow, offline lending processes (loans, overdrafts) into a seamless, mobile-first ecosystem.",
+                        text: "HSBC needed a digital-first \"challenger\" brand to capture the SME market. Success required moving traditionally slow, offline lending processes (loans, overdrafts) into a seamless, mobile-first ecosystem while navigating the regulatory rigour of a global bank.",
                         image: "/images/case-study-kinetic-brand-evolution.jpeg"
                     },
                     {
                         subtitle: "The Bottleneck",
                         text: "Existing engineering and product silos within the bank were resulting in fragmented hand-offs and inconsistent UX across the lending portfolio."
-                    },
-                    {
-                        subtitle: "The Stake",
-                        text: "Navigating the regulatory rigour of a global bank while delivering the \"fast-paced\" experience expected by modern business owners."
                     }
                 ]
             },
