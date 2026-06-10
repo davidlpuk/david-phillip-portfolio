@@ -176,7 +176,7 @@ export default function CV() {
 
         return (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                <article className="prose prose-neutral dark:prose-invert max-w-none 
+                <div className="prose prose-neutral dark:prose-invert max-w-none 
                     prose-h1:font-display prose-h1:font-bold prose-h1:tracking-tighter
                     prose-p:text-foreground prose-li:text-foreground
                     prose-strong:text-foreground prose-strong:font-bold
@@ -292,7 +292,7 @@ export default function CV() {
                             </div>
                         );
                     })}
-                </article>
+                </div>
                 <footer className="mt-24 pt-10 border-t border-border no-print">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Updated January 2026</p>

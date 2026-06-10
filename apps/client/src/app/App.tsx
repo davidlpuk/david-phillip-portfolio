@@ -79,6 +79,11 @@ function Router() {
       <Switch>
         <Route path="/">
           <Suspense fallback={<PageLoader />}>
+            <PortfolioV2 />
+          </Suspense>
+        </Route>
+        <Route path="/legacy">
+          <Suspense fallback={<PageLoader />}>
             <Home />
           </Suspense>
         </Route>
@@ -98,6 +103,11 @@ function Router() {
           </Suspense>
         </Route>
         <Route path="/case-study/:slug">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioV2CaseStudy />
+          </Suspense>
+        </Route>
+        <Route path="/legacy/case-study/:slug">
           <Suspense fallback={<PageLoader />}>
             <CaseStudy />
           </Suspense>
