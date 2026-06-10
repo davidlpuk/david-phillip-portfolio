@@ -64,7 +64,8 @@ export default function Hero() {
           alt=""
           role="presentation"
           className="w-full h-full object-cover opacity-40"
-          loading="lazy"
+          loading="eager"
+          decoding="async"
           width="1920"
           height="1080"
         />
@@ -102,7 +103,7 @@ export default function Hero() {
         {/* Section Label */}
         <motion.div variants={item} className="flex items-center gap-2 mb-6">
           <div className="h-px w-8 bg-accent-foreground/30"></div>
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Welcome to my portfolio</span>
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Head of Product Design · London</span>
         </motion.div>
 
         <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12 lg:gap-16">
@@ -123,7 +124,7 @@ export default function Hero() {
               className="font-sans text-lg md:text-xl mb-8 max-w-2xl leading-relaxed"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Scaling teams & driving $80M+ revenue impact through strategic Fintech transformation.
+              I build and lead the design teams behind $80M+ revenue growth in regulated fintech — from private banking at Coutts to B2B SaaS at Cognism.
             </motion.p>
 
             {/* Key Stats */}
@@ -190,10 +191,13 @@ export default function Hero() {
             <div className="w-full max-w-sm sm:max-w-md md:w-72 lg:w-80 xl:w-96 mx-auto md:mx-0">
               <img
                 src="/images/hero-image.png"
-                alt="David Phillip"
+                alt="David Phillip, product design leader"
                 className="w-full h-auto"
                 width="384"
                 height="480"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
           </motion.div>

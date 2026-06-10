@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /cv-builder
+Disallow: /article-generator
+Disallow: /article-manager
+
+Sitemap: https://david-phillip-portfolio.vercel.app/sitemap.xml

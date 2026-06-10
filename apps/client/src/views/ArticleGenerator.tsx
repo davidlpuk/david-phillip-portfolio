@@ -17,37 +17,37 @@ const turndownService = new TurndownService({
 // Add custom rules for better formatting
 turndownService.addRule('strikethrough', {
     filter: ['del', 's', 'strike'],
-    replacement: (content) => `~~${content}~~`
+    replacement: (content: string) => `~~${content}~~`
 });
 
 turndownService.addRule('underline', {
-    filter: (node) => node.style?.textDecoration === 'underline',
-    replacement: (content) => `<u>${content}</u>`
+    filter: (node: HTMLElement) => node.style?.textDecoration === 'underline',
+    replacement: (content: string) => `<u>${content}</u>`
 });
 
 turndownService.addRule('highlight', {
-    filter: (node) => node.style?.backgroundColor || node.classList.contains('highlight'),
-    replacement: (content) => `==${content}==`
+    filter: (node: HTMLElement) => node.style?.backgroundColor || node.classList.contains('highlight'),
+    replacement: (content: string) => `==${content}==`
 });
 
 // Handle font-weight bold
 turndownService.addRule('fontWeightBold', {
-    filter: (node) => {
+    filter: (node: HTMLElement) => {
         const style = node.getAttribute('style') || '';
         return style.includes('font-weight: bold') || style.includes('font-weight: 700') ||
             node.tagName === 'B' || node.classList.contains('bold');
     },
-    replacement: (content) => `**${content}**`
+    replacement: (content: string) => `**${content}**`
 });
 
 // Handle font-style italic
 turndownService.addRule('fontStyleItalic', {
-    filter: (node) => {
+    filter: (node: HTMLElement) => {
         const style = node.getAttribute('style') || '';
         return style.includes('font-style: italic') || node.tagName === 'I' ||
             node.classList.contains('italic');
     },
-    replacement: (content) => `*${content}*`
+    replacement: (content: string) => `*${content}*`
 });
 
 // Auto-detect headings based on content patterns
