@@ -12,10 +12,10 @@ hiring managers and curators single out, scored against an explicit rubric.
    VP portfolios, Adobe Design, Design Week and Lyssna's summary of NN/g
    research. Recruiter scan criteria come from
    `apps/reseach-recommendations/research-recommendations.md`.
-2. **Exemplars** are portfolios those sources hold up as strong. Their
-   features are taken from the published annotations; this environment's
-   network policy blocked direct visits, so exemplar columns record what is
-   *reported*, not what was inspected.
+2. **Exemplars** are portfolios those sources hold up as strong. Direct
+   browsing is blocked here, so their content was read through searches
+   restricted to each site's own domain (see "Inspected cohort"), supported
+   by the curators' published annotations.
 3. **Scoring**: each criterion is 0 (absent), 1 (partial) or 2 (strong). The
    original site is commit `145356f` (the live v2 before this redesign).
 
@@ -116,6 +116,64 @@ independent standard rather than criteria written for this site.
 Coverage: every trait except talks, community roles, press and a video intro.
 All four depend on material David would need to supply.
 
+## Inspected cohort: 10 curator-endorsed leadership portfolios
+
+Each portfolio below was read from its own pages using searches restricted to
+that site's domain (direct browsing is blocked here), except Ramy Adel, whose
+evidence comes from the Leadership Folios annotation. Twelve content criteria
+are drawn from the rubric. ✓ = evidence found, ✗ = evidence of absence,
+· = no evidence found either way.
+
+| Criterion | David | Louie | Califa | Adel | Teixeira | Goas | Bukengolts | Gaur | Watson | Gajara |
+| --- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| C1 Clear title and level up front | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| C2 Availability or how to engage | ✓ | ✓ | · | · | ✓ | · | · | · | · | · |
+| C3 Team scale in numbers | ✓ | ✓ | ✓ | ✓ | · | ✓ | · | ✓ | · | · |
+| C4 Values or leadership philosophy | ✓ | ✓ | · | · | · | · | · | · | · | · |
+| C5 Quantified outcomes | ✓ | ✓ | · | ✓ | · | ✓ | ✓ | · | · | · |
+| C6 Leadership as its own case study | ✓ | ✓ | ✓ | ✓ | · | ✓ | · | · | · | · |
+| C7 Several case studies with clear role | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | · | ✓ | ✗ |
+| C8 Confidential work handled credibly | ✓ | · | · | ✓ | ✓ | · | ✓ | · | ✓ | · |
+| C9 Testimonials or endorsements | ✓ | ✓ | ✓ | · | · | · | · | · | · | ✓ |
+| C10 Writing | ✓ | ✓ | ✓ | · | ✓ | ✓ | · | ✓ | · | · |
+| C11 Talks, awards, press or community | ✗ | · | ✓ | · | ✓ | · | ✓ | ✓ | ✓ | ✓ |
+| C12 Hiring-manager aids (90-day plan, "what this shows") | ✓ | · | · | · | · | · | · | · | · | · |
+| **Criteria evidenced** | **11** | **9** | **7** | **6** | **6** | **6** | **5** | **4** | **4** | **4** |
+
+Evidence notes:
+
+- **Louie:** "4Ps" values page; org doubled in two months and capacity grew 3x;
+  Yahoo News Stream ad revenue $100m to $350m; homepage endorsements; blog;
+  open to tech-company and startup clients.
+- **Califa:** dedicated "Design Leadership" case study (team doubled,
+  onboarding, retros, design principles); DigitalOcean case studies; blog;
+  client testimonial; co-founded Design & Code.
+- **Adel:** team sizes on the first screen; four case studies; research
+  operations as the leadership study, with task-completion metrics; employer
+  left unnamed.
+- **Teixeira:** OnePlus, Samsung, Equinox and TikTok work; GenAI product under
+  NDA; Adobe Max and SmashingConf talks; Clio and Cannes Lions awards; founder
+  of UX Collective.
+- **Goas:** Dialpad design team grown from 2 to 8; three major launches;
+  review cycles nearly halved; blog.
+- **Bukengolts:** six case studies framed as decision and result, no client
+  names; design system across 800+ properties, production time down 40%;
+  teaching.
+- **Gaur:** UX executive leading 100+ people; 12 design patents; writing.
+- **Watson:** featured case studies, several password-protected, with
+  process and role credits; conference speaking; generative-art side
+  practice.
+- **Gajara:** About page with recognition and client testimonials; talks.
+
+**Reading this fairly:** David's site shows evidence for the most criteria
+(11 of 12; the next is 9). It is the only one with explicit hiring-manager
+aids. It is behind several peers on public stature: talks, awards, patents
+and press. The ranking is by *evidenced* coverage. A "·" may hide a feature
+the search did not surface, so this places David's site at the top of the
+inspected cohort on the evidence available, not on a complete audit. Visual
+craft and performance could not be compared, because the peers' sites
+cannot be measured from here.
+
 ## Verified, and not verified
 
 **Verified with independent tools:** accessibility (axe-core), performance,
@@ -124,18 +182,19 @@ best practices and SEO (Lighthouse), prerendered output and hydration
 successful preview deployment of commit `6893e50` ("Deployment has
 completed"); production updates when the branch is merged to `main`.
 
-**Not verified:** a ranked "top 5" placement. No authoritative ranking of
-design-leadership portfolios exists. This environment's network policy also
-denied every exemplar site (`leadershipfolios.com`, `malouie.com`,
+**Not verified:** a "top 5" placement by any external authority, because
+none exists. The inspected cohort above is the closest available comparison.
+This environment's network policy also denied direct visits to every exemplar
+site (`leadershipfolios.com`, `malouie.com`,
 `joelcalifa.com`, `fabricio.work`, `julius.fm`), the Wayback Machine and
 `*.vercel.app`. The keyless PageSpeed Insights quota was exhausted, so the
-exemplars could not be inspected or measured directly. The rubric score above
-is an assessment, not a ranking.
+peers' visual craft and performance could not be measured. Their content was
+read through domain-restricted search instead (see the cohort above).
 
-**To complete a side-by-side comparison**, allow those domains in the cloud
-environment's network settings, or supply a PageSpeed Insights API key. Each
-exemplar can then be screenshotted and run through the same Lighthouse and
-axe checks as this site.
+**To complete the visual and performance side of the comparison**, allow
+those domains in the cloud environment's network settings, or supply a
+PageSpeed Insights API key. Each peer can then be screenshotted and run
+through the same Lighthouse and axe checks as this site.
 
 ## Sources
 
@@ -146,6 +205,13 @@ axe checks as this site.
 - [Joel Califa: Design Leadership case study](https://joelcalifa.com/work/digitalocean-design-leadership/)
 - [Fabricio Teixeira](https://fabricio.work/)
 - [Leadership Folios: Ramy Adel](https://www.leadershipfolios.com/p/ramy-adel)
+- [Joel Califa: Design Leadership](https://joelcalifa.com/work/digitalocean-design-leadership/) and [Portfolio of Work](https://joelcalifa.com/work/)
+- [Marissa Louie: Leadership Values](https://malouie.com/values) and [Executive Design Leadership](https://malouie.com/project/executive-design-leadership)
+- [Fabricio Teixeira: About](https://fabricio.work/about/)
+- [Ted Goas: Dialpad team work](https://www.tedgoas.com/work/dialpad-team/)
+- [Pavel Bukengolts: Enterprise design system](https://pavel.ux.business/work/enterprise-design-system/)
+- [Aastha Gaur: About](https://www.aasthagaur.com/about)
+- [Chelsea Watson](https://www.chelseawatson.com/) and [Darshan Gajara: About](https://darshan.design/about.html)
 - [UXPin: 16 best UX portfolio examples (2026)](https://www.uxpin.com/studio/blog/ux-portfolio-examples/)
 - [UX Collective: Directors and heads of UX, do you need portfolios?](https://uxdesign.cc/directors-and-heads-of-ux-do-you-need-portfolios-to-get-hired-bafbab2436ff)
 - [Diego Notes: A VP of Design portfolio](https://diegonmtz.substack.com/p/a-vp-of-design-portfolio-insights)
