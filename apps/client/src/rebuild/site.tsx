@@ -12,17 +12,16 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
+import type { PageMeta } from "@/rebuild/meta";
 import { profile } from "@/rebuild/portfolioData";
 
 const navItems = [
   { id: "work", label: "Work" },
   { id: "leadership", label: "Leadership" },
   { id: "testimonials", label: "References" },
+  { id: "writing", label: "Writing" },
   { id: "experience", label: "Experience" },
 ];
-
-const defaultDescription =
-  "David Phillip is a Head of Design and Design Director in London with 20+ years leading product design for Coutts, HSBC, BlackRock and Cognism. Design leadership for regulated, high-trust financial products.";
 
 function isHomePath(path: string) {
   return path === "/" || path === "/portfolio-v2";
@@ -33,7 +32,7 @@ function setMeta(selector: string, attribute: string, value: string) {
   if (element) element.setAttribute(attribute, value);
 }
 
-export function useDocumentMeta(title: string, description = defaultDescription) {
+export function useDocumentMeta({ title, description }: PageMeta) {
   const [location] = useLocation();
 
   useEffect(() => {

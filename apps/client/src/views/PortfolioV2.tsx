@@ -12,6 +12,8 @@ import {
   type CaseStudyDetail,
   type Testimonial,
 } from "@/rebuild/portfolioData";
+import { writing } from "@/rebuild/writing";
+import { pageMeta } from "@/rebuild/meta";
 import {
   AvailabilityBadge,
   ButtonLink,
@@ -237,6 +239,16 @@ function CaseStudyCard({
             </p>
             <h3 className="type-title mt-5 text-ink">{study.title}</h3>
             <p className="mt-5 text-[15px] leading-7 text-stone">{study.summary}</p>
+            <p className="mt-5 flex items-start gap-2.5 text-sm font-medium leading-6 text-ink">
+              <span
+                aria-hidden="true"
+                className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-cobalt"
+              />
+              <span>
+                <span className="sr-only">What this shows: </span>
+                {study.relevance}
+              </span>
+            </p>
           </div>
 
           <div>
@@ -565,6 +577,74 @@ function AIPractice() {
   );
 }
 
+function Writing() {
+  const latest = writing.slice(0, 3);
+
+  return (
+    <section
+      id="writing"
+      aria-labelledby="writing-title"
+      className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-36"
+    >
+      <Reveal>
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <Eyebrow index="05">Writing</Eyebrow>
+            <h2 id="writing-title" className="type-section mt-6 text-ink">
+              Thinking out loud on design, AI and leadership.
+            </h2>
+          </div>
+          <p className="type-lede text-stone lg:col-span-5">
+            {writing.length} essays published on LinkedIn since 2025, on where
+            design value is moving and how teams should adapt.
+          </p>
+        </div>
+      </Reveal>
+
+      <ol className="mt-14 border-b border-ink/10 md:mt-20">
+        {latest.map((entry, index) => (
+          <Reveal key={entry.id} as="li" delay={index * 0.05}>
+            <a
+              href={entry.url}
+              target="_blank"
+              rel="noreferrer"
+              className="group grid gap-4 border-t border-ink/10 py-8 transition md:grid-cols-12 md:gap-8"
+            >
+              <p className="type-label text-stone md:col-span-3">
+                <time dateTime={entry.date}>{entry.displayDate}</time>
+                <span className="mt-1 block text-cobalt">{entry.category}</span>
+              </p>
+              <div className="md:col-span-8">
+                <h3 className="font-editorial text-[clamp(1.625rem,2.6vw,2.25rem)] leading-[1.08] text-ink decoration-ink/30 underline-offset-[6px] group-hover:underline">
+                  {entry.title}
+                </h3>
+                <p className="mt-3 max-w-2xl text-[15px] leading-7 text-stone">
+                  {entry.excerpt}
+                </p>
+                <p className="mt-4 text-sm text-stone">
+                  {entry.readTime} min read on LinkedIn
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </p>
+              </div>
+              <span className="hidden h-11 w-11 place-items-center justify-self-end rounded-full border border-ink/15 text-ink transition group-hover:border-ink group-hover:bg-ink group-hover:text-bone md:col-span-1 md:grid">
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </span>
+            </a>
+          </Reveal>
+        ))}
+      </ol>
+
+      <Reveal>
+        <div className="mt-10">
+          <ButtonLink href="/articles" variant="outline">
+            Read all {writing.length} essays
+          </ButtonLink>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 function Experience() {
   return (
     <section
@@ -576,7 +656,7 @@ function Experience() {
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
             <Reveal>
-              <Eyebrow index="05">Experience</Eyebrow>
+              <Eyebrow index="06">Experience</Eyebrow>
               <h2 id="experience-title" className="type-section mt-6 text-ink">
                 Twenty years, one thread.
               </h2>
@@ -670,9 +750,7 @@ function Experience() {
 }
 
 export default function PortfolioV2() {
-  useDocumentMeta(
-    "David Phillip · Head of Design & Design Director, London",
-  );
+  useDocumentMeta(pageMeta.home);
   useInitialScroll();
 
   return (
@@ -683,6 +761,7 @@ export default function PortfolioV2() {
         <Leadership />
         <References />
         <AIPractice />
+        <Writing />
         <Experience />
         <ContactSection />
       </main>

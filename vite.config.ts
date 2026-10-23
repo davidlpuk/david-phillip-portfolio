@@ -21,11 +21,15 @@ function markdownPlugin(): Plugin {
 }
 
 // jsx-loc tags elements with their source location for dev tooling only;
-// keep it out of production markup.
+// keep it out of production markup and prerendered HTML.
 const plugins = [
   react(),
   tailwindcss(),
-  { ...jsxLocPlugin(), apply: "serve" as const },
+  {
+    ...jsxLocPlugin(),
+    apply: (_config: unknown, env: { command: string }) =>
+      env.command === "serve" && !process.env.PRERENDER,
+  },
   markdownPlugin(),
 ];
 

@@ -1,3 +1,4 @@
+import { pageMeta } from "@/rebuild/meta";
 import {
   ButtonLink,
   Eyebrow,
@@ -6,7 +7,7 @@ import {
 } from "@/rebuild/site";
 
 export default function NotFound() {
-  useDocumentMeta("Page not found · David Phillip");
+  useDocumentMeta(pageMeta.notFound);
 
   return (
     <SiteShell>

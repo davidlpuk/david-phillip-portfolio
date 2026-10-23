@@ -3,14 +3,39 @@
     "outputDirectory": "dist/public",
     "installCommand": "npm install -g pnpm@10.4.1 && pnpm install --no-frozen-lockfile",
     "framework": null,
+    "trailingSlash": false,
     "rewrites": [
         {
             "source": "/api/(.*)",
             "destination": "/api/index.ts"
         },
         {
+            "source": "/cv",
+            "destination": "/cv/index.html"
+        },
+        {
+            "source": "/articles",
+            "destination": "/articles/index.html"
+        },
+        {
+            "source": "/case-study/coutts",
+            "destination": "/case-study/coutts/index.html"
+        },
+        {
+            "source": "/case-study/hsbc-kinetic",
+            "destination": "/case-study/hsbc-kinetic/index.html"
+        },
+        {
+            "source": "/case-study/cognism",
+            "destination": "/case-study/cognism/index.html"
+        },
+        {
+            "source": "/case-study/ux-sidekick",
+            "destination": "/case-study/ux-sidekick/index.html"
+        },
+        {
             "source": "/(.*)",
-            "destination": "/index.html"
+            "destination": "/spa.html"
         }
     ],
     "headers": [

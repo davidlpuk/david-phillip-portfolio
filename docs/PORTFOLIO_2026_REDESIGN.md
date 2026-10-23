@@ -50,28 +50,52 @@ this folder (`PORTFOLIO_REBUILD_AUDIT.md`, `BNY_ROLE_FIT_AUDIT.md`,
 
 ## Implementation
 
-- Content: `apps/client/src/rebuild/portfolioData.ts`
-- Shared layout, header, footer, contact, meta: `apps/client/src/rebuild/site.tsx`
-- Pages: `apps/client/src/views/PortfolioV2.tsx`, `PortfolioV2CaseStudy.tsx`, `CV.tsx`, `NotFound.tsx`
-- Tokens and type scale: end of `apps/client/src/app/index.css` (scoped to `.dp`)
-- Optimised images: `apps/client/public/images/site/` (WebP, ~550 KB total vs ~5 MB of source PNGs)
+- Content: `apps/client/src/rebuild/portfolioData.ts`; essays: `rebuild/writing.ts`
+  (from `shared/constants/linkedin-articles.ts`)
+- Page titles and descriptions, shared by the browser and the prerender:
+  `apps/client/src/rebuild/meta.ts`
+- Shared layout, header, footer, contact, scroll handling: `apps/client/src/rebuild/site.tsx`
+- Pages: `apps/client/src/views/PortfolioV2.tsx`, `PortfolioV2CaseStudy.tsx`,
+  `CV.tsx`, `LinkedInArticlesView.tsx` (Writing), `NotFound.tsx`
+- Tokens, type scale and self-hosted fonts: end of `apps/client/src/app/index.css`;
+  font files and licences in `apps/client/public/fonts/`
+- Optimised images: `apps/client/public/images/site/` (WebP, ~700 KB vs ~5 MB of
+  source PNGs); web-encoded films in `apps/client/public/videos/`
+
+### Prerendering
+
+`pnpm build` runs `vite build`, then `scripts/prerender.mjs`, which renders
+`/`, `/cv`, `/articles` and every case study to static HTML with per-page
+titles, canonicals and social tags (`src/app/entry-server.tsx`). The browser
+hydrates that HTML (`src/app/main.tsx`). Every other route gets the plain SPA
+shell, `spa.html`, through the catch-all rewrite in `vercel.json`. To add a
+public page, add it to `prerenderRoutes` in `rebuild/meta.ts` and add a
+matching rewrite in `vercel.json`.
+
+### Routes retired
+
+`/legacy` and `/legacy/case-study/:slug` redirect to the new pages, as do the
+old `/portfolio-v2` routes. The previous views (`views/Home.tsx`,
+`views/CaseStudy.tsx`) remain in the repo for reference. Build output in
+`dist/` is no longer tracked in git.
 
 ## Quality checks at handover
 
+See `PORTFOLIO_BENCHMARK.md` for the full rubric. In short:
+
 - axe-core (WCAG 2.2 AA and best practices): 0 violations on home, case
-  studies, CV and 404, at desktop and mobile widths.
-- Lighthouse desktop: Performance 97–99, Accessibility 100, Best Practices
-  100, SEO 100.
-- Cumulative Layout Shift: 0 on home and CV.
+  studies, CV, Writing and 404, at desktop and mobile widths.
+- Lighthouse desktop: 100 / 100 / 100 / 100 on home, case study, CV and Writing.
+- Lighthouse mobile (slow 4G, 4× CPU): Performance 87–90, everything else 100.
+- Rubric score: 40 of 42, up from 19 for the previous site.
 
 ## Recommended follow-ups
 
-1. **Prerender the public routes.** It is a client-rendered SPA, so mobile
-   first paint waits for JavaScript. Prerendering `/`, `/cv` and the four
-   case studies would be the biggest remaining mobile performance gain.
-2. **Server-side protection for private case studies.** The password check is
+1. **Server-side protection for private case studies.** The password check is
    client-side and the content ships in the bundle. Fine for a soft gate,
    not for genuinely confidential material.
-3. **Verify every metric** against source evidence before sharing widely.
+2. **Verify every metric** against source evidence before sharing widely.
+3. **Add talks, mentoring or a short video intro**: the two signals the
+   benchmark exemplars have that this site does not yet.
 4. **Add one design-system artefact** (guidelines or governance model) if
    confidentiality allows; platform-design roles ask for it.

@@ -1,145 +1,148 @@
-import { ArrowRight, Clock, Calendar, ExternalLink } from "lucide-react";
-import Header from "@/shared/components/Header";
-import { linkedInArticles } from "@/shared/constants/linkedin-articles";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { profile } from "@/rebuild/portfolioData";
+import { writing, type WritingEntry } from "@/rebuild/writing";
+import { pageMeta } from "@/rebuild/meta";
+import {
+  ButtonLink,
+  ContactSection,
+  Eyebrow,
+  Reveal,
+  SiteShell,
+  useDocumentMeta,
+  useInitialScroll,
+} from "@/rebuild/site";
+
+const themes = {
+  "AI and design practice": [
+    "AI & Prototyping",
+    "AI Strategy",
+    "AI & Careers",
+    "AI & Product",
+    "Vibe Coding",
+    "Automation",
+    "Ethics & AI",
+  ],
+  "Leadership and strategy": ["UX Leadership", "Career Growth", "Design Strategy"],
+  "Process and craft": ["Design Process", "Design Philosophy", "Development", "Research"],
+} as const;
+
+type Theme = keyof typeof themes;
+
+function themeOf(entry: WritingEntry): Theme | undefined {
+  return (Object.keys(themes) as Theme[]).find((theme) =>
+    (themes[theme] as readonly string[]).includes(entry.category),
+  );
+}
 
 export default function LinkedInArticlesView() {
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
+  const [theme, setTheme] = useState<Theme | "All">("All");
 
-    const item = {
-        hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0 }
-    };
+  useDocumentMeta(pageMeta.writing);
+  useInitialScroll();
 
-    return (
-        <>
-            <Header />
-            <div className="min-h-screen pt-24 md:pt-32 bg-[#FDFCF8] dark:bg-[#0A0A0A]">
-                <div className="container max-w-6xl mx-auto px-6">
-                    <header className="mb-20 md:mb-28 text-center md:text-left">
-                        <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex items-center justify-center md:justify-start gap-2 mb-6"
-                        >
-                            <div className="h-px w-8 bg-accent-foreground/30"></div>
-                            <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Thought Leadership</span>
-                        </motion.div>
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="font-display text-4xl md:text-7xl font-extrabold tracking-tighter text-foreground mb-8"
-                        >
-                            Insights & <span className="highlighter-stroke">Perspectives.</span>
-                        </motion.h1>
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="font-sans text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mx-auto md:mx-0"
-                        >
-                            Exploring the intersection of AI, design leadership, and the future of product development. Originally published on LinkedIn.
-                        </motion.p>
-                    </header>
+  const byYear = useMemo(() => {
+    const filtered =
+      theme === "All" ? writing : writing.filter((entry) => themeOf(entry) === theme);
+    const groups = new Map<string, WritingEntry[]>();
+    for (const entry of filtered) {
+      const year = entry.date.slice(0, 4);
+      groups.set(year, [...(groups.get(year) ?? []), entry]);
+    }
+    return Array.from(groups.entries());
+  }, [theme]);
 
-                    <motion.section
-                        variants={container}
-                        initial="hidden"
-                        animate="show"
-                        aria-label="Articles list"
-                        className="pb-24"
-                    >
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 md:gap-12">
-                            {linkedInArticles.map((article, index) => {
-                                const isFeatured = index < 2;
-                                return (
-                                    <motion.article
-                                        key={article.id}
-                                        variants={item}
-                                        className={`group ${isFeatured
-                                            ? "md:col-span-2 lg:col-span-3"
-                                            : "md:col-span-1 lg:col-span-2"
-                                            }`}
-                                    >
-                                        <a
-                                            href={article.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="block h-full"
-                                        >
-                                            <div className="relative h-full flex flex-col bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-accent/5 hover:-translate-y-1 transition-all duration-500">
-                                                {/* Image Container */}
-                                                <div className={`relative overflow-hidden ${isFeatured ? "aspect-[21/9]" : "aspect-[16/9]"}`}>
-                                                    <img
-                                                        src={article.thumbnail}
-                                                        alt=""
-                                                        loading="lazy"
-                                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                                                        <span className="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                                                            Read on LinkedIn <ExternalLink size={12} />
-                                                        </span>
-                                                    </div>
-                                                    <div className="absolute top-4 left-4 flex gap-2">
-                                                        <span className="inline-block px-3 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-700 shadow-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-foreground">
-                                                            {article.category}
-                                                        </span>
-                                                        {isFeatured && (
-                                                            <span className="inline-block px-3 py-1.5 bg-accent shadow-sm rounded-full text-[10px] font-bold uppercase tracking-wider text-accent-foreground border border-accent-foreground/10">
-                                                                Latest Insight
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
+  const filters: Array<Theme | "All"> = ["All", ...(Object.keys(themes) as Theme[])];
 
-                                                {/* Content */}
-                                                <div className={`flex-1 flex flex-col ${isFeatured ? "p-10" : "p-8"}`}>
-                                                    <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">
-                                                        <span className="flex items-center gap-1.5">
-                                                            <Calendar size={12} className="text-foreground/40" />
-                                                            {new Date(article.date).toLocaleDateString("en-US", { month: 'short', year: 'numeric' })}
-                                                        </span>
-                                                        <span className="flex items-center gap-1.5">
-                                                            <Clock size={12} className="text-foreground/40" />
-                                                            {article.readTime} min
-                                                        </span>
-                                                    </div>
-
-                                                    <h2 className={`font-display font-bold text-foreground leading-tight mb-4 transition-colors duration-300 ${isFeatured ? "text-2xl md:text-3xl" : "text-xl"}`}>
-                                                        {article.title}
-                                                    </h2>
-
-                                                    <p className={`font-sans text-muted-foreground leading-relaxed mb-6 flex-1 ${isFeatured ? "text-base line-clamp-4" : "text-sm line-clamp-3"}`}>
-                                                        {article.excerpt}
-                                                    </p>
-
-                                                    <div className="mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-foreground group-hover:gap-4 transition-all duration-300">
-                                                        <span className="relative">
-                                                            View Article
-                                                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                                                        </span>
-                                                        <ArrowRight size={14} className="text-primary group-hover:translate-x-1 transition-transform" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </motion.article>
-                                );
-                            })}
-                        </div>
-                    </motion.section>
-                </div>
+  return (
+    <SiteShell>
+      <main id="main-content">
+        <header className="mx-auto max-w-6xl px-5 pt-28 md:px-8 md:pt-36">
+          <div className="hero-rise">
+            <Eyebrow>Writing</Eyebrow>
+            <h1 className="type-hero mt-6 max-w-4xl text-[clamp(2.75rem,6vw,5.5rem)] text-ink">
+              Essays on design, AI and{" "}
+              <em className="italic text-cobalt">leadership.</em>
+            </h1>
+            <p className="type-lede mt-8 max-w-2xl text-stone">
+              {writing.length} pieces on where design value is moving, how AI
+              changes the work, and what that means for design teams. Originally
+              published on LinkedIn.
+            </p>
+            <div className="mt-8">
+              <ButtonLink href={profile.linkedinUrl} variant="outline" icon="external">
+                Follow on LinkedIn
+              </ButtonLink>
             </div>
-        </>
-    );
+          </div>
+
+          <div
+            role="group"
+            aria-label="Filter essays by theme"
+            className="mt-14 flex flex-wrap gap-2"
+          >
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                type="button"
+                aria-pressed={theme === filter}
+                onClick={() => setTheme(filter)}
+                className={`h-10 rounded-full border px-4 text-sm font-medium transition ${
+                  theme === filter
+                    ? "border-ink bg-ink text-bone"
+                    : "border-ink/15 text-ink hover:border-ink/40"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        <div className="mx-auto max-w-6xl px-5 pb-24 pt-10 md:px-8 md:pb-32">
+          {byYear.map(([year, entries]) => (
+            <section key={year} aria-labelledby={`year-${year}`} className="mt-10">
+              <h2 id={`year-${year}`} className="type-label text-stone">
+                {year}
+              </h2>
+              <ol className="mt-4 border-b border-ink/10">
+                {entries.map((entry, index) => (
+                  <Reveal key={entry.id} as="li" delay={Math.min(index, 4) * 0.03}>
+                    <a
+                      href={entry.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group grid gap-3 border-t border-ink/10 py-7 md:grid-cols-12 md:gap-8"
+                    >
+                      <p className="type-label text-stone md:col-span-3">
+                        <time dateTime={entry.date}>{entry.displayDate}</time>
+                        <span className="mt-1 block text-cobalt">{entry.category}</span>
+                      </p>
+                      <div className="md:col-span-8">
+                        <h3 className="font-editorial text-[clamp(1.5rem,2.4vw,2rem)] leading-[1.1] text-ink decoration-ink/30 underline-offset-[6px] group-hover:underline">
+                          {entry.title}
+                        </h3>
+                        <p className="mt-3 max-w-2xl text-[15px] leading-7 text-stone">
+                          {entry.excerpt}
+                        </p>
+                        <p className="mt-3 text-sm text-stone">
+                          {entry.readTime} min read
+                          <span className="sr-only"> on LinkedIn (opens in a new tab)</span>
+                        </p>
+                      </div>
+                      <span className="hidden h-11 w-11 place-items-center justify-self-end rounded-full border border-ink/15 text-ink transition group-hover:border-ink group-hover:bg-ink group-hover:text-bone md:col-span-1 md:grid">
+                        <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                    </a>
+                  </Reveal>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </div>
+
+        <ContactSection compact />
+      </main>
+    </SiteShell>
+  );
 }

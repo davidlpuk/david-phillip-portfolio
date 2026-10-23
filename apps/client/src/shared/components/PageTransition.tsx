@@ -15,7 +15,9 @@ export default function PageTransition({ children }: PageTransitionProps) {
   const [location] = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    // initial={false}: the first page (often prerendered HTML) shows without
+    // a fade; later route changes still animate.
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={location}
         initial={{ opacity: 0, y: 20 }}

@@ -1,16 +1,15 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import NotFound from "@/views/NotFound";
-import { Redirect, Route, Switch, useLocation } from "wouter";
+import { Redirect, Route, Router as WouterRouter, Switch, useLocation } from "wouter";
 import { ThemeProvider } from "@/shared/contexts/ThemeContext";
 import PageTransition from "@/shared/components/PageTransition";
+import { caseStudyBySlug, type CaseStudySlug } from "@/rebuild/portfolioData";
 
 // Lazy-loaded page components for code splitting
-const Home = lazy(() => import("@/views/Home"));
 const Articles = lazy(() => import("@/views/LinkedInArticlesView"));
 const Article = lazy(() => import("@/views/Article"));
-const CaseStudy = lazy(() => import("@/views/CaseStudy"));
 const CV = lazy(() => import("@/views/CV"));
 const DesignSystem = lazy(() => import("@/views/DesignSystem"));
 const CVLab = lazy(() => import("@/views/CVLab")); // 🔒 Secret page
@@ -82,10 +81,10 @@ function Router() {
             <PortfolioV2 />
           </Suspense>
         </Route>
+        {/* The pre-2026 site (views/Home.tsx, views/CaseStudy.tsx) is kept in
+            the repo for reference but no longer served. */}
         <Route path="/legacy">
-          <Suspense fallback={<PageLoader />}>
-            <Home />
-          </Suspense>
+          <Redirect to="/" replace />
         </Route>
         <Route path="/articles">
           <Suspense fallback={<PageLoader />}>
@@ -108,9 +107,16 @@ function Router() {
           </Suspense>
         </Route>
         <Route path="/legacy/case-study/:slug">
-          <Suspense fallback={<PageLoader />}>
-            <CaseStudy />
-          </Suspense>
+          {(params) => (
+            <Redirect
+              to={
+                caseStudyBySlug.has(params.slug as CaseStudySlug)
+                  ? `/case-study/${params.slug}`
+                  : "/#work"
+              }
+              replace
+            />
+          )}
         </Route>
         <Route path="/design-system">
           <Suspense fallback={<PageLoader />}>
@@ -161,17 +167,30 @@ function Router() {
   );
 }
 
-import { FloatingChat } from "@/features/chat/FloatingChat";
+/** Renders children only in the browser, after hydration. */
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return mounted ? <>{children}</> : null;
+}
 
-function App() {
+/**
+ * `ssrPath` is set when prerendering a route at build time; in the browser
+ * wouter reads the location itself.
+ */
+function App({ ssrPath }: { ssrPath?: string }) {
   return (
-    <ThemeProvider defaultMode="light" defaultPreset="theme-x">
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-        {/* <FloatingChat /> */}
-      </TooltipProvider>
-    </ThemeProvider>
+    <WouterRouter ssrPath={ssrPath}>
+      <ThemeProvider defaultMode="light" defaultPreset="theme-x">
+        <TooltipProvider>
+          <ClientOnly>
+            <Toaster />
+          </ClientOnly>
+          <Router />
+          {/* <FloatingChat /> from "@/features/chat/FloatingChat" */}
+        </TooltipProvider>
+      </ThemeProvider>
+    </WouterRouter>
   );
 }
 

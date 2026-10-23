@@ -20,6 +20,8 @@ export interface CaseStudySummary {
   team: string;
   scope: string;
   outcome: string;
+  /** One line for hiring managers: what this case study demonstrates */
+  relevance: string;
   image: string;
   /** 800px-wide variant for small screens, when the cover is larger */
   imageSmall?: string;
@@ -38,6 +40,12 @@ export interface CaseStudyDetail extends CaseStudySummary {
     problem: string;
     remit: string;
     impact: string;
+  };
+  film?: {
+    src: string;
+    poster: string;
+    title: string;
+    caption: string;
   };
   visuals: Array<{
     src: string;
@@ -333,6 +341,7 @@ export const caseStudies: CaseStudyDetail[] = [
     team: "5 → 15 designers and researchers",
     scope: "Mobile and web, four brands",
     outcome: "+30% digital adoption in six months",
+    relevance: "Director-level leadership inside a regulated, high-trust bank",
     image: "/images/site/cover-coutts.webp",
     imageSmall: "/images/site/cover-coutts-800.webp",
     imageAlt:
@@ -452,6 +461,7 @@ export const caseStudies: CaseStudyDetail[] = [
     team: "Lean design pod",
     scope: "Five SME lending products",
     outcome: "35% adoption in six months against a 25% target",
+    relevance: "Speed and shared patterns inside a global bank’s transformation",
     image: "/images/site/cover-hsbc-kinetic.webp",
     imageAlt:
       "HSBC Kinetic app on a phone with the line ‘Let’s do business’ over a red wave graphic",
@@ -474,6 +484,13 @@ export const caseStudies: CaseStudyDetail[] = [
         "UX lead across lending and integration workstreams: mentoring a lean design pod and aligning Product, Engineering, Risk and Compliance on shared mobile-first patterns.",
       impact:
         "Adoption ahead of target, faster delivery cycles and one product ecosystem instead of five separate journeys.",
+    },
+    film: {
+      src: "/videos/hsbc-kinetic-film.mp4",
+      poster: "/images/site/kinetic-film-poster.webp",
+      title: "HSBC Kinetic launch film",
+      caption:
+        "The shipped product: HSBC’s launch film for Kinetic, showing the mobile-first business banking experience in market.",
     },
     visuals: [
       {
@@ -566,6 +583,7 @@ export const caseStudies: CaseStudyDetail[] = [
     team: "0 → 4 designers, reporting to the CPO",
     scope: "Sales-intelligence platform",
     outcome: "NPS from −16 to +12, with ease of use the main driver",
+    relevance: "Building a design function from zero, tied to commercial results",
     image: "/images/site/cover-cognism.webp",
     imageAlt:
       "Cognism usage dashboard showing credits remaining, active users and a bar chart of profile views",
@@ -681,6 +699,7 @@ export const caseStudies: CaseStudyDetail[] = [
     team: "Solo: design and engineering",
     scope: "AI critique tool, two-week build",
     outcome: "Structured UX critique in about 30 seconds",
+    relevance: "Hands-on AI product fluency, from concept to working code",
     image: "/images/site/cover-ux-sidekick.webp",
     imageSmall: "/images/site/cover-ux-sidekick-800.webp",
     imageAlt:
@@ -704,6 +723,13 @@ export const caseStudies: CaseStudyDetail[] = [
         "Concept, interaction design, prompt design and full-stack build in React, TypeScript and Supabase Edge Functions.",
       impact:
         "A working tool that shows practical AI fluency: fast, constrained, reviewable output tied to established UX principles.",
+    },
+    film: {
+      src: "/videos/ux-sidekick-demo.mp4",
+      poster: "/images/site/sidekick-demo-poster.webp",
+      title: "UX Sidekick walkthrough",
+      caption:
+        "A short walkthrough: upload a screen, choose the context, and get a scored critique with pinned issues and fixes.",
     },
     visuals: [
       {

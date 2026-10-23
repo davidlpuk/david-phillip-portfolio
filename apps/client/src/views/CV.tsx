@@ -4,6 +4,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { profile } from "@/rebuild/portfolioData";
+import { pageMeta } from "@/rebuild/meta";
 import {
   AvailabilityBadge,
   ButtonLink,
@@ -15,6 +16,20 @@ import {
 } from "@/rebuild/site";
 
 const CV_SOURCE = "/docs/DP CV - Download.md";
+
+declare global {
+  // Set by scripts/prerender.mjs while rendering /cv at build time
+  var __CV_SOURCE__: string | undefined;
+}
+
+/**
+ * The prerendered /cv page embeds the CV markdown in #cv-source so it renders
+ * (and hydrates) with content; client-side navigation fetches it instead.
+ */
+function embeddedCv() {
+  if (typeof document === "undefined") return globalThis.__CV_SOURCE__ ?? "";
+  return document.getElementById("cv-source")?.textContent ?? "";
+}
 
 function textOf(children: ReactNode): string {
   if (typeof children === "string" || typeof children === "number") {
@@ -85,7 +100,13 @@ const markdownComponents: Components = {
   ),
   hr: () => <hr className="my-10 border-ink/10" />,
   table: ({ children }) => (
-    <div className="mt-6 overflow-x-auto rounded-2xl border border-ink/10">
+    // Focusable so keyboard users can scroll it on narrow screens
+    <div
+      className="mt-6 overflow-x-auto rounded-2xl border border-ink/10"
+      tabIndex={0}
+      role="region"
+      aria-label="Earlier career (scrolls sideways on small screens)"
+    >
       <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
         {children}
       </table>
@@ -158,18 +179,16 @@ function CapabilityGrid({ body }: { body: string }) {
 }
 
 export default function CV() {
-  const [markdown, setMarkdown] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [markdown, setMarkdown] = useState(embeddedCv);
+  const [loading, setLoading] = useState(() => !markdown);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  useDocumentMeta(
-    "CV · David Phillip, Head of Design & Design Director",
-    "The CV of David Phillip: Head of Design and Design Director with 20+ years in financial services and B2B SaaS. Download a PDF or read online.",
-  );
+  useDocumentMeta(pageMeta.cv);
   useInitialScroll();
 
   useEffect(() => {
+    if (markdown) return;
     fetch(encodeURI(CV_SOURCE))
       .then((res) => {
         if (!res.ok) throw new Error(`Status: ${res.status}`);
@@ -181,6 +200,7 @@ export default function CV() {
         setMarkdown("");
       })
       .finally(() => setLoading(false));
+    // Only the first render decides whether a fetch is needed
   }, []);
 
   const handleCopy = useCallback(async () => {

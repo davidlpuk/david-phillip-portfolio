@@ -37,6 +37,15 @@ interface ThemeProviderProps {
   defaultPreset?: ThemePreset;
 }
 
+// localStorage is missing during prerendering and can throw in private mode
+function readStorage(key: string) {
+  try {
+    return typeof window === "undefined" ? null : window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
 export function ThemeProvider({
   children,
   defaultMode = "light",
@@ -44,7 +53,7 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   // Initialize mode from localStorage, system preference, or default
   const [mode, setModeState] = useState<ThemeMode>(() => {
-    const stored = localStorage.getItem(THEME_MODE_KEY);
+    const stored = readStorage(THEME_MODE_KEY);
     if (stored) return stored as ThemeMode;
 
     // Check system preference
@@ -58,7 +67,7 @@ export function ThemeProvider({
 
   // Initialize preset from localStorage or default
   const [preset, setPresetState] = useState<ThemePreset>(() => {
-    const stored = localStorage.getItem(THEME_PRESET_KEY);
+    const stored = readStorage(THEME_PRESET_KEY);
     if (stored && isValidPreset(stored)) {
       return stored as ThemePreset;
     }
@@ -67,7 +76,7 @@ export function ThemeProvider({
 
   // Initialize useSystemTheme from localStorage
   const [useSystemTheme, setUseSystemThemeState] = useState(() => {
-    const stored = localStorage.getItem(USE_SYSTEM_THEME_KEY);
+    const stored = readStorage(USE_SYSTEM_THEME_KEY);
     return stored === "true";
   });
 

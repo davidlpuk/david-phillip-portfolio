@@ -25,6 +25,7 @@ import {
   rememberUnlock,
   verifyCaseStudyPassword,
 } from "@/rebuild/password";
+import { caseStudyMeta } from "@/rebuild/meta";
 import {
   ButtonLink,
   ContactSection,
@@ -112,6 +113,12 @@ function CaseHero({
           {study.title}
         </h1>
         <p className="type-lede mt-8 max-w-3xl text-stone">{study.summary}</p>
+        <p className="mt-8 flex max-w-3xl flex-col gap-1 rounded-2xl border border-cobalt/20 bg-cobalt/[0.06] px-5 py-4 sm:flex-row sm:items-baseline sm:gap-4">
+          <span className="type-label shrink-0 text-cobalt">What this shows</span>
+          <span className="text-[15px] font-medium leading-6 text-ink">
+            {study.relevance}
+          </span>
+        </p>
       </div>
 
       <div className="hero-rise">
@@ -329,6 +336,28 @@ function Gallery({ study }: { study: CaseStudyDetail }) {
   );
 }
 
+function Film({ film }: { film: NonNullable<CaseStudyDetail["film"]> }) {
+  return (
+    <figure className="mb-10">
+      <div className="overflow-hidden rounded-2xl border border-ink/10 bg-ink">
+        <video
+          className="aspect-video w-full"
+          src={film.src}
+          poster={film.poster}
+          controls
+          playsInline
+          preload="none"
+          aria-label={film.title}
+        />
+      </div>
+      <figcaption className="mt-3 text-sm leading-6">
+        <span className="font-medium text-ink">{film.title}.</span>{" "}
+        <span className="text-stone">{film.caption}</span>
+      </figcaption>
+    </figure>
+  );
+}
+
 function PasswordGate({
   study,
   onUnlock,
@@ -541,12 +570,7 @@ export default function PortfolioV2CaseStudy() {
   const study = isCaseStudySlug(slug) ? caseStudyBySlug.get(slug) : undefined;
   const [unlocked, setUnlocked] = useState(false);
 
-  useDocumentMeta(
-    study
-      ? `${study.company}: ${study.title} · David Phillip`
-      : "Case study not found · David Phillip",
-    study?.summary,
-  );
+  useDocumentMeta(caseStudyMeta(slug));
   useInitialScroll(slug);
 
   useEffect(() => {
@@ -691,6 +715,7 @@ export default function PortfolioV2CaseStudy() {
               label="Visual evidence"
               title="Artefacts from the work."
             >
+              {study.film ? <Film film={study.film} /> : null}
               <Gallery study={study} />
             </SectionBlock>
 
