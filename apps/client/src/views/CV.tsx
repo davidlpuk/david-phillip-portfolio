@@ -1,354 +1,425 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { FileText, Mail, Linkedin, MapPin, ArrowRight, Star, TrendingUp, Users, Target, Award, Heart, Loader2, Copy, Check } from "lucide-react";
-import Header from "@/shared/components/Header";
-import ReactMarkdown from "react-markdown";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { Check, Copy, Download, Loader2, Printer } from "lucide-react";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { toast } from "sonner";
+import { profile } from "@/rebuild/portfolioData";
+import {
+  AvailabilityBadge,
+  ButtonLink,
+  Eyebrow,
+  Reveal,
+  SiteShell,
+  useDocumentMeta,
+  useInitialScroll,
+} from "@/rebuild/site";
+
+const CV_SOURCE = "/docs/DP CV - Download.md";
+
+function textOf(children: ReactNode): string {
+  if (typeof children === "string" || typeof children === "number") {
+    return String(children);
+  }
+  if (Array.isArray(children)) return children.map(textOf).join("");
+  return "";
+}
+
+const markdownComponents: Components = {
+  h3: ({ children }) => {
+    const parts = textOf(children)
+      .split("|")
+      .map((part) => part.trim());
+    if (parts.length >= 3) {
+      const [role, company, dates] = parts;
+      return (
+        <h3 className="mt-12 grid gap-1 first:mt-0 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
+          <span className="font-editorial text-[1.75rem] leading-tight text-ink">
+            {role}
+            <span className="mt-1 block font-ui text-[15px] font-medium leading-6 text-ink">
+              {company}
+            </span>
+          </span>
+          <span className="type-label text-stone">{dates}</span>
+        </h3>
+      );
+    }
+    if (parts.length === 2) {
+      return (
+        <h3 className="mt-12 grid gap-1 first:mt-0 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
+          <span className="font-editorial text-[1.75rem] leading-tight text-ink">
+            {parts[0]}
+          </span>
+          <span className="type-label text-stone">{parts[1]}</span>
+        </h3>
+      );
+    }
+    return (
+      <h3 className="mt-10 font-editorial text-[1.75rem] leading-tight text-ink first:mt-0">
+        {children}
+      </h3>
+    );
+  },
+  p: ({ children }) => (
+    <p className="mt-4 text-[15px] leading-7 text-stone">{children}</p>
+  ),
+  em: ({ children }) => <em className="not-italic text-stone">{children}</em>,
+  strong: ({ children }) => (
+    <strong className="font-medium text-ink">{children}</strong>
+  ),
+  a: ({ children, href }) => (
+    <a
+      href={href}
+      target={href?.startsWith("http") ? "_blank" : undefined}
+      rel={href?.startsWith("http") ? "noreferrer" : undefined}
+      className="font-medium text-cobalt underline decoration-cobalt/30 underline-offset-4 hover:decoration-cobalt"
+    >
+      {children}
+    </a>
+  ),
+  ul: ({ children }) => <ul className="mt-4 grid gap-2.5">{children}</ul>,
+  li: ({ children }) => (
+    <li className="grid grid-cols-[1rem_1fr] text-[15px] leading-7 text-stone">
+      <span aria-hidden="true" className="mt-[0.7rem] h-1.5 w-1.5 rounded-full bg-cobalt" />
+      <span>{children}</span>
+    </li>
+  ),
+  hr: () => <hr className="my-10 border-ink/10" />,
+  table: ({ children }) => (
+    <div className="mt-6 overflow-x-auto rounded-2xl border border-ink/10">
+      <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
+        {children}
+      </table>
+    </div>
+  ),
+  th: ({ children }) => (
+    <th className="type-label border-b border-ink/10 bg-paper px-4 py-3 text-stone">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="border-b border-ink/10 px-4 py-3 align-top leading-6 text-ink [tr:last-child_&]:border-b-0">
+      {children}
+    </td>
+  ),
+};
+
+interface CvSection {
+  id: string;
+  title: string;
+  body: string;
+}
+
+function parseCv(markdown: string) {
+  const [header, ...rest] = markdown.split(/\n(?=## )/);
+  const summary = header
+    .split("\n")
+    .filter((line) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith("# ")) return false;
+      if (/^\*\*.*\*\*$/.test(trimmed) && trimmed.includes("|")) return false;
+      if (trimmed.includes("|") && trimmed.includes("LinkedIn")) return false;
+      return true;
+    })
+    .join("\n")
+    .trim();
+
+  const sections: CvSection[] = rest.map((block) => {
+    const [titleLine, ...body] = block.split("\n");
+    const title = titleLine.replace(/^##\s*/, "").trim();
+    return {
+      id: title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+      title,
+      body: body.join("\n").trim(),
+    };
+  });
+
+  return { summary, sections };
+}
+
+function CapabilityGrid({ body }: { body: string }) {
+  const blocks = body.split(/\n\n(?=\*\*)/);
+  return (
+    <div className="grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 md:grid-cols-2">
+      {blocks.map((block) => {
+        const [heading, ...items] = block.split("\n");
+        return (
+          <div key={heading} className="bg-bone p-6">
+            <p className="font-editorial text-2xl leading-tight text-ink">
+              {heading.replace(/\*\*/g, "")}
+            </p>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+              {items.join("\n")}
+            </ReactMarkdown>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function CV() {
-    const [markdown, setMarkdown] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(true);
-    const [pdfLoading, setPdfLoading] = useState<boolean>(false);
-    const [copied, setCopied] = useState<boolean>(false);
+  const [markdown, setMarkdown] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-    const handlePrint = () => window.print();
+  useDocumentMeta(
+    "CV · David Phillip, Head of Design & Design Director",
+    "The CV of David Phillip: Head of Design and Design Director with 20+ years in financial services and B2B SaaS. Download a PDF or read online.",
+  );
+  useInitialScroll();
 
-    const handleCopy = useCallback(async () => {
-        if (!markdown) return;
+  useEffect(() => {
+    fetch(encodeURI(CV_SOURCE))
+      .then((res) => {
+        if (!res.ok) throw new Error(`Status: ${res.status}`);
+        return res.text();
+      })
+      .then(setMarkdown)
+      .catch((error) => {
+        console.error("Failed to load CV:", error);
+        setMarkdown("");
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-        try {
-            await navigator.clipboard.writeText(markdown);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch (error) {
-            console.error('Failed to copy:', error);
-            alert('Failed to copy to clipboard. Please try again.');
-        }
-    }, [markdown]);
+  const handleCopy = useCallback(async () => {
+    if (!markdown) return;
+    try {
+      await navigator.clipboard.writeText(markdown);
+      setCopied(true);
+      toast.success("CV copied as plain text");
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy:", error);
+      toast.error("Couldn’t copy the CV. Try the PDF instead.");
+    }
+  }, [markdown]);
 
-    const handleDownloadPDF = useCallback(async () => {
-        if (!markdown || pdfLoading) return;
+  const handleDownloadPDF = useCallback(async () => {
+    if (!markdown || pdfLoading) return;
 
-        setPdfLoading(true);
-        try {
-            // Lazy load PDF dependencies to reduce initial bundle size
-            const [{ pdf }, { CVPDF }] = await Promise.all([
-                import("@react-pdf/renderer"),
-                import("@/features/cv-pdf/CVPDF")
-            ]);
+    setPdfLoading(true);
+    try {
+      // Lazy load PDF dependencies to keep them out of the main bundle
+      const [{ pdf }, { CVPDF }] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("@/features/cv-pdf/CVPDF"),
+      ]);
 
-            const blob = await (pdf(<CVPDF markdown={markdown} /> as any).toBlob() as Promise<Blob>);
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'David_Phillip_CV.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error('PDF generation failed:', error);
-            alert('Failed to generate PDF. Please try using the Print View option instead.');
-        } finally {
-            setPdfLoading(false);
-        }
-    }, [markdown, pdfLoading]);
+      const blob = await (pdf(<CVPDF markdown={markdown} /> as any).toBlob() as Promise<Blob>);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "David_Phillip_CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      toast.error("PDF generation failed. Use Print and save as PDF instead.");
+    } finally {
+      setPdfLoading(false);
+    }
+  }, [markdown, pdfLoading]);
 
-    useEffect(() => {
-        fetch(encodeURI("/docs/DP CV - Download.md"))
-            .then((res) => {
-                if (!res.ok) throw new Error(`Status: ${res.status}`);
-                return res.text();
-            })
-            .then((text) => {
-                setMarkdown(text);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Failed to load CV:", err);
-                setLoading(false);
-                setMarkdown("# Error\nFailed to load CV content. Please try again later.");
-            });
-    }, []);
+  const { summary, sections } = useMemo(() => parseCv(markdown), [markdown]);
 
-    const MarkdownRenderer = ReactMarkdown as any;
+  const actionClass =
+    "inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50";
 
-    const components = {
-        h1: ({ children }: { children: React.ReactNode }) => (
-            <h1 className="font-display text-5xl md:text-7xl font-bold tracking-tighter text-foreground mb-2">
-                {children}
+  return (
+    <SiteShell>
+      <main id="main-content" className="pb-24 md:pb-32">
+        <header className="mx-auto max-w-6xl px-5 pt-28 md:px-8 md:pt-36">
+          <Reveal>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <Eyebrow>Curriculum vitae</Eyebrow>
+              <AvailabilityBadge tone="paper" />
+            </div>
+            <h1 className="type-hero mt-8 text-[clamp(3rem,7vw,6rem)] text-ink">
+              David Phillip
             </h1>
-        ),
-        h2: ({ children }: { children: React.ReactNode }) => (
-            <h2 className="font-display text-2xl font-bold text-foreground mt-16 mb-8 flex items-center gap-4">
-                <span className="text-foreground tracking-tight whitespace-nowrap">{children}</span>
-                <span className="flex-1 border-b border-border/60"></span>
-                <span className="uppercase tracking-[0.2em] text-[10px] font-bold py-1 px-3 bg-secondary/50 rounded text-muted-foreground whitespace-nowrap">Section</span>
-            </h2>
-        ),
-        h3: ({ children }: { children: React.ReactNode }) => {
-            const content = typeof children === 'string' ? children :
-                Array.isArray(children) ? children.map(c => typeof c === 'string' ? c : '').join('') : '';
-
-            if (content.includes('|')) {
-                const parts = content.split('|').map(p => p.trim());
-                if (parts.length >= 2) {
-                    const date = parts.pop();
-                    const mainInfo = parts.join(' | ');
-                    return (
-                        <h3 className="group flex items-center gap-3 font-display text-xl font-bold text-foreground mt-12 first:mt-10 mb-2 w-full">
-                            <div className="w-1.5 h-6 bg-accent rounded-full opacity-50 group-hover:opacity-100 transition-opacity flex-shrink-0" />
-                            <div className="flex flex-col md:flex-row md:items-baseline justify-between w-full gap-2">
-                                <span className="flex-1 tracking-tight text-foreground font-semibold uppercase text-lg">{mainInfo}</span>
-                                <span className="text-sm md:text-base font-sans font-medium text-foreground whitespace-nowrap">{date}</span>
-                            </div>
-                        </h3>
-                    );
-                }
-            }
-
-            return (
-                <h3 className="group flex items-center gap-3 font-display text-xl font-bold text-foreground mt-10 mb-4 uppercase tracking-tight">
-                    <div className="w-1.5 h-6 bg-accent rounded-full opacity-50 group-hover:opacity-100 transition-opacity flex-shrink-0" />
-                    {children}
-                </h3>
-            );
-        },
-        p: ({ children }: { children: React.ReactNode }) => (
-            <p className="font-sans text-foreground leading-relaxed mb-4 text-base md:text-[17px] font-normal">
-                {children}
+            <p className="mt-4 font-editorial text-[clamp(1.5rem,2.6vw,2.25rem)] italic leading-tight text-stone">
+              Head of Design · Design Director · Financial services & SaaS
             </p>
-        ),
-        em: ({ children }: { children: React.ReactNode }) => (
-            <em className="block font-sans text-sm md:text-base text-foreground/60 italic mb-4 leading-normal font-medium">
-                {children}
-            </em>
-        ),
-        ul: ({ children }: { children: React.ReactNode }) => (
-            <ul className="list-none space-y-1 mb-8 pl-0">
-                {children}
-            </ul>
-        ),
-        li: ({ children }: { children: React.ReactNode }) => (
-            <li className="flex items-start gap-3 text-foreground mb-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-accent/60 mt-2 flex-shrink-0" />
-                <span className="font-sans text-[15px] md:text-base leading-normal font-normal">{children}</span>
-            </li>
-        ),
-        hr: () => <hr className="border-border/40 my-10" />,
-        table: ({ children }: { children: React.ReactNode }) => (
-            <div className="overflow-x-auto my-8 border rounded-lg border-border">
-                <table className="w-full border-collapse">
-                    {children}
-                </table>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="no-print mt-10 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleDownloadPDF}
+                disabled={!markdown || pdfLoading}
+                className={`${actionClass} bg-cobalt text-white hover:bg-cobalt-deep`}
+              >
+                {pdfLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <Download className="h-4 w-4" aria-hidden="true" />
+                )}
+                {pdfLoading ? "Preparing PDF…" : "Download PDF"}
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                disabled={!markdown}
+                className={`${actionClass} border border-ink/15 text-ink hover:border-ink/40`}
+              >
+                <Printer className="h-4 w-4" aria-hidden="true" />
+                Print
+              </button>
+              <button
+                type="button"
+                onClick={handleCopy}
+                disabled={!markdown}
+                className={`${actionClass} border border-ink/15 text-ink hover:border-ink/40`}
+              >
+                {copied ? (
+                  <Check className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Copy className="h-4 w-4" aria-hidden="true" />
+                )}
+                {copied ? "Copied" : "Copy as text"}
+              </button>
+              <ButtonLink
+                href={profile.calendlyUrl}
+                variant="ink"
+                icon="external"
+                size="sm"
+              >
+                Book an intro call
+              </ButtonLink>
             </div>
-        ),
-        th: ({ children }: { children: React.ReactNode }) => {
-            const isPeriod = typeof children === 'string' && children.toLowerCase().includes('period');
-            return (
-                <th className={`bg-secondary/30 px-4 py-4 text-left font-bold border-b border-border text-foreground uppercase tracking-wider text-xs ${isPeriod ? 'min-w-[140px]' : ''}`}>
-                    {children}
-                </th>
-            );
-        },
-        td: ({ children }: { children: React.ReactNode }) => {
-            const content = typeof children === 'string' ? children : '';
-            // Basic check for date formats like "2016-17" or "2008-13"
-            const isDate = /^\d{4}/.test(content.trim());
-            return (
-                <td className={`px-4 py-3 border-b border-border/40 text-foreground text-sm leading-relaxed last:border-0 font-medium ${isDate ? 'whitespace-nowrap' : ''}`}>
-                    {children}
-                </td>
-            );
-        },
-        strong: ({ children }: { children: React.ReactNode }) => (
-            <strong className="text-foreground font-bold">{children}</strong>
-        )
-    };
+          </Reveal>
+        </header>
 
-    // Parse markdown into sections for advanced layout
-    const renderedContent = useMemo(() => {
-        if (!markdown) return null;
-
-        // Split by ## headers
-        const parts = markdown.split(/\n(?=## )/);
-        const headerSection = parts[0];
-        const sections = parts.slice(1);
-
-        return (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                <div className="prose prose-neutral dark:prose-invert max-w-none 
-                    prose-h1:font-display prose-h1:font-bold prose-h1:tracking-tighter
-                    prose-p:text-foreground prose-li:text-foreground
-                    prose-strong:text-foreground prose-strong:font-bold
-                    prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-                ">
-                    {/* Premium Editorial Header Orchestration */}
-                    <div className="mb-20 pb-16 border-b border-border/60">
-                        <div className="header-layout">
-                            <MarkdownRenderer
-                                remarkPlugins={[remarkGfm]}
-                                components={{
-                                    ...components,
-                                    h1: ({ children }: { children: React.ReactNode }) => (
-                                        <h1 className="font-display text-5xl md:text-6xl font-bold tracking-tighter text-foreground mb-4 leading-tight">
-                                            {children}
-                                        </h1>
-                                    ),
-                                    p: ({ children, ...props }: any) => {
-                                        const text = typeof children === 'string' ? children : '';
-                                        // Detect contact line (London, UK | LinkedIn...)
-                                        if (text.includes('|') && (text.includes('LinkedIn') || text.includes('@'))) {
-                                            return (
-                                                <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 py-4 border-y border-border/30 text-xs md:text-sm font-bold uppercase tracking-widest text-foreground/80">
-                                                    {text.split('|').map((part: string, i: number) => {
-                                                        const trimmedPart = part.trim();
-                                                        // Check if this part contains a markdown link
-                                                        const linkMatch = trimmedPart.match(/\[([^\]]+)\]\(([^)]+)\)/);
-                                                        if (linkMatch) {
-                                                            const linkText = linkMatch[1];
-                                                            const linkUrl = linkMatch[2];
-                                                            return (
-                                                                <span key={i} className="flex items-center gap-2">
-                                                                    {i > 0 && <span className="text-accent">•</span>}
-                                                                    <a
-                                                                        href={linkUrl}
-                                                                        className="text-accent hover:underline"
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                    >
-                                                                        {linkText}
-                                                                    </a>
-                                                                </span>
-                                                            );
-                                                        }
-                                                        return (
-                                                            <span key={i} className="flex items-center gap-2">
-                                                                {i > 0 && <span className="text-accent">•</span>}
-                                                                {trimmedPart}
-                                                            </span>
-                                                        );
-                                                    })}
-                                                </div>
-                                            );
-                                        }
-                                        // Detect the role/title line (Head of Design | ...)
-                                        if (text.includes('|') && text.includes('Head of')) {
-                                            return (
-                                                <p className="font-display text-xl md:text-2xl font-bold text-accent tracking-tight mb-2">
-                                                    {children}
-                                                </p>
-                                            );
-                                        }
-                                        // Standard summary paragraph
-                                        return (
-                                            <p className="font-sans text-foreground leading-relaxed mt-6 text-lg md:text-xl font-medium max-w-3xl">
-                                                {children}
-                                            </p>
-                                        );
-                                    }
-                                }}
-                            >
-                                {headerSection}
-                            </MarkdownRenderer>
-                        </div>
-                    </div>
-
-                    {sections.map((section, idx) => {
-                        // Detect Core Capabilities for special layout
-                        if (section.trim().startsWith("## Core Capabilities")) {
-                            const titleMatch = section.match(/^## (.*?)\n/);
-                            const title = titleMatch ? titleMatch[1] : "Core Capabilities";
-                            const content = section.replace(/^## .*?\n+/, "");
-
-                            // Split sub-blocks (typically starting with **Title**)
-                            const subBlocks = content.split(/\n\n(?=\*\*)/);
-
-                            return (
-                                <section key={idx} className="break-inside-avoid mt-16">
-                                    <h2 className="font-display text-2xl font-bold text-foreground mb-10 flex items-center gap-4">
-                                        <span className="text-foreground tracking-tight whitespace-nowrap">{title}</span>
-                                        <span className="flex-1 border-b border-border/60"></span>
-                                        <span className="uppercase tracking-[0.2em] text-[10px] font-bold py-1 px-3 bg-secondary rounded text-muted-foreground whitespace-nowrap">Expertise</span>
-                                    </h2>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-                                        {subBlocks.map((block, sIdx) => (
-                                            <div key={sIdx} className="capability-block">
-                                                <MarkdownRenderer remarkPlugins={[remarkGfm]} components={components}>
-                                                    {block}
-                                                </MarkdownRenderer>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            );
-                        }
-
-                        // Normal section rendering
-                        return (
-                            <div key={idx} className="break-inside-avoid">
-                                <MarkdownRenderer remarkPlugins={[remarkGfm]} components={components}>
-                                    {section}
-                                </MarkdownRenderer>
-                            </div>
-                        );
-                    })}
+        <div className="mx-auto mt-14 grid max-w-6xl gap-10 px-5 md:px-8 lg:grid-cols-12">
+          <aside className="no-print hidden lg:col-span-3 lg:block">
+            <nav aria-label="CV sections" className="sticky top-28">
+              <dl className="grid gap-4 text-sm">
+                <div>
+                  <dt className="type-label text-stone">Email</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={`mailto:${profile.email}`}
+                      className="font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
+                    >
+                      {profile.email}
+                    </a>
+                  </dd>
                 </div>
-                <footer className="mt-24 pt-10 border-t border-border no-print">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Updated January 2026</p>
-                    </div>
-                </footer>
-            </div>
-        );
-    }, [markdown]);
+                <div>
+                  <dt className="type-label text-stone">LinkedIn</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={profile.linkedinUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-medium text-ink underline decoration-ink/20 underline-offset-4 hover:decoration-ink"
+                    >
+                      in/davidphillip
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="type-label text-stone">Location</dt>
+                  <dd className="mt-1 font-medium text-ink">{profile.location}</dd>
+                </div>
+              </dl>
+              <p className="type-label mt-10 text-stone">Sections</p>
+              <ul className="mt-5 grid gap-1 border-l border-ink/10">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#${section.id}`}
+                      className="-ml-px block border-l border-transparent py-1.5 pl-4 text-sm text-stone transition hover:border-ink/40 hover:text-ink"
+                    >
+                      {section.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
 
-    return (
-        <>
-            <div className="no-print">
-                <Header />
-            </div>
-            <style>{`
-        @media print { 
-            .no-print { display: none !important; } 
-            header, nav { display: none !important; }
-            .break-inside-avoid { break-inside: avoid; } 
-            body { background: white !important; color: #000 !important; font-family: 'Montserrat', sans-serif !important; margin: 0 !important; padding: 0 !important; font-size: 11pt; } 
-            .cv-page-wrapper { padding-top: 0 !important; margin-top: 0 !important; }
-            .cv-container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; font-family: 'Montserrat', sans-serif !important; } 
-            .prose { max-width: none !important; color: #000 !important; font-family: 'Montserrat', sans-serif !important; font-size: 10.5pt !important; line-height: 1.4 !important; }
-            .prose p, .prose li { margin-bottom: 0.4rem !important; }
-            a { text-decoration: none !important; color: #000 !important; }
-            .prose h1 { font-size: 28pt !important; margin-bottom: 0.5rem !important; margin-top: 0 !important; }
-            .prose h2 { font-size: 18pt !important; margin-top: 1.5rem !important; margin-bottom: 0.8rem !important; }
-            .prose h3 { font-size: 14pt !important; margin-top: 1.2rem !important; margin-bottom: 0.4rem !important; }
-            .header-layout { margin-bottom: 1.5rem !important; padding-bottom: 1rem !important; }
-            ul { margin-bottom: 1rem !important; }
-            table { border-collapse: collapse !important; width: 100% !important; font-size: 9pt !important; }
-            th, td { border: 1px solid #eee !important; padding: 6px !important; }
-            section { page-break-inside: avoid !important; margin-top: 1rem !important; }
-            footer { border-top: 1px solid #eee !important; margin-top: 1.5rem !important; padding-top: 0.5rem !important; }
+          <article className="cv-document min-w-0 rounded-[28px] border border-ink/10 bg-bone p-6 md:p-12 lg:col-span-9">
+            {loading ? (
+              <div className="flex min-h-[70vh] items-start gap-3 py-24 text-stone" role="status">
+                <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+                Loading CV…
+              </div>
+            ) : !markdown ? (
+              <div className="py-16" role="alert">
+                <p className="font-editorial text-3xl text-ink">
+                  The CV couldn’t be loaded.
+                </p>
+                <p className="mt-3 text-stone">
+                  Please refresh, or email{" "}
+                  <a className="text-cobalt underline" href={`mailto:${profile.email}`}>
+                    {profile.email}
+                  </a>{" "}
+                  for a copy.
+                </p>
+              </div>
+            ) : (
+              <>
+                <section aria-label="Profile summary">
+                  <div className="font-editorial text-[clamp(1.375rem,2.2vw,1.75rem)] leading-[1.35] text-ink [&_p]:mt-4 [&_p]:font-editorial [&_p]:text-[length:inherit] [&_p]:leading-[inherit] [&_p]:text-ink [&_p:first-child]:mt-0">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{ ...markdownComponents, p: ({ children }) => <p>{children}</p> }}
+                    >
+                      {summary}
+                    </ReactMarkdown>
+                  </div>
+                </section>
+
+                {sections.map((section) => (
+                  <section
+                    key={section.id}
+                    id={section.id}
+                    aria-labelledby={`${section.id}-title`}
+                    className="cv-section mt-14 border-t border-ink/10 pt-10"
+                  >
+                    <h2
+                      id={`${section.id}-title`}
+                      className="type-label mb-8 text-cobalt"
+                    >
+                      {section.title}
+                    </h2>
+                    {section.title === "Core Capabilities" ? (
+                      <CapabilityGrid body={section.body} />
+                    ) : (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={markdownComponents}
+                      >
+                        {section.body}
+                      </ReactMarkdown>
+                    )}
+                  </section>
+                ))}
+              </>
+            )}
+          </article>
+        </div>
+      </main>
+      <style>{`
+        @media print {
+          @page { margin: 1.4cm; }
+          body { background: #fff !important; }
+          .dp { background: #fff !important; }
+          .dp main { padding: 0 !important; }
+          .dp main > header { padding-top: 0 !important; }
+          .cv-document { border: 0 !important; padding: 0 !important; background: #fff !important; }
+          .cv-section { break-inside: auto; }
+          .cv-section h3 { break-after: avoid; }
+          .cv-document a { color: inherit !important; text-decoration: none !important; }
         }
-        @page { margin: 1.2cm; }
-        .prose-container { position: relative; }
-        .cv-page-wrapper { font-family: 'Montserrat', sans-serif !important; line-height: 1.6; }
-        .cv-page-wrapper * { font-family: 'Montserrat', sans-serif !important; }
       `}</style>
-            <div className="min-h-screen bg-background pt-24 cv-page-wrapper">
-                <div className="container max-w-5xl py-12 cv-container">
-                    <div className="flex justify-end mb-12 no-print gap-4">
-
-                    </div>
-
-                    <div className="max-w-4xl mx-auto bg-background px-4 md:px-0">
-                        {loading ? (
-                            <div className="flex flex-col items-center justify-center py-32 gap-6">
-                                <Loader2 className="w-10 h-10 animate-spin text-accent" />
-                                <p className="text-muted-foreground font-sans text-xs uppercase tracking-[0.3em] animate-pulse">Designing Professional Identity...</p>
-                            </div>
-                        ) : renderedContent}
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+    </SiteShell>
+  );
 }

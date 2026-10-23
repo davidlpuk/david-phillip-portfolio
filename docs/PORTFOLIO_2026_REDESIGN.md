@@ -1,0 +1,77 @@
+# Portfolio 2026 Redesign
+
+The public site (`/`, `/case-study/:slug`, `/cv`) was redesigned to read as a
+premium, editorial portfolio for a Head of Design / Design Director in
+financial services. Legacy and admin routes are unchanged.
+
+## Who it is for
+
+1. **Hiring managers**: CPOs, CTOs, Chief Design Officers and VPs at banks,
+   wealth managers, fintechs and B2B SaaS companies. Often not designers.
+2. **Specialist recruiters** (e.g. Zebra People, Futureheads, Major Players),
+   who scan for level, sector, commercial outcomes and availability in
+   seconds.
+
+## What the benchmark said
+
+Guidance from hiring managers and design leaders on senior portfolios
+consistently points to the same things:
+
+- Show what you **enabled** (team scale, operating model, organisational
+  impact), not just screens. Directors are judged on scaling design and
+  cross-functional alignment.
+- Make it **scannable for non-designers**: the problem, your role and the
+  outcome should be visible before anyone scrolls.
+- Lead case studies with **outcomes and metrics**, and be explicit about what
+  you owned versus what the team did.
+- Show **2–4 strong projects**, not an archive.
+- Remove friction to contact: availability, CV and a booking link everywhere.
+
+Sources: UXPin's 2026 portfolio roundup (the IBM VP of Design example),
+Design Week on "old-fashioned" portfolios, Adobe Design on outcomes, Lyssna's
+summary of NN/g hiring-manager research, and the earlier internal audits in
+this folder (`PORTFOLIO_REBUILD_AUDIT.md`, `BNY_ROLE_FIT_AUDIT.md`,
+`apps/reseach-recommendations/research-recommendations.md`).
+
+## Design decisions
+
+| Decision | Why |
+| --- | --- |
+| Ink + warm paper neutrals, one cobalt accent | Restraint reads as premium and trustworthy for finance; cobalt echoes the portrait and banking blues. |
+| Instrument Serif display, Geist UI, Geist Mono labels | Editorial authority with modern, highly legible UI text. |
+| Hero states level, sector, availability and proof up front | Passes the recruiter "6-second scan". |
+| Outcome-first case study cards with the lead metric large | Hiring managers look for the result first. |
+| "How I lead" principles, each with a proof point | Shows leadership philosophy backed by evidence. |
+| "The first 90 days" plan | Answers the hiring manager's real question: what happens if we hire you? |
+| References section with a featured CPO quote | Third-party proof from senior stakeholders and direct reports. |
+| Honest career timeline, including the 2024 career break | Recruiters check dates; framing it openly builds trust. |
+| Case study TL;DR (role, timeline, team, scope) and sticky contents | Fast scanning on long pages. |
+| Password gate redesigned, with "book a walkthrough" and "email me" | Confidential work still converts into a conversation. |
+
+## Implementation
+
+- Content: `apps/client/src/rebuild/portfolioData.ts`
+- Shared layout, header, footer, contact, meta: `apps/client/src/rebuild/site.tsx`
+- Pages: `apps/client/src/views/PortfolioV2.tsx`, `PortfolioV2CaseStudy.tsx`, `CV.tsx`, `NotFound.tsx`
+- Tokens and type scale: end of `apps/client/src/app/index.css` (scoped to `.dp`)
+- Optimised images: `apps/client/public/images/site/` (WebP, ~550 KB total vs ~5 MB of source PNGs)
+
+## Quality checks at handover
+
+- axe-core (WCAG 2.2 AA and best practices): 0 violations on home, case
+  studies, CV and 404, at desktop and mobile widths.
+- Lighthouse desktop: Performance 97–99, Accessibility 100, Best Practices
+  100, SEO 100.
+- Cumulative Layout Shift: 0 on home and CV.
+
+## Recommended follow-ups
+
+1. **Prerender the public routes.** It is a client-rendered SPA, so mobile
+   first paint waits for JavaScript. Prerendering `/`, `/cv` and the four
+   case studies would be the biggest remaining mobile performance gain.
+2. **Server-side protection for private case studies.** The password check is
+   client-side and the content ships in the bundle. Fine for a soft gate,
+   not for genuinely confidential material.
+3. **Verify every metric** against source evidence before sharing widely.
+4. **Add one design-system artefact** (guidelines or governance model) if
+   confidentiality allows; platform-design roles ask for it.

@@ -20,7 +20,14 @@ function markdownPlugin(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), markdownPlugin()];
+// jsx-loc tags elements with their source location for dev tooling only;
+// keep it out of production markup.
+const plugins = [
+  react(),
+  tailwindcss(),
+  { ...jsxLocPlugin(), apply: "serve" as const },
+  markdownPlugin(),
+];
 
 export default defineConfig({
   plugins,

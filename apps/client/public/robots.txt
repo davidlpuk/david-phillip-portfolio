@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /explorer
+Disallow: /legacy
+
+Sitemap: https://david-phillip-portfolio.vercel.app/sitemap.xml

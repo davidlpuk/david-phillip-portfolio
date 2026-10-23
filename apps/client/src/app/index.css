@@ -990,3 +990,200 @@ html {
     color: hsl(var(--accent-foreground)) !important;
   }
 }
+/* ==========================================================================
+   Portfolio 2026: editorial system for the public site
+   Ink + paper neutrals, one cobalt accent, Instrument Serif display,
+   Geist for UI and body, Geist Mono for labels. Scoped to `.dp` so the
+   legacy and admin routes keep their existing theme.
+   ========================================================================== */
+
+@theme {
+  --color-ink: #0c0e12;
+  --color-ink-2: #15181e;
+  --color-ink-3: #1f232b;
+  --color-paper: #f4f1ea;
+  --color-paper-2: #ebe7dd;
+  --color-bone: #fbfaf7;
+  --color-stone: #585c63;
+  --color-mist: #a3a9b4;
+  --color-cobalt: #2a4bd8;
+  --color-cobalt-deep: #1f3bb3;
+  --color-periwinkle: #8aa2ff;
+  --color-signal: #2fbf71;
+
+  --font-editorial: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-ui: "Geist", "Inter", system-ui, -apple-system, sans-serif;
+  --font-label: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+@utility type-hero {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 6.75rem);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+}
+
+@utility type-section {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+@utility type-title {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-size: clamp(1.875rem, 3vw, 2.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+
+@utility type-metric {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+@utility type-lede {
+  font-family: var(--font-ui);
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+@utility type-label {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The legacy base layer sets Montserrat and heavy weights on bare
+   elements; reset them inside the public site so utilities decide. */
+@layer base {
+  .dp :is(p, li, dt, dd, blockquote, figcaption, label, input, button) {
+    font-family: inherit;
+  }
+
+  .dp :is(h1, h2, h3, h4, h5, h6) {
+    font-family: inherit;
+    font-weight: 400;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    text-transform: none;
+  }
+}
+
+.dp {
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv11";
+}
+
+.dp h1,
+.dp h2,
+.dp h3,
+.dp h4 {
+  text-wrap: balance;
+}
+
+.dp ::selection {
+  background: var(--color-cobalt);
+  color: #fff;
+}
+
+.dp :focus-visible {
+  outline: 2px solid var(--color-cobalt);
+  outline-offset: 3px;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-offset-shadow: 0 0 #0000;
+  box-shadow: none;
+}
+
+.dp [data-surface="ink"] :focus-visible,
+.dp[data-surface="ink"] :focus-visible {
+  outline-color: var(--color-periwinkle);
+}
+
+/* Text highlight used sparingly on key phrases */
+.dp .ink-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 0.04em;
+}
+
+/* Hairline grid texture for dark sections */
+.dp .grid-texture {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+@keyframes dp-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(47 191 113 / 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgb(47 191 113 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(47 191 113 / 0);
+  }
+}
+
+.dp .status-dot {
+  animation: dp-pulse 2.4s ease-out infinite;
+}
+
+/* Above-the-fold entrance: transform only, so the hero text still counts
+   as painted for Largest Contentful Paint */
+@keyframes dp-rise {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.dp .hero-rise {
+  animation: dp-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Soft accent glow without a blur filter, which is costly to paint */
+.dp .glow {
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgb(42 75 216 / 0.38), rgb(42 75 216 / 0.12) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dp .status-dot,
+  .dp .hero-rise {
+    animation: none;
+  }
+}
+
+@media print {
+  .dp .no-print {
+    display: none !important;
+  }
+
+  /* Scroll reveals leave inline opacity on unseen content */
+  .dp [style*="opacity"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

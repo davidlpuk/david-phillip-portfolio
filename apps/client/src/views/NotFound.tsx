@@ -1,49 +1,33 @@
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { AlertCircle, Home } from "lucide-react";
-import { useLocation } from "wouter";
+import {
+  ButtonLink,
+  Eyebrow,
+  SiteShell,
+  useDocumentMeta,
+} from "@/rebuild/site";
 
 export default function NotFound() {
-  const [, setLocation] = useLocation();
-
-  const handleGoHome = () => {
-    setLocation("/");
-  };
+  useDocumentMeta("Page not found · David Phillip");
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-      <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-        <CardContent className="pt-8 pb-8 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-red-100 rounded-full animate-pulse" />
-              <AlertCircle className="relative h-16 w-16 text-red-500" />
-            </div>
-          </div>
-
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">404</h1>
-
-          <h2 className="text-xl font-semibold text-slate-700 mb-4">
-            Page Not Found
-          </h2>
-
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Sorry, the page you are looking for doesn't exist.
-            <br />
-            It may have been moved or deleted.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button
-              onClick={handleGoHome}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-            >
-              <Home className="w-4 h-4 mr-2" />
-              Go Home
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <SiteShell>
+      <main id="main-content" className="mx-auto max-w-3xl px-5 pb-32 pt-40 md:px-8 md:pt-48">
+        <Eyebrow index="404">Page not found</Eyebrow>
+        <h1 className="type-hero mt-6 text-[clamp(2.75rem,6vw,5rem)] text-ink">
+          This page has <em className="italic text-cobalt">moved on.</em>
+        </h1>
+        <p className="type-lede mt-6 max-w-xl text-stone">
+          The link may be out of date. The work, references and CV are all one
+          click away.
+        </p>
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href="/" variant="ink">
+            Go to the home page
+          </ButtonLink>
+          <ButtonLink href="/cv" variant="outline">
+            Read the CV
+          </ButtonLink>
+        </div>
+      </main>
+    </SiteShell>
   );
 }

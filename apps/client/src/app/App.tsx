@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import NotFound from "@/views/NotFound";
-import { Route, Switch, useLocation } from "wouter";
+import { Redirect, Route, Switch, useLocation } from "wouter";
 import { ThemeProvider } from "@/shared/contexts/ThemeContext";
 import PageTransition from "@/shared/components/PageTransition";
 
@@ -118,14 +118,10 @@ function Router() {
           </Suspense>
         </Route>
         <Route path="/portfolio-v2">
-          <Suspense fallback={<PageLoader />}>
-            <PortfolioV2 />
-          </Suspense>
+          <Redirect to="/" replace />
         </Route>
         <Route path="/portfolio-v2/case-study/:slug">
-          <Suspense fallback={<PageLoader />}>
-            <PortfolioV2CaseStudy />
-          </Suspense>
+          {(params) => <Redirect to={`/case-study/${params.slug}`} replace />}
         </Route>
         {/* 🔒 SECRET ROUTE - Not linked anywhere */}
         <Route path="/admin">
