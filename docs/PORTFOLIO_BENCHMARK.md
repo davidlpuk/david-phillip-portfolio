@@ -95,13 +95,47 @@ All of these need input only David can provide:
 4. **Verified metrics** and, if confidentiality allows, one design-system or
    governance artefact for platform-design roles.
 
-## Can "top 5" be proven?
+## What curators say makes the exemplars work
 
-Not objectively: there is no ranked list of design-leadership portfolios. On
-the closest defensible measure, the site now scores 40 of 42 on criteria
-drawn from hiring guidance. It covers every signal the exemplars are praised
-for except talks and a video intro, and adds two that none of them are
-reported to have.
+These are the curators' and reviewers' own stated reasons, used here as an
+independent standard rather than criteria written for this site.
+
+| Exemplar and curator's reason it works | Source | David's site |
+| --- | --- | --- |
+| Ramy Adel (Head of Product Design, digital retail bank): team scope stated with numbers on the first screen | Leadership Folios | ✓ "5 → 15 design team scaled" in the hero proof row |
+| Ramy Adel: research operations framed as infrastructure the candidate built, which works when screens are confidential | Leadership Folios | ✓ Coutts: "Research operating model", first UX research practice |
+| Joel Califa (VP Design): career told as a timeline, with leadership as its own case study | Leadership Folios | ✓ Experience timeline; Cognism and Coutts are leadership case studies |
+| Sandeep Datar (VP UX): a VP-level portfolio built when the underlying work is confidential | Leadership Folios | ✓ Public summary, "What this shows", private gate with walkthrough option |
+| Josh Taylor (Head of Design, Hedra): growth-stage leadership told as one story, 5 designers to 40 | Leadership Folios | ✓ Cognism 0 → 4, Coutts 5 → 15, each told end to end |
+| Fabricio Teixeira: landing page makes clear he is a leader who is still a designer at heart; talks; community | Verified Insider | ✓ Leadership plus hands-on UX Sidekick; ✗ talks, community |
+| Julius Gehrig: strong visuals, live work, video intro, strong testimonials, not reams of text | Verified Insider | ✓ visuals, films, 9 references, scannable layout; ✗ video intro |
+| Abdus Salam: measurable outcomes, press coverage, blend of leadership and hands-on work | Verified Insider | ✓ outcomes, leadership plus hands-on; ✗ press |
+| Jeremy Stokes: distinctive style, clear role on each project, live work | Verified Insider | ✓ style, role grid, films |
+| Marissa Louie: business impact, case studies, values, blog posts | Marissa Louie's list | ✓ all four |
+
+Coverage: every trait except talks, community roles, press and a video intro.
+All four depend on material David would need to supply.
+
+## Verified, and not verified
+
+**Verified with independent tools:** accessibility (axe-core), performance,
+best practices and SEO (Lighthouse), prerendered output and hydration
+(Playwright), and a clean build of the pushed branch. Vercel also reports a
+successful preview deployment of commit `6893e50` ("Deployment has
+completed"); production updates when the branch is merged to `main`.
+
+**Not verified:** a ranked "top 5" placement. No authoritative ranking of
+design-leadership portfolios exists. This environment's network policy also
+denied every exemplar site (`leadershipfolios.com`, `malouie.com`,
+`joelcalifa.com`, `fabricio.work`, `julius.fm`), the Wayback Machine and
+`*.vercel.app`. The keyless PageSpeed Insights quota was exhausted, so the
+exemplars could not be inspected or measured directly. The rubric score above
+is an assessment, not a ranking.
+
+**To complete a side-by-side comparison**, allow those domains in the cloud
+environment's network settings, or supply a PageSpeed Insights API key. Each
+exemplar can then be screenshotted and run through the same Lighthouse and
+axe checks as this site.
 
 ## Sources
 
@@ -111,6 +145,7 @@ reported to have.
 - [Marissa Louie: list of 25+ design leadership portfolios](https://twitter.com/malouie/status/1633692272624803841) and [malouie.com](https://malouie.com/)
 - [Joel Califa: Design Leadership case study](https://joelcalifa.com/work/digitalocean-design-leadership/)
 - [Fabricio Teixeira](https://fabricio.work/)
+- [Leadership Folios: Ramy Adel](https://www.leadershipfolios.com/p/ramy-adel)
 - [UXPin: 16 best UX portfolio examples (2026)](https://www.uxpin.com/studio/blog/ux-portfolio-examples/)
 - [UX Collective: Directors and heads of UX, do you need portfolios?](https://uxdesign.cc/directors-and-heads-of-ux-do-you-need-portfolios-to-get-hired-bafbab2436ff)
 - [Diego Notes: A VP of Design portfolio](https://diegonmtz.substack.com/p/a-vp-of-design-portfolio-insights)
