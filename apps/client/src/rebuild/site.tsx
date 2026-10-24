@@ -69,8 +69,10 @@ if (typeof window !== "undefined") {
   window.addEventListener("pushState", () => leave(true));
   window.addEventListener("replaceState", () => leave(false));
   window.addEventListener("popstate", () => {
+    // In-page anchors (#work) also fire popstate; only a path change is Back/Forward
+    const pathChanged = window.location.pathname !== currentPath;
     leave(true);
-    lastPopState = performance.now();
+    if (pathChanged) lastPopState = performance.now();
   });
 }
 
