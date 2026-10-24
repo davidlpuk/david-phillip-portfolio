@@ -2,7 +2,7 @@ import { PassThrough } from "node:stream";
 import { prerenderToNodeStream } from "react-dom/static";
 import App from "./App";
 
-export { prerenderRoutes, SITE_URL } from "@/rebuild/meta";
+export { CV_PDF_PATH, prerenderRoutes, SITE_URL } from "@/rebuild/meta";
 
 /** Render one route to HTML at build time, waiting for lazy pages to load. */
 export async function render(path: string): Promise<string> {

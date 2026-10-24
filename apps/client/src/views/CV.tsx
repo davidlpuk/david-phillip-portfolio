@@ -4,7 +4,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { profile } from "@/rebuild/portfolioData";
-import { pageMeta } from "@/rebuild/meta";
+import { CV_PDF_PATH, pageMeta } from "@/rebuild/meta";
 import {
   AvailabilityBadge,
   ButtonLink,
@@ -181,7 +181,6 @@ function CapabilityGrid({ body }: { body: string }) {
 export default function CV() {
   const [markdown, setMarkdown] = useState(embeddedCv);
   const [loading, setLoading] = useState(() => !markdown);
-  const [pdfLoading, setPdfLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useDocumentMeta(pageMeta.cv);
@@ -216,34 +215,6 @@ export default function CV() {
     }
   }, [markdown]);
 
-  const handleDownloadPDF = useCallback(async () => {
-    if (!markdown || pdfLoading) return;
-
-    setPdfLoading(true);
-    try {
-      // Lazy load PDF dependencies to keep them out of the main bundle
-      const [{ pdf }, { CVPDF }] = await Promise.all([
-        import("@react-pdf/renderer"),
-        import("@/features/cv-pdf/CVPDF"),
-      ]);
-
-      const blob = await (pdf(<CVPDF markdown={markdown} /> as any).toBlob() as Promise<Blob>);
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "David_Phillip_CV.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("PDF generation failed:", error);
-      toast.error("PDF generation failed. Use Print and save as PDF instead.");
-    } finally {
-      setPdfLoading(false);
-    }
-  }, [markdown, pdfLoading]);
-
   const { summary, sections } = useMemo(() => parseCv(markdown), [markdown]);
 
   const actionClass =
@@ -268,19 +239,14 @@ export default function CV() {
 
           <Reveal delay={0.08}>
             <div className="no-print mt-10 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={handleDownloadPDF}
-                disabled={!markdown || pdfLoading}
+              <a
+                href={CV_PDF_PATH}
+                download
                 className={`${actionClass} bg-cobalt text-white hover:bg-cobalt-deep`}
               >
-                {pdfLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <Download className="h-4 w-4" aria-hidden="true" />
-                )}
-                {pdfLoading ? "Preparing PDF…" : "Download PDF"}
-              </button>
+                <Download className="h-4 w-4" aria-hidden="true" />
+                Download PDF
+              </a>
               <button
                 type="button"
                 onClick={() => window.print()}

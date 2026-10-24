@@ -20,6 +20,32 @@ function markdownPlugin(): Plugin {
   };
 }
 
+/** Serve the CV PDF in dev; `pnpm build` writes it to dist/public. */
+function cvPdfPlugin(): Plugin {
+  return {
+    name: "cv-pdf",
+    apply: "serve",
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (!req.url?.endsWith(".pdf")) return next();
+        try {
+          const { CV_PDF_PATH } = await server.ssrLoadModule("/src/rebuild/meta.ts");
+          if (req.url.split("?")[0] !== CV_PDF_PATH) return next();
+          const { renderCvPdf } = await import("./scripts/cv-pdf.mjs");
+          const pdf = await renderCvPdf(
+            (id: string) => server.ssrLoadModule(id),
+            import.meta.dirname,
+          );
+          res.setHeader("Content-Type", "application/pdf");
+          res.end(pdf);
+        } catch (error) {
+          next(error);
+        }
+      });
+    },
+  };
+}
+
 // jsx-loc tags elements with their source location for dev tooling only;
 // keep it out of production markup and prerendered HTML.
 const plugins = [
@@ -31,6 +57,7 @@ const plugins = [
       env.command === "serve" && !process.env.PRERENDER,
   },
   markdownPlugin(),
+  cvPdfPlugin(),
 ];
 
 export default defineConfig({

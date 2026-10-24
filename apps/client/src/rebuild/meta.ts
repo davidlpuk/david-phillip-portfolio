@@ -4,6 +4,9 @@ import { caseStudies, caseStudyBySlug, type CaseStudySlug } from "@/rebuild/port
 /** Canonical origin used for prerendered tags; the browser uses its own origin. */
 export const SITE_URL = "https://david-phillip-portfolio.vercel.app";
 
+/** The CV as a PDF, written by `pnpm build` (scripts/cv-pdf.mjs). */
+export const CV_PDF_PATH = "/David-Phillip-CV.pdf";
+
 export interface PageMeta {
   title: string;
   description: string;

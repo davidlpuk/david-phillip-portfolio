@@ -8,171 +8,189 @@ import {
   Link,
 } from "@react-pdf/renderer";
 
-// Register Montserrat from GitHub raw files (more reliable than gstatic for react-pdf)
-Font.register({
-  family: "Montserrat",
-  fonts: [
-    {
-      src: "https://raw.githubusercontent.com/JulietaUla/Montserrat/master/fonts/ttf/Montserrat-Regular.ttf",
-      fontWeight: 400,
-    },
-    {
-      src: "https://raw.githubusercontent.com/JulietaUla/Montserrat/master/fonts/ttf/Montserrat-Bold.ttf",
-      fontWeight: 700,
-    },
-    {
-      src: "https://raw.githubusercontent.com/JulietaUla/Montserrat/master/fonts/ttf/Montserrat-SemiBold.ttf",
-      fontWeight: 600,
-    },
-    {
-      src: "https://raw.githubusercontent.com/JulietaUla/Montserrat/master/fonts/ttf/Montserrat-Medium.ttf",
-      fontWeight: 500,
-    },
-    {
-      src: "https://raw.githubusercontent.com/JulietaUla/Montserrat/master/fonts/ttf/Montserrat-Italic.ttf",
-      fontWeight: 400,
-      fontStyle: "italic",
-    },
-  ],
-});
+import { SITE_URL } from "@/rebuild/meta";
+
+/**
+ * Register the site's own typefaces, self-hosted in public/fonts/pdf. The
+ * browser loads them from the site; the build passes a folder on disk.
+ */
+export function registerCvFonts(base: string) {
+  Font.register({
+    family: "Geist",
+    fonts: [
+      { src: `${base}Geist-Regular.ttf`, fontWeight: 400 },
+      { src: `${base}Geist-Medium.ttf`, fontWeight: 500 },
+      { src: `${base}Geist-SemiBold.ttf`, fontWeight: 600 },
+      { src: `${base}Geist-Bold.ttf`, fontWeight: 700 },
+    ],
+  });
+  Font.register({
+    family: "Instrument Serif",
+    fonts: [
+      { src: `${base}InstrumentSerif-Regular.ttf` },
+      { src: `${base}InstrumentSerif-Italic.ttf`, fontStyle: "italic" },
+    ],
+  });
+  Font.register({
+    family: "Geist Mono",
+    src: `${base}GeistMono-Medium.ttf`,
+    fontWeight: 500,
+  });
+}
+
+if (typeof window !== "undefined") {
+  registerCvFonts(`${window.location.origin}/fonts/pdf/`);
+}
+
+// Whole words only: hyphenated words break keyword matching in applicant
+// tracking systems.
+Font.registerHyphenationCallback((word) => [word]);
+
+const colors = {
+  ink: "#0c0e12",
+  body: "#1f232b",
+  stone: "#585c63",
+  mist: "#8b919c",
+  rule: "#e4e0d6",
+  paper: "#f4f1ea",
+  cobalt: "#2a4bd8",
+};
+
+const siteHost = SITE_URL.replace(/^https?:\/\//, "");
 
 const renderTextWithBold = (text: string) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <Text key={i} style={{ fontWeight: "bold" }}>{part.slice(2, -2)}</Text>;
+      return <Text key={i} style={{ fontWeight: 600, color: colors.ink }}>{part.slice(2, -2)}</Text>;
     }
     return <Text key={i}>{part}</Text>;
   });
 };
 
-const cleanContactItem = (item: string) => {
-  const linkMatch = item.match(/\[([^\]]+)\]\(([^)]+)\)/);
-  if (linkMatch) {
-    const url = linkMatch[2];
-    // Remove protocol and www
-    let cleanUrl = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
-    // Remove trailing slash
-    cleanUrl = cleanUrl.replace(/\/$/, '');
-    return cleanUrl.toUpperCase();
-  }
-  return item;
-};
-
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    fontFamily: "Montserrat",
+    paddingTop: 44,
+    paddingBottom: 64,
+    paddingHorizontal: 48,
+    fontFamily: "Geist",
     backgroundColor: "#FFFFFF",
-    color: "#000000",
+    color: colors.body,
     wordBreak: "break-word",
     overflowWrap: "break-word",
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 8,
+    paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#EEEEEE",
-    paddingBottom: 15,
+    borderBottomColor: colors.rule,
   },
   name: {
-    fontSize: 24,
-    fontWeight: 700,
-    marginBottom: 4,
-    letterSpacing: -0.5,
+    fontFamily: "Instrument Serif",
+    fontSize: 34,
+    color: colors.ink,
+    letterSpacing: -0.4,
+    marginBottom: 2,
   },
   role: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: "#444444",
-    marginBottom: 6,
+    fontSize: 10.5,
+    fontWeight: 500,
+    color: colors.stone,
+    marginBottom: 10,
   },
   contactRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 10,
-    marginTop: 5,
-    paddingTop: 8,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.05)",
+    columnGap: 14,
+    rowGap: 4,
+    marginBottom: 6,
   },
   contactItem: {
-    fontSize: 8,
-    fontWeight: 700,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    color: "#666666",
+    fontSize: 8.5,
+    color: colors.stone,
+    textDecoration: "none",
+  },
+  contactLink: {
+    fontSize: 8.5,
+    color: colors.cobalt,
+    textDecoration: "none",
   },
   summary: {
     fontSize: 9,
     lineHeight: 1.6,
-    marginTop: 10,
-    color: "#000000",
+    marginTop: 8,
+    color: colors.body,
     orphans: 2,
     widows: 2,
     wordBreak: "break-word",
     overflowWrap: "break-word",
   },
   section: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 18,
+    marginBottom: 6,
   },
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
-    marginTop: 8,
+    marginTop: 6,
   },
   sectionTitle: {
-    fontSize: 14,
-    fontWeight: 700,
+    fontFamily: "Instrument Serif",
+    fontSize: 18,
+    color: colors.ink,
     marginRight: 10,
   },
   sectionLine: {
     flex: 1,
     height: 1,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: colors.rule,
   },
   sectionTag: {
-    fontSize: 7,
-    fontWeight: 700,
+    fontFamily: "Geist Mono",
+    fontSize: 6.5,
+    fontWeight: 500,
     textTransform: "uppercase",
-    letterSpacing: 0.5,
-    backgroundColor: "#F5F5F5",
-    padding: "2 5",
-    borderRadius: 2,
-    color: "#999999",
+    letterSpacing: 1,
+    backgroundColor: colors.paper,
+    padding: "2 6",
+    borderRadius: 8,
+    color: colors.stone,
     marginLeft: 10,
   },
   experienceItem: {
-    marginBottom: 20,
+    marginBottom: 18,
   },
   experienceHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "baseline",
-    marginBottom: 3,
+    marginBottom: 2,
   },
   jobTitle: {
-    fontSize: 11,
-    fontWeight: 700,
-    textTransform: "uppercase",
+    fontSize: 10.5,
+    fontWeight: 600,
+    color: colors.ink,
     flex: 1,
   },
   jobDate: {
-    fontSize: 8,
-    fontWeight: 700,
-    color: "#666666",
+    fontFamily: "Geist Mono",
+    fontSize: 7.5,
+    fontWeight: 500,
+    color: colors.stone,
+    marginLeft: 12,
   },
   jobCompanyInfo: {
-    fontSize: 8,
+    fontFamily: "Instrument Serif",
+    fontSize: 10.5,
     fontStyle: "italic",
-    color: "#666666",
-    marginBottom: 6,
+    color: colors.stone,
+    marginBottom: 5,
   },
   jobDescription: {
     fontSize: 9,
     lineHeight: 1.5,
-    marginBottom: 8,
+    marginBottom: 6,
     orphans: 2,
     widows: 2,
     wordBreak: "break-word",
@@ -180,17 +198,18 @@ const styles = StyleSheet.create({
   },
   bulletPointContainer: {
     flexDirection: "row",
-    marginBottom: 4,
-    paddingLeft: 4,
+    marginBottom: 3.5,
+    paddingLeft: 2,
   },
   bulletPoint: {
-    width: 8,
+    width: 10,
     fontSize: 9,
+    color: colors.cobalt,
   },
   bulletText: {
     flex: 1,
     fontSize: 8.5,
-    lineHeight: 1.4,
+    lineHeight: 1.45,
     orphans: 2,
     widows: 2,
     wordBreak: "break-word",
@@ -199,15 +218,17 @@ const styles = StyleSheet.create({
   capabilitiesGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 15,
+    columnGap: 24,
+    rowGap: 12,
   },
   capabilityBlock: {
-    width: "46%",
+    width: "47%",
   },
   capabilityTitle: {
     fontSize: 9,
-    fontWeight: 700,
-    marginBottom: 2,
+    fontWeight: 600,
+    color: colors.ink,
+    marginBottom: 4,
   },
   capabilityText: {
     fontSize: 8.5,
@@ -219,37 +240,41 @@ const styles = StyleSheet.create({
   },
   table: {
     width: "100%",
-    marginTop: 5,
-    borderWidth: 1,
-    borderColor: "#EEEEEE",
+    marginTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: colors.rule,
   },
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: "#F9F9F9",
+    backgroundColor: colors.paper,
     borderBottomWidth: 1,
-    borderBottomColor: "#EEEEEE",
-    paddingVertical: 4,
-    paddingHorizontal: 4,
+    borderBottomColor: colors.rule,
+    paddingVertical: 5,
+    paddingHorizontal: 6,
   },
   tableHeaderCell: {
-    fontSize: 7,
-    fontWeight: 700,
+    fontFamily: "Geist Mono",
+    fontSize: 6.5,
+    fontWeight: 500,
     textTransform: "uppercase",
-    color: "#666666",
+    letterSpacing: 0.8,
+    color: colors.stone,
     flex: 1,
+    paddingRight: 6,
   },
   tableRow: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(0,0,0,0.05)",
-    paddingVertical: 4,
-    paddingHorizontal: 4,
+    borderBottomColor: colors.rule,
+    paddingVertical: 5,
+    paddingHorizontal: 6,
   },
   tableCell: {
-    fontSize: 7,
-    color: "#333333",
+    fontSize: 7.5,
+    color: colors.body,
     flex: 1,
     lineHeight: 1.4,
+    paddingRight: 6,
     orphans: 2,
     widows: 2,
     wordBreak: "break-word",
@@ -266,15 +291,15 @@ const styles = StyleSheet.create({
   },
   toolTitle: {
     fontSize: 8,
-    fontWeight: 700,
+    fontWeight: 600,
     marginBottom: 2,
-    color: "#666666",
+    color: colors.stone,
     textTransform: "uppercase",
   },
   toolItems: {
     fontSize: 8.5,
     lineHeight: 1.4,
-    color: "#000000",
+    color: colors.body,
     orphans: 2,
     widows: 2,
     wordBreak: "break-word",
@@ -282,26 +307,41 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: "absolute",
-    bottom: 30,
-    left: 40,
-    right: 40,
+    bottom: 28,
+    left: 48,
+    right: 48,
     borderTopWidth: 1,
-    borderTopColor: "#EEEEEE",
+    borderTopColor: colors.rule,
     paddingTop: 8,
     flexDirection: "row",
     justifyContent: "space-between",
   },
   footerText: {
-    fontSize: 6,
-    fontWeight: 700,
+    fontFamily: "Geist Mono",
+    fontSize: 6.5,
+    fontWeight: 500,
     textTransform: "uppercase",
-    letterSpacing: 0.5,
-    color: "#BBBBBB",
+    letterSpacing: 0.8,
+    color: colors.mist,
   },
 });
 
-export const CVPDF = ({ markdown }: { markdown: string }) => {
-  if (!markdown) return null;
+/** Characters the brand fonts don't have, spelled out so they print and parse. */
+const normalise = (markdown: string) => markdown.replace(/★/g, "-star");
+
+const monthYear = (date: Date) =>
+  date.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+
+export const CVPDF = ({
+  markdown: source,
+  updated = new Date(),
+}: {
+  markdown: string;
+  /** Shown in the footer; the build passes the build date. */
+  updated?: Date;
+}) => {
+  if (!source) return null;
+  const markdown = normalise(source);
 
   // Split into header and sections
   const parts = markdown.split(/\n(?=## )/);
@@ -347,20 +387,28 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
           <View style={styles.contactRow as any} {...({} as any)}>
             {contactItems.map((item, i) => {
               const linkMatch = item.match(/\[([^\]]+)\]\(([^)]+)\)/);
-              if (linkMatch && linkMatch[1].toLowerCase().includes('linkedin')) {
+              if (linkMatch) {
                 const url = linkMatch[2];
-                // Clean URL for display
-                let cleanUrl = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
-                cleanUrl = cleanUrl.replace(/\/$/, '');
+                const label = url
+                  .replace(/^https?:\/\//, "")
+                  .replace(/^www\./, "")
+                  .replace(/\/$/, "");
                 return (
-                  <Link key={i} src={url} style={styles.contactItem as any} {...({} as any)}>
-                    {cleanUrl.toUpperCase()}
+                  <Link key={i} src={url} style={styles.contactLink as any} {...({} as any)}>
+                    {label}
+                  </Link>
+                );
+              }
+              if (item.includes("@")) {
+                return (
+                  <Link key={i} src={`mailto:${item}`} style={styles.contactLink as any} {...({} as any)}>
+                    {item}
                   </Link>
                 );
               }
               return (
                 <Text key={i} style={styles.contactItem as any} {...({} as any)}>
-                  {cleanContactItem(item)}
+                  {item}
                 </Text>
               );
             })}
@@ -476,9 +524,11 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                   const jobHeaderMatch = job.match(/^### (.*?)\n/);
                   const jobHeader = jobHeaderMatch ? jobHeaderMatch[1] : "";
                   const headerParts = jobHeader.split("|").map((s) => s.trim());
+                  // "Title | Company | Dates", or "Title | Dates" for the career break
+                  const datesOnly = headerParts.length === 2 && /\d{4}/.test(headerParts[1]);
                   const jobTitle = headerParts[0] || "";
-                  const jobComp = headerParts[1] || "";
-                  const jobDate = headerParts[2] || "";
+                  const jobComp = datesOnly ? "" : headerParts[1] || "";
+                  const jobDate = datesOnly ? headerParts[1] : headerParts[2] || "";
 
                   const jobLines = job
                     .replace(/^### .*?\n/, "")
@@ -565,8 +615,8 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                               styles.bulletText as any,
                               {
                                 marginTop: 4,
-                                fontWeight: 700,
-                                color: "#666666",
+                                fontWeight: 500,
+                                color: colors.stone,
                               },
                             ] as any
                           }
@@ -893,7 +943,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                             style={styles.bulletText as any}
                             {...({} as any)}
                           >
-                            <Text style={{ fontWeight: "bold" } as any} {...({} as any)}>
+                            <Text style={{ fontWeight: 600, color: colors.ink } as any} {...({} as any)}>
                               {bTitle}
                             </Text>
                             {bText && `: ${bText}`}
@@ -923,7 +973,7 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
                             style={styles.bulletText as any}
                             {...({} as any)}
                           >
-                            <Text style={{ fontWeight: "bold" } as any} {...({} as any)}>
+                            <Text style={{ fontWeight: 600, color: colors.ink } as any} {...({} as any)}>
                               {bTitle}
                             </Text>
                             {bText && `: ${bText}`}
@@ -1016,11 +1066,15 @@ export const CVPDF = ({ markdown }: { markdown: string }) => {
         {/* Footer */}
         <View style={styles.footer as any} fixed {...({} as any)}>
           <Text style={styles.footerText as any} {...({} as any)}>
-            David Phillip • Portfolio: davidphillip.com
+            David Phillip · {siteHost}
           </Text>
-          <Text style={styles.footerText as any} {...({} as any)}>
-            Updated Jan 2026
-          </Text>
+          <Text
+            style={styles.footerText as any}
+            render={({ pageNumber, totalPages }: { pageNumber: number; totalPages: number }) =>
+              `Updated ${monthYear(updated)} · ${pageNumber} / ${totalPages}`
+            }
+            {...({} as any)}
+          />
         </View>
       </Page>
     </Document >

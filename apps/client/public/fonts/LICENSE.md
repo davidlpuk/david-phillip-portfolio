@@ -1,7 +1,8 @@
 # Font licences
 
 These files are the Latin subsets of the fonts used by the public site,
-self-hosted for performance and privacy.
+self-hosted for performance and privacy. `pdf/` holds TrueType copies of the
+same fonts for the PDF CV, which can't use WOFF2.
 
 - **Geist** and **Geist Mono**: Copyright 2024 The Geist Project Authors
   (Vercel). Licensed under the SIL Open Font License 1.1.

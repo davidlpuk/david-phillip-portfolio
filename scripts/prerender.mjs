@@ -11,6 +11,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
+import { cvMarkdownPath, renderCvPdf } from "./cv-pdf.mjs";
 
 process.env.PRERENDER = "1";
 
@@ -94,15 +95,12 @@ const vite = await createServer({
 });
 
 try {
-  const { render, prerenderRoutes, SITE_URL } = await vite.ssrLoadModule(
+  const { render, prerenderRoutes, SITE_URL, CV_PDF_PATH } = await vite.ssrLoadModule(
     "/src/app/entry-server.tsx",
   );
   const siteUrl = (process.env.SITE_URL || SITE_URL).replace(/\/$/, "");
 
-  const cvSource = await fs.readFile(
-    path.join(root, "apps", "client", "public", "docs", "DP CV - Download.md"),
-    "utf8",
-  );
+  const cvSource = await fs.readFile(cvMarkdownPath(root), "utf8");
 
   for (const route of prerenderRoutes) {
     globalThis.__CV_SOURCE__ = route.path === "/cv" ? cvSource : undefined;
@@ -132,6 +130,10 @@ try {
     await fs.writeFile(file, html);
     console.log(`prerendered ${route.path} (${Math.round(html.length / 1024)} kB)`);
   }
+
+  const pdf = await renderCvPdf((id) => vite.ssrLoadModule(id), root, cvSource);
+  await fs.writeFile(path.join(outDir, CV_PDF_PATH.slice(1)), pdf);
+  console.log(`rendered ${CV_PDF_PATH} (${Math.round(pdf.length / 1024)} kB)`);
 } finally {
   await vite.close();
 }
