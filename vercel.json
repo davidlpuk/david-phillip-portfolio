@@ -1,7 +1,7 @@
 {
     "buildCommand": "pnpm run build",
     "outputDirectory": "dist/public",
-    "installCommand": "npm install -g pnpm@10.4.1 && pnpm install --no-frozen-lockfile",
+    "installCommand": "npm install -g pnpm@10.4.1 && pnpm install --frozen-lockfile",
     "framework": null,
     "trailingSlash": false,
     "rewrites": [
@@ -42,7 +42,7 @@
             "destination": "/case-study/ux-sidekick/index.html"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!_vercel/).*)",
             "destination": "/spa.html"
         }
     ],

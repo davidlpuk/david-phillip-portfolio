@@ -1,4 +1,5 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
+import { startAnalytics } from "@/rebuild/analytics";
 import App from "./App";
 import "./index.css";
 
@@ -13,3 +14,5 @@ if (container.dataset.prerendered === path && container.firstElementChild) {
   container.replaceChildren();
   createRoot(container).render(<App />);
 }
+
+startAnalytics();
