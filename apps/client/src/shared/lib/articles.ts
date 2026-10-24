@@ -155,7 +155,9 @@ export async function getArticle(slug: string): Promise<Article | null> {
       return article;
     }
 
-    // If not found, try to load from server (public/articles/)
+    // If not found, try the local article server (public/articles/). Only in
+    // development: in production it would ask visitors for local network access.
+    if (!import.meta.env.DEV) return null;
     try {
       const response = await fetch(`http://localhost:3001/api/articles/published/${slug}`);
       if (response.ok) {

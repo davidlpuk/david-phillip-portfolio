@@ -16,13 +16,21 @@ import {
 import articlesRouter from "./routes/articles";
 import scrapeRouter from "./routes/scrape";
 import authRouter from "./routes/auth";
+import {
+  corsOptions,
+  guardPrivateApi,
+  isSafeSlug,
+  validateSlugParam,
+} from "./security";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(guardPrivateApi);
+app.param("slug", validateSlugParam);
 
 // In-memory conversation storage (for production, use Redis)
 interface Conversation {
@@ -96,8 +104,11 @@ app.post("/api/save-article", (req, res) => {
     return res.status(400).json({ error: "Content and filename are required" });
   }
 
-  // Ensure filename ends with .md
-  const safeFilename = filename.endsWith(".md") ? filename : `${filename}.md`;
+  const slug = String(filename).replace(/\.md$/, "");
+  if (!isSafeSlug(slug)) {
+    return res.status(400).json({ error: "Invalid filename" });
+  }
+  const safeFilename = `${slug}.md`;
 
   // Path to articles folder
   const articlesPath = path.resolve(
@@ -278,6 +289,9 @@ const chatHandler = async (req: any, res: any) => {
   }
 
   const messageContent = typeof message === 'string' ? message : JSON.stringify(message);
+  if (messageContent.length > 4000) {
+    return res.status(413).json({ error: "Message is too long" });
+  }
 
   const convId = conversationId || `conv-${Date.now()}`;
 

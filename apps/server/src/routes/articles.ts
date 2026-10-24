@@ -3,8 +3,10 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import { isSafeSlug, validateSlugParam } from "../security";
 
 const router = Router();
+router.param("slug", validateSlugParam);
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -65,6 +67,9 @@ router.post(
 
       if (!metadata.slug) {
         metadata.slug = generateSlug(metadata.title);
+      }
+      if (!isSafeSlug(metadata.slug)) {
+        return res.status(400).json({ error: "Invalid slug" });
       }
 
       const draftsPath = getDraftsPath();
@@ -413,6 +418,9 @@ router.post("/save", (req: Request, res: Response) => {
     }
 
     const slug = data.slug || filename.replace('.md', '');
+    if (!isSafeSlug(slug) || (originalSlug && !isSafeSlug(originalSlug))) {
+      return res.status(400).json({ error: "Invalid slug" });
+    }
     const status = data.status || 'draft';
 
     if (status === 'published') {

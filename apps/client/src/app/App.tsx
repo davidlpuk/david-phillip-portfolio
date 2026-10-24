@@ -12,11 +12,22 @@ const Articles = lazy(() => import("@/views/LinkedInArticlesView"));
 const Article = lazy(() => import("@/views/Article"));
 const CV = lazy(() => import("@/views/CV"));
 const DesignSystem = lazy(() => import("@/views/DesignSystem"));
-const CVLab = lazy(() => import("@/views/CVLab")); // 🔒 Secret page
-const CVBuilder = lazy(() => import("@/views/CVBuilder")); // 🔒 AI CV Builder
-const ArticleGenerator = lazy(() => import("@/views/ArticleGenerator")); // 🔒 Article Generator
-const ArticleManager = lazy(() => import("@/views/ArticleManager")); // 🔒 Article Manager
-const ExecutiveExplorer = lazy(() => import("@/views/ExecutiveExplorer")); // 🔒 Agentic Explorer
+
+// 🔒 Local tools. Production builds swap them for the 404 page (and leave their
+// code out) unless VITE_ENABLE_ADMIN=true is set.
+const adminEnabled =
+  import.meta.env.DEV || import.meta.env.VITE_ENABLE_ADMIN === "true";
+const CVLab = adminEnabled ? lazy(() => import("@/views/CVLab")) : NotFound;
+const CVBuilder = adminEnabled ? lazy(() => import("@/views/CVBuilder")) : NotFound;
+const ArticleGenerator = adminEnabled
+  ? lazy(() => import("@/views/ArticleGenerator"))
+  : NotFound;
+const ArticleManager = adminEnabled
+  ? lazy(() => import("@/views/ArticleManager"))
+  : NotFound;
+const ExecutiveExplorer = adminEnabled
+  ? lazy(() => import("@/views/ExecutiveExplorer"))
+  : NotFound;
 const PortfolioV2 = lazy(() => import("@/views/PortfolioV2"));
 const PortfolioV2CaseStudy = lazy(() => import("@/views/PortfolioV2CaseStudy"));
 
