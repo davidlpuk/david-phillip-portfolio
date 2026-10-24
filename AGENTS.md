@@ -1,301 +1,171 @@
 # David Phillip Portfolio
 
-## Project Overview
-This is a personal portfolio website for David Phillip, a UX Design Lead and Senior Product Designer. The project showcases his work experience, case studies, and includes an AI-powered digital twin chatbot that can answer questions about David's background and expertise.
+Portfolio site for David Phillip, Head of Design / Design Director. It is
+aimed at hiring managers (CPOs, CTOs, design leaders) and specialist
+recruiters, mainly in financial services and B2B SaaS. Live at
+https://david-phillip-portfolio.vercel.app. Vercel deploys `main` to
+production on every push, so treat `main` as live.
 
-## Tech Stack
+## Ground rules
 
-### Frontend
-- **Framework**: React 19.2.1 with TypeScript
-- **Build Tool**: Vite 7.1.7
-- **Styling**: Tailwind CSS 4.1.14 with custom design tokens
-- **UI Components**: Radix UI primitives (Dialog, Dropdown, Tooltip, etc.)
-- **Routing**: Wouter 3.3.5 (lightweight routing with custom patch)
-- **Animation**: Framer Motion 12.23.22
-- **Theme System**: Custom ThemeProvider with light/dark modes and multiple presets
-- **Markdown**: react-markdown for content rendering
+- **Don't change the content of `/`** (the financial-services version) unless
+  David asks. Framing for other audiences lives in the variants (see
+  Audience versions).
+- Copy is UK English, plain and specific. Metrics must match the case studies
+  and CV.
+- Before pushing, run `pnpm check && pnpm test && pnpm build`. The build ends
+  with a verification step; `pnpm check:a11y` runs the accessibility scan.
+- Never put secrets in client code. Anything `VITE_*` ships to the browser.
 
-### Backend
-- **Runtime**: Node.js with Express 4.21.2
-- **API Server**: Express serving both API endpoints and static files
-- **AI/ML**:
-  - Groq API (llama-3.3-70b-versatile) for fast LLM inference
-  - Ollama (local) for embeddings (nomic-embed-text model)
-  - RAG (Retrieval-Augmented Generation) implementation
-- **CORS**: Enabled for cross-origin requests
+## Stack
 
-### Development
-- **Package Manager**: pnpm 10.4.1
-- **TypeScript**: 5.6.3
-- **Linting/Formatting**: Prettier 3.6.2
-- **Testing**: Vitest 2.1.4
+React 19, TypeScript 5.6, Vite 7, Tailwind CSS 4 (`@theme` tokens), wouter 3
+routing, Framer Motion 12, Radix UI, `@react-pdf/renderer` 4, Express 4 (local
+tools and a Vercel function), Vercel Web Analytics, Vitest 2, pnpm 10.4.1.
 
-## Project Structure
+## Layout
 
 ```
-/
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   │   ├── ui/        # Reusable UI components (Radix-based)
-│   │   │   ├── chat/      # AI chatbot components
-│   │   │   ├── About.tsx
-│   │   │   ├── Hero.tsx
-│   │   │   ├── Experience.tsx
-│   │   │   ├── SelectedWork.tsx
-│   │   │   ├── Testimonials.tsx
-│   │   │   └── ...
-│   │   ├── pages/         # Page components
-│   │   │   ├── Home.tsx
-│   │   │   ├── CaseStudy.tsx
-│   │   │   ├── CV.tsx
-│   │   │   ├── DesignSystem.tsx
-│   │   │   └── NotFound.tsx
-│   │   ├── contexts/      # React contexts (ThemeContext)
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── styles/        # Design tokens and global styles
-│   │   ├── config/        # Configuration files
-│   │   └── App.tsx        # Main app component
-│   ├── public/            # Static assets
-│   │   ├── images/        # Images and graphics
-│   │   └── docs/          # Case study documents
-│   └── index.html
-├── server/                # Backend Express server
-│   └── src/
-│       ├── index.ts       # Server entry point
-│       ├── rag-service.ts # RAG implementation
-│       └── knowledge-base.ts # AI knowledge base
-├── shared/                # Shared types/constants
-├── dist/                  # Build output
-└── patches/               # Package patches (wouter)
+apps/client/            Vite root
+  index.html            HTML shell: meta, JSON-LD, font preloads
+  public/               Static files: images/site/*.webp, fonts/, videos/,
+                        og-*.jpg share images, docs/DP CV - Download.md
+  src/app/              App.tsx (routes), main.tsx (hydrate or render),
+                        entry-server.tsx (prerender), index.css (all styles)
+  src/rebuild/          The current site: content, layout, meta, audiences
+    portfolioData.ts    Case studies, references, experience, profile
+    audiences.ts        Home page versions (/, /saas, /design-leadership)
+    meta.ts             Titles, descriptions, share images, prerender list
+    site.tsx            Header, footer, contact, Reveal, scroll handling
+    writing.ts          Essays shown on /articles
+    analytics.ts        Vercel Analytics with ?ref tracking
+  src/views/            Pages. Current: PortfolioV2, PortfolioV2CaseStudy, CV,
+                        LinkedInArticlesView, NotFound. The rest are legacy
+                        or admin pages.
+  src/features/cv-pdf/  CVPDF.tsx, the PDF CV (react-pdf)
+apps/server/            Express API for local tools (chat, articles, scraping)
+api/index.ts            Wraps the Express app as a Vercel function
+apps/chrome-extension/  Job/article capture extension (talks to localhost)
+scripts/                prerender, CV PDF, build check, a11y check, share images
+docs/                   PORTFOLIO_2026_REDESIGN.md (design rationale),
+                        PORTFOLIO_BENCHMARK.md (rubric and peer comparison)
 ```
 
-## Key Features
+## Design system
 
-### 1. Portfolio Showcase
-- Hero section with professional introduction
-- Experience timeline
-- Selected work gallery with case studies
-- Testimonials from colleagues
-- Responsive design with mobile-first approach
+Everything public renders inside `SiteShell`, which adds the `.dp` class.
+Tokens and utilities sit at the end of `src/app/index.css`:
 
-### 2. Case Studies
-- Dynamic routing: `/case-study/:slug`
-- Password-protected case studies (client confidentiality)
-- Rich content with images, diagrams, and metrics
-- Projects include: Coutts, HSBC, Schroders, Cognism
+- Colours: ink `#0c0e12`, paper `#f4f1ea`, bone `#fbfaf7`, stone `#585c63`,
+  mist `#a3a9b4`, cobalt `#2a4bd8` (accent), periwinkle `#8aa2ff` (accent on
+  dark), signal `#2fbf71` (availability).
+- Type: Instrument Serif (`font-editorial`, display), Geist (`font-ui`),
+  Geist Mono (`font-label`). Self-hosted in `public/fonts/`.
+- Utilities: `type-hero`, `type-section`, `type-title`, `type-metric`,
+  `type-lede`, `type-label`, `hero-rise`, `glow`, `grid-texture`.
 
-### 3. AI Digital Twin Chatbot
-- RAG-powered conversational AI
-- Knowledge base about David's experience and expertise
-- Streaming responses with markdown formatting
-- Conversation history management
-- Groq API for fast inference + Ollama embeddings
+The older CSS in `index.css` and `shared/styles/` (Montserrat, "Theme X"
+presets) only serves legacy and admin pages. Montserrat and Material Symbols
+load from Google Fonts on those pages only (`useLegacyFonts` in `App.tsx`).
 
-### 4. Theme System
-- Multiple theme presets (Theme X - electric lime/lavender accents)
-- Light/dark mode support
-- Custom design tokens in CSS variables
-- Smooth theme transitions
+## Routes
 
-### 5. Design System
-- Component library showcase at `/design-system`
-- Radix UI primitives with custom styling
-- Consistent spacing, typography, and color tokens
-- Accessible components following WCAG guidelines
+| Route | Page |
+| --- | --- |
+| `/`, `/saas`, `/design-leadership` | Home, one per audience |
+| `/case-study/:slug` | coutts, hsbc-kinetic, cognism, ux-sidekick |
+| `/cv` | CV page; PDF at `/David-Phillip-CV.pdf` |
+| `/articles` | Writing (links to LinkedIn) |
+| `/articles/:slug`, `/design-system` | Legacy pages |
+| `/admin/*`, `/explorer` | Local tools; 404 in production builds |
+| `/legacy/*`, `/portfolio-v2/*` | Redirect to the current pages |
 
-## API Endpoints
+## Audience versions
 
-### Health Check
-```
-GET /api/health
-```
-Returns server health status and Ollama connection status.
+`audiences.ts` defines each version's headline, intro, proof row, case study
+order, "What this shows" lines, leadership framing, contact sentence and
+share image. `/saas` and `/design-leadership` are `noindex`. A visitor stays
+in their version across pages (`useAudience`, sessionStorage). Adding a
+version also needs a route in `App.tsx`, an entry in `prerenderRoutes`
+(`meta.ts`), a rewrite in `vercel.json` and the path in `homePaths`
+(`scripts/prerender.mjs`).
 
-### Chat
-```
-POST /api/chat
-Body: { message: string, conversationId?: string }
-Response: { response: string, conversationId: string }
-```
-Sends a message to the AI chatbot and receives a response.
+## Build and deploy
 
-### Clear Conversation
-```
-DELETE /api/chat/:conversationId
-```
-Clears conversation history for a given conversation ID.
+`pnpm build` runs:
 
-## Environment Variables
+1. `vite build` to `dist/public`.
+2. `scripts/prerender.mjs`: renders every route in `prerenderRoutes` to
+   static HTML with its own title, description, canonical and share tags,
+   embeds the CV markdown on `/cv`, writes `spa.html` for all other routes,
+   and renders the CV PDF (`scripts/cv-pdf.mjs`).
+3. `scripts/verify-build.mjs`: fails the build if a page isn't prerendered
+   correctly, a share image or the PDF is missing, or admin code or
+   `localhost` calls reach the bundle.
+4. esbuild bundles the server to `dist/index.js`.
 
-Create a `.env` file in the root directory:
+`main.tsx` hydrates prerendered pages and renders the rest client-side.
+Vercel (`vercel.json`) installs with `--frozen-lockfile`, runs
+`pnpm check && pnpm test && pnpm build`, serves `dist/public`, rewrites
+prerendered paths to their `index.html` and everything else to `spa.html`.
+A failed build leaves the previous deployment live.
+`.github/workflows/ci.yml` runs the same checks plus `pnpm check:a11y` (axe,
+WCAG 2.2 AA, desktop and phone) on every push.
 
-```env
-# Server
-PORT=3001
+## Security model
 
-# Groq API (for fast LLM inference)
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
+- The Express API is a local tool. Deployed copies (Vercel or `pnpm start`)
+  answer only `/api/health` unless `ENABLE_PRIVATE_API=true`. CORS allows
+  localhost and Chrome extensions only; article slugs are validated before
+  they touch the file system (`apps/server/src/security.ts`).
+- Admin pages are swapped for the 404 page in production builds unless
+  `VITE_ENABLE_ADMIN=true`.
+- Case study passwords are a client-side soft gate; the content ships in the
+  bundle. Don't put anything genuinely confidential in a case study.
 
-# Ollama (for embeddings)
-OLLAMA_BASE_URL=http://localhost:11434
-EMBEDDING_MODEL=nomic-embed-text
-LLM_MODEL=llama3.2
+## Analytics
 
-# Case study passwords (hashed with SHA-256)
-COUTTS_PASSWORD_HASH=your_hash_here
-HSBC_PASSWORD_HASH=your_hash_here
-SCHRODERS_PASSWORD_HASH=your_hash_here
-```
+Vercel Web Analytics (cookieless) loads in production. Links sent with an
+application can carry `?ref=<company>`, e.g. `/saas?ref=monzo`. The ref lasts
+the visit and is folded into the recorded path (`/ref/monzo/saas`), so
+Vercel's Pages report shows who opened what. Web Analytics must be enabled
+in the Vercel project settings.
 
-## Development Commands
+## Generated assets
+
+- CV PDF: built from `public/docs/DP CV - Download.md` by `CVPDF.tsx`, using
+  the TrueType fonts in `public/fonts/pdf/`. Edit the markdown, not the PDF.
+- Case study share images: `node scripts/make-share-images.mjs` after
+  changing a case study's title, sector, first metric or cover.
+- Home share images (`og-image*.jpg`) were made by hand; regenerate if the
+  headlines change.
+
+## Commands
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Run development server (frontend only)
-pnpm dev
-
-# Run backend server
-pnpm server
-
-# Build for production
-pnpm build
-
-# Start production server
-pnpm start
-
-# Type checking
-pnpm check
-
-# Format code
-pnpm format
+pnpm install          # pnpm 10.4.1
+pnpm dev              # site on http://localhost:3000
+pnpm server           # local API on http://localhost:3001
+pnpm check            # TypeScript
+pnpm test             # Vitest
+pnpm build            # build, prerender, PDF, verify
+pnpm check:a11y       # axe scan of dist (needs Chromium:
+                      # pnpm exec playwright-core install chromium)
 ```
 
-## Setup Instructions
+## Environment variables
 
-### 1. Install Dependencies
-```bash
-pnpm install
-```
+| Variable | Used by |
+| --- | --- |
+| `GROQ_API_KEY`, `GROQ_MODEL`, `XAI_API_KEY`, `XAI_MODEL` | Chat (server) |
+| `OLLAMA_BASE_URL`, `EMBEDDING_MODEL`, `LLM_MODEL` | Local embeddings (server) |
+| `SUPABASE_URL`, `SUPABASE_ANON_KEY` | Admin login (server) |
+| `EMAIL_USER`, `EMAIL_PASS` | Contact form email (server) |
+| `ENABLE_PRIVATE_API` | Opens the private API on a deployed server |
+| `VITE_ENABLE_ADMIN` | Includes admin pages in a production build |
+| `VITE_CHAT_API_URL` | Chat endpoint for the admin chat views |
+| `SITE_URL` | Overrides the canonical origin when prerendering |
 
-### 2. Set Up Ollama (for local embeddings)
-```bash
-# Run the setup script
-./setup-ollama.sh
-
-# Or manually:
-# Install Ollama: https://ollama.ai
-ollama pull nomic-embed-text
-ollama pull llama3.2
-```
-
-### 3. Configure Environment Variables
-Copy `.env.example` to `.env` and fill in your API keys and configuration.
-
-### 4. Run Development Servers
-```bash
-# Terminal 1: Frontend
-pnpm dev
-
-# Terminal 2: Backend
-pnpm server
-```
-
-Frontend will be available at http://localhost:3000
-Backend API at http://localhost:3001
-
-### 5. Build and Deploy
-```bash
-pnpm build
-pnpm start
-```
-
-## Design Tokens
-
-Custom CSS variables defined in `client/src/styles/design-tokens.css`:
-- Color schemes (primary, secondary, accent, neutral)
-- Typography scale
-- Spacing scale
-- Border radius tokens
-- Animation durations
-- Shadows and effects
-
-## Code Splitting & Optimization
-
-- Lazy-loaded page components using React.lazy()
-- Manual chunk splitting for better caching:
-  - vendor-react (React core)
-  - vendor-router (Wouter)
-  - vendor-ui (Radix UI)
-  - vendor-motion (Framer Motion)
-  - vendor-icons (Lucide React)
-- Asset optimization with hashed filenames
-- CSS and JS minification via esbuild
-
-## Notable Implementation Details
-
-### Custom Patches
-- Wouter routing library has a custom patch (patches/wouter@3.7.1.patch)
-
-### RAG Implementation
-- Vector store uses in-memory storage (consider Redis for production)
-- Embeddings generated via Ollama's nomic-embed-text model
-- Cosine similarity for retrieval
-- Context-aware responses with conversation history (last 10 messages)
-
-### Security
-- Password protection for sensitive case studies
-- SHA-256 hashing for password verification
-- CORS enabled for API access
-- Static file serving with proper paths
-
-### Performance
-- Code splitting for optimal bundle sizes
-- Lazy loading of routes and heavy components
-- Image optimization and proper sizing
-- CSS-in-JS with Tailwind for minimal runtime overhead
-
-## Deployment Considerations
-
-### Production Build
-The build process creates:
-- `/dist/public/` - Frontend static assets
-- `/dist/index.js` - Backend server bundle
-
-### Server Requirements
-- Node.js environment
-- Ollama instance (for embeddings) or fallback to mock embeddings
-- Groq API key (for chat functionality)
-- Environment variables configured
-
-### Hosting Options
-- **Frontend**: Can be served statically (Vercel, Netlify, S3)
-- **Backend**: Requires Node.js server (Railway, Render, Heroku, VPS)
-- **Full Stack**: Deploy both together (single server setup)
-
-## Browser Support
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- ES2020+ features
-- CSS custom properties required
-
-## Accessibility
-- Semantic HTML structure
-- ARIA labels and roles via Radix UI
-- Keyboard navigation support
-- Focus management
-- Color contrast compliance
-
-## Future Enhancements
-- Redis integration for conversation persistence
-- More case studies
-- Blog section
-- Analytics integration
-- Performance monitoring
-- CI/CD pipeline
-
-## Contact
-David Phillip - UX Design Lead & Senior Product Designer
-Portfolio showcases work with fintech companies including Coutts, HSBC, Schroders, and Cognism.
+The canonical origin is `SITE_URL` in `src/rebuild/meta.ts`. If the site moves
+to a custom domain, update it there, in `index.html` (meta tags and JSON-LD),
+`public/sitemap.xml`, `public/robots.txt` and the CV markdown.

@@ -59,8 +59,9 @@ this folder (`PORTFOLIO_REBUILD_AUDIT.md`, `BNY_ROLE_FIT_AUDIT.md`,
   `CV.tsx`, `LinkedInArticlesView.tsx` (Writing), `NotFound.tsx`
 - Tokens, type scale and self-hosted fonts: end of `apps/client/src/app/index.css`;
   font files and licences in `apps/client/public/fonts/`
-- Optimised images: `apps/client/public/images/site/` (WebP, ~700 KB vs ~5 MB of
-  source PNGs); web-encoded films in `apps/client/public/videos/`
+- Optimised images: `apps/client/public/images/site/` (WebP, ~700 KB); the
+  source PNGs were removed from the repo and remain in git history.
+  Web-encoded films are in `apps/client/public/videos/`.
 
 ### Audience versions
 
@@ -94,6 +95,28 @@ shell, `spa.html`, through the catch-all rewrite in `vercel.json`. To add a
 public page, add it to `prerenderRoutes` in `rebuild/meta.ts` and add a
 matching rewrite in `vercel.json`.
 
+### Using it for applications
+
+- **Track who opened what.** Add `?ref=<company>` to any link you send, e.g.
+  `https://david-phillip-portfolio.vercel.app/saas?ref=monzo`. In Vercel,
+  open the project's Analytics tab: the Pages list shows `/ref/monzo/saas`,
+  `/ref/monzo/case-study/cognism` and so on. Turn on Web Analytics in the
+  project settings once.
+- **CV as a link.** `/David-Phillip-CV.pdf` is rebuilt from
+  `public/docs/DP CV - Download.md` on every deploy, in the site's
+  typefaces, with whole words only so applicant tracking systems can match
+  keywords.
+- **Sharing a case study** on LinkedIn or by message shows its own preview
+  card with the headline metric (`public/og-case-*.jpg`).
+
+### Safety checks
+
+Every deploy runs the typecheck, unit tests and a build check
+(`scripts/verify-build.mjs`); if any fails, Vercel keeps the previous
+version live. GitHub Actions also runs an axe accessibility scan of every
+public page at desktop and phone widths. The admin pages and the private
+API are off in production (see `AGENTS.md`).
+
 ### Routes retired
 
 `/legacy` and `/legacy/case-study/:slug` redirect to the new pages, as do the
@@ -121,3 +144,7 @@ See `PORTFOLIO_BENCHMARK.md` for the full rubric. In short:
    benchmark exemplars have that this site does not yet.
 4. **Add one design-system artefact** (guidelines or governance model) if
    confidentiality allows; platform-design roles ask for it.
+5. **Custom domain and matching email** (e.g. davidphillip.design). Update
+   `SITE_URL` and the files listed at the end of `AGENTS.md`.
+6. **Higher-resolution case study images.** The Coutts and HSBC artefacts are
+   632–639 px wide and look soft on large and retina screens.
