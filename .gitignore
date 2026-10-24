@@ -3,3 +3,7 @@ node_modules
 .env
 .env*.local
 dist
+
+# macOS and local check output
+.DS_Store
+check_output*.txt
