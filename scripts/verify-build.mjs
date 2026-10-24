@@ -41,6 +41,9 @@ for (const { path: route, meta } of prerenderRoutes) {
   if (!html.includes(`data-prerendered="${route}"`)) problems.push(`${route}: not prerendered`);
   if (!html.includes('id="main-content"')) problems.push(`${route}: page content didn't render`);
   if (!/<link rel="canonical" href="https:\/\/[^"]+"/.test(html)) problems.push(`${route}: no canonical link`);
+  if (meta.image && !(await fs.stat(path.join(outDir, meta.image)).catch(() => null))) {
+    problems.push(`${route}: share image ${meta.image} is missing`);
+  }
   if (Boolean(meta.noindex) !== html.includes('name="robots" content="noindex')) {
     problems.push(`${route}: robots noindex doesn't match its meta`);
   }

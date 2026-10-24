@@ -45,6 +45,7 @@ export function caseStudyMeta(slug: string | undefined): PageMeta {
   return {
     title: `${study.company}: ${study.title} · David Phillip`,
     description: study.summary,
+    image: `/og-case-${study.slug}.jpg`,
   };
 }
 

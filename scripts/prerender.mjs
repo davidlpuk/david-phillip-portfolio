@@ -33,6 +33,7 @@ function withMeta(template, { title, description, image, noindex }, url, siteUrl
   if (image) {
     html = setTag(html, /(<meta property="og:image" content=")[^"]*(")/, `$1${siteUrl}${image}$2`);
     html = setTag(html, /(<meta name="twitter:image" content=")[^"]*(")/, `$1${siteUrl}${image}$2`);
+    html = setTag(html, /(<meta property="og:image:alt" content=")[^"]*(")/, `$1${t}$2`);
   }
   if (noindex) {
     html = html.replace("</title>", '</title>\n  <meta name="robots" content="noindex, follow" />');
