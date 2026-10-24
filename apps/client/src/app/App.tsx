@@ -31,6 +31,24 @@ const ExecutiveExplorer = adminEnabled
 const PortfolioV2 = lazy(() => import("@/views/PortfolioV2"));
 const PortfolioV2CaseStudy = lazy(() => import("@/views/PortfolioV2CaseStudy"));
 
+// The pre-2026 pages still use Montserrat and Material Symbols. Load them on
+// those pages only, so the public site never waits on Google Fonts.
+const LEGACY_FONTS =
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap";
+const legacyPages = ["/articles/", "/design-system", "/admin", "/explorer"];
+
+function useLegacyFonts(location: string) {
+  useEffect(() => {
+    if (!legacyPages.some((prefix) => location.startsWith(prefix))) return;
+    if (document.getElementById("legacy-fonts")) return;
+    const link = document.createElement("link");
+    link.id = "legacy-fonts";
+    link.rel = "stylesheet";
+    link.href = LEGACY_FONTS;
+    document.head.append(link);
+  }, [location]);
+}
+
 // Loading fallback component
 const PageLoader = React.memo(function PageLoader() {
   return (
@@ -51,6 +69,7 @@ const PageLoader = React.memo(function PageLoader() {
 
 function Router() {
   const [location] = useLocation();
+  useLegacyFonts(location);
 
   // Handle anchor scrolling when location changes
   useEffect(() => {
