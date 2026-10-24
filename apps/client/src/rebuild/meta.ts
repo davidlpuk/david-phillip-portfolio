@@ -1,3 +1,4 @@
+import { audiences } from "@/rebuild/audiences";
 import { caseStudies, caseStudyBySlug, type CaseStudySlug } from "@/rebuild/portfolioData";
 
 /** Canonical origin used for prerendered tags; the browser uses its own origin. */
@@ -6,16 +7,17 @@ export const SITE_URL = "https://david-phillip-portfolio.vercel.app";
 export interface PageMeta {
   title: string;
   description: string;
+  /** Social share image; defaults to /og-image.jpg */
+  image?: string;
+  /** Keep out of search results (audience variants of the home page) */
+  noindex?: boolean;
 }
 
 const defaultDescription =
   "David Phillip is a Head of Design and Design Director in London with 20+ years leading product design for Coutts, HSBC, BlackRock and Cognism. Design leadership for regulated, high-trust financial products.";
 
 export const pageMeta = {
-  home: {
-    title: "David Phillip · Head of Design & Design Director, London",
-    description: defaultDescription,
-  },
+  home: audiences.financial.meta,
   cv: {
     title: "CV · David Phillip, Head of Design & Design Director",
     description:
@@ -46,6 +48,8 @@ export function caseStudyMeta(slug: string | undefined): PageMeta {
 /** Public routes rendered to static HTML at build time. */
 export const prerenderRoutes: Array<{ path: string; meta: PageMeta }> = [
   { path: "/", meta: pageMeta.home },
+  { path: audiences.saas.path, meta: audiences.saas.meta },
+  { path: audiences.general.path, meta: audiences.general.meta },
   { path: "/cv", meta: pageMeta.cv },
   { path: "/articles", meta: pageMeta.writing },
   ...caseStudies.map((study) => ({

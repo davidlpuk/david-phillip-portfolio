@@ -81,6 +81,17 @@ function Router() {
             <PortfolioV2 />
           </Suspense>
         </Route>
+        {/* Audience versions of the home page (see rebuild/audiences.ts) */}
+        <Route path="/saas">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioV2 />
+          </Suspense>
+        </Route>
+        <Route path="/design-leadership">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioV2 />
+          </Suspense>
+        </Route>
         {/* The pre-2026 site (views/Home.tsx, views/CaseStudy.tsx) is kept in
             the repo for reference but no longer served. */}
         <Route path="/legacy">

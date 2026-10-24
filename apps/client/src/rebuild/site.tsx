@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
+import { audienceForPath, useAudience } from "@/rebuild/audiences";
 import type { PageMeta } from "@/rebuild/meta";
 import { profile } from "@/rebuild/portfolioData";
 
@@ -23,8 +24,14 @@ const navItems = [
   { id: "experience", label: "Experience" },
 ];
 
+/** The home page or one of its audience versions (/saas, /design-leadership) */
 function isHomePath(path: string) {
-  return path === "/" || path === "/portfolio-v2";
+  return path === "/portfolio-v2" || audienceForPath(path) !== undefined;
+}
+
+/** Link to a home-page section, keeping the visitor's audience version. */
+export function sectionHref(homePath: string, id: string) {
+  return homePath === "/" ? `/#${id}` : `${homePath}#${id}`;
 }
 
 function setMeta(selector: string, attribute: string, value: string) {
@@ -104,10 +111,11 @@ export function useInitialScroll(key?: string) {
   }, [key]);
 }
 
-/** In-page anchor on the home page, client-side route to `/#id` elsewhere. */
+/** In-page anchor on a home page, client-side route back to it elsewhere. */
 function SectionLink({
   id,
   onHome,
+  homePath,
   className,
   children,
   onClick,
@@ -115,6 +123,7 @@ function SectionLink({
 }: {
   id: string;
   onHome: boolean;
+  homePath: string;
   className: string;
   children: ReactNode;
   onClick?: () => void;
@@ -133,7 +142,7 @@ function SectionLink({
     );
   }
   return (
-    <Link href={`/#${id}`} onClick={onClick} className={className}>
+    <Link href={sectionHref(homePath, id)} onClick={onClick} className={className}>
       {children}
     </Link>
   );
@@ -357,7 +366,7 @@ function Monogram() {
   );
 }
 
-function MobileMenu({ onHome }: { onHome: boolean }) {
+function MobileMenu({ onHome, homePath }: { onHome: boolean; homePath: string }) {
   const [open, setOpen] = useState(false);
   const [location] = useLocation();
 
@@ -398,6 +407,7 @@ function MobileMenu({ onHome }: { onHome: boolean }) {
                 key={item.id}
                 id={item.id}
                 onHome={onHome}
+                homePath={homePath}
                 onClick={() => setOpen(false)}
                 className="border-b border-white/10 py-4 font-editorial text-4xl leading-none"
               >
@@ -432,6 +442,7 @@ function MobileMenu({ onHome }: { onHome: boolean }) {
 export function SiteHeader() {
   const [location] = useLocation();
   const onHome = isHomePath(location);
+  const audience = useAudience();
   const active = useActiveSection(onHome);
   const [scrolled, setScrolled] = useState(false);
 
@@ -452,7 +463,7 @@ export function SiteHeader() {
             : "border-white/[0.08] bg-ink/90"
         }`}
       >
-        <Link href="/" className="flex items-center gap-3 rounded-full pr-2">
+        <Link href={audience.path} className="flex items-center gap-3 rounded-full pr-2">
           <Monogram />
           <span className="hidden text-[15px] font-medium tracking-[-0.01em] sm:inline">
             David Phillip
@@ -471,6 +482,7 @@ export function SiteHeader() {
                 key={item.id}
                 id={item.id}
                 onHome={onHome}
+                homePath={audience.path}
                 current={isActive}
                 className={`rounded-full px-3.5 py-2 text-sm transition ${
                   isActive
@@ -499,7 +511,7 @@ export function SiteHeader() {
           <ButtonLink href={profile.calendlyUrl} size="sm" icon="external">
             Book a call
           </ButtonLink>
-          <MobileMenu onHome={onHome} />
+          <MobileMenu onHome={onHome} homePath={audience.path} />
         </div>
       </div>
     </header>
@@ -507,6 +519,8 @@ export function SiteHeader() {
 }
 
 export function ContactSection({ compact = false }: { compact?: boolean }) {
+  const audience = useAudience();
+
   return (
     <section
       id="contact"
@@ -533,9 +547,8 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
             Let’s talk about <em className="italic text-periwinkle">your</em> team.
           </h2>
           <p className="type-lede mt-6 max-w-2xl text-mist">
-            Open to {profile.targetRoles} in financial services, fintech and
-            B2B SaaS. A 30-minute intro call is the quickest way to see if
-            there’s a fit.
+            Open to {profile.targetRoles}
+            {` in ${audience.sectors}. A 30-minute intro call is the quickest way to see if there’s a fit.`}
           </p>
         </Reveal>
 
@@ -593,6 +606,8 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
 }
 
 export function SiteFooter() {
+  const audience = useAudience();
+
   return (
     <footer
       data-surface="ink"
@@ -606,7 +621,7 @@ export function SiteFooter() {
           </p>
         </div>
         <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
-          <Link href="/" className="hover:text-bone">
+          <Link href={audience.path} className="hover:text-bone">
             Work
           </Link>
           <Link href="/cv" className="hover:text-bone">

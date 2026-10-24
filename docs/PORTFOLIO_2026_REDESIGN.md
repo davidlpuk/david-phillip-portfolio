@@ -62,6 +62,28 @@ this folder (`PORTFOLIO_REBUILD_AUDIT.md`, `BNY_ROLE_FIT_AUDIT.md`,
 - Optimised images: `apps/client/public/images/site/` (WebP, ~700 KB vs ~5 MB of
   source PNGs); web-encoded films in `apps/client/public/videos/`
 
+### Audience versions
+
+Send the link that matches the role you're applying for. All three share the
+same design, case studies, references and CV; only the framing changes.
+
+| Link | Use for | Leads with |
+| --- | --- | --- |
+| `/` | Banks, wealth managers, fintech | Trust in financial products; Coutts first |
+| `/saas` | B2B SaaS, scale-ups, product-led companies | "Makes complex SaaS feel simple"; Cognism first |
+| `/design-leadership` | Any other sector | Complex products and the teams that build them; Cognism first |
+
+Each version has its own headline, intro, proof row, case-study order,
+"What this shows" lines, leadership framing, contact sentence and social
+share image. Once a visitor lands on a version, the header, footer and case
+study links keep them in it. The `/saas` and `/design-leadership` pages are
+marked `noindex`, so search engines only show the main site.
+
+To edit a version or add a new one, change `apps/client/src/rebuild/audiences.ts`.
+A new version also needs a route in `src/app/App.tsx`, an entry in
+`prerenderRoutes` (`rebuild/meta.ts`), a rewrite in `vercel.json`, and the
+path added to `homePaths` in `scripts/prerender.mjs`.
+
 ### Prerendering
 
 `pnpm build` runs `vite build`, then `scripts/prerender.mjs`, which renders

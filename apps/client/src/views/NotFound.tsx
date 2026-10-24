@@ -1,3 +1,4 @@
+import { useAudience } from "@/rebuild/audiences";
 import { pageMeta } from "@/rebuild/meta";
 import {
   ButtonLink,
@@ -7,6 +8,7 @@ import {
 } from "@/rebuild/site";
 
 export default function NotFound() {
+  const audience = useAudience();
   useDocumentMeta(pageMeta.notFound);
 
   return (
@@ -21,7 +23,7 @@ export default function NotFound() {
           click away.
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/" variant="ink">
+          <ButtonLink href={audience.path} variant="ink">
             Go to the home page
           </ButtonLink>
           <ButtonLink href="/cv" variant="outline">

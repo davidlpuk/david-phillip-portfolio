@@ -26,11 +26,13 @@ import {
   verifyCaseStudyPassword,
 } from "@/rebuild/password";
 import { caseStudyMeta } from "@/rebuild/meta";
+import { useAudience } from "@/rebuild/audiences";
 import {
   ButtonLink,
   ContactSection,
   Eyebrow,
   Reveal,
+  sectionHref,
   SiteShell,
   useDocumentMeta,
   useInitialScroll,
@@ -83,9 +85,13 @@ function useActiveHeading(ids: string[]) {
 function CaseHero({
   study,
   index,
+  homePath,
+  relevance,
 }: {
   study: CaseStudyDetail;
   index: number;
+  homePath: string;
+  relevance: string;
 }) {
   const facts = [
     ["Role", study.role],
@@ -98,7 +104,7 @@ function CaseHero({
     <header className="mx-auto max-w-6xl px-5 pt-28 md:px-8 md:pt-36">
       <div className="hero-rise">
         <Link
-          href="/#work"
+          href={sectionHref(homePath, "work")}
           className="inline-flex items-center gap-2 text-sm font-medium text-stone hover:text-ink"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -116,7 +122,7 @@ function CaseHero({
         <p className="mt-8 flex max-w-3xl flex-col gap-1 rounded-2xl border border-cobalt/20 bg-cobalt/[0.06] px-5 py-4 sm:flex-row sm:items-baseline sm:gap-4">
           <span className="type-label shrink-0 text-cobalt">What this shows</span>
           <span className="text-[15px] font-medium leading-6 text-ink">
-            {study.relevance}
+            {relevance}
           </span>
         </p>
       </div>
@@ -547,7 +553,7 @@ function NextStudy({ study }: { study: CaseStudyDetail }) {
   );
 }
 
-function NotFoundStudy() {
+function NotFoundStudy({ homePath }: { homePath: string }) {
   return (
     <main id="main-content" className="mx-auto max-w-3xl px-5 pb-32 pt-40 md:px-8">
       <Eyebrow>Not found</Eyebrow>
@@ -556,7 +562,7 @@ function NotFoundStudy() {
         It may have moved. All current work is on the home page.
       </p>
       <div className="mt-10">
-        <ButtonLink href="/#work" variant="ink">
+        <ButtonLink href={sectionHref(homePath, "work")} variant="ink">
           See all work
         </ButtonLink>
       </div>
@@ -569,6 +575,7 @@ export default function PortfolioV2CaseStudy() {
   const slug = params.slug;
   const study = isCaseStudySlug(slug) ? caseStudyBySlug.get(slug) : undefined;
   const [unlocked, setUnlocked] = useState(false);
+  const audience = useAudience();
 
   useDocumentMeta(caseStudyMeta(slug));
   useInitialScroll(slug);
@@ -602,19 +609,26 @@ export default function PortfolioV2CaseStudy() {
   if (!study) {
     return (
       <SiteShell>
-        <NotFoundStudy />
+        <NotFoundStudy homePath={audience.path} />
       </SiteShell>
     );
   }
 
-  const index = caseStudies.findIndex((item) => item.slug === study.slug);
-  const next = caseStudies[(index + 1) % caseStudies.length];
+  // Numbering and "Next case study" follow the order of the visitor's home page
+  const order = audience.caseStudyOrder;
+  const index = order.indexOf(study.slug);
+  const next = caseStudyBySlug.get(order[(index + 1) % order.length]) ?? caseStudies[0];
 
   return (
     <SiteShell>
       <ReadingProgress />
       <main id="main-content">
-        <CaseHero study={study} index={index} />
+        <CaseHero
+          study={study}
+          index={index}
+          homePath={audience.path}
+          relevance={audience.relevance[study.slug] ?? study.relevance}
+        />
 
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-12">
           <aside className="no-print hidden lg:col-span-3 lg:block">

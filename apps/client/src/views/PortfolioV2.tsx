@@ -2,18 +2,17 @@ import { ArrowRight, ArrowUpRight, Check, LockKeyhole, Quote } from "lucide-reac
 import { Link } from "wouter";
 import {
   aiPractice,
-  caseStudies,
+  caseStudyBySlug,
   experience,
   featuredTestimonial,
   firstNinetyDays,
-  leadershipPillars,
   profile,
   testimonials,
   type CaseStudyDetail,
   type Testimonial,
 } from "@/rebuild/portfolioData";
 import { writing } from "@/rebuild/writing";
-import { pageMeta } from "@/rebuild/meta";
+import { useAudience, type Audience } from "@/rebuild/audiences";
 import {
   AvailabilityBadge,
   ButtonLink,
@@ -38,7 +37,11 @@ const capabilities = [
   "Prototyping in code",
 ];
 
-function Hero() {
+function Hero({ audience }: { audience: Audience }) {
+  const clients = audience.clientOrder.flatMap((name) =>
+    profile.clients.filter((client) => client.name === name),
+  );
+
   return (
     <section
       data-surface="ink"
@@ -77,11 +80,12 @@ function Hero() {
             id="hero-title"
             className="type-hero mt-6 text-[clamp(2.875rem,6.4vw,5.75rem)] text-bone"
           >
-            Design leadership for financial products where{" "}
-            <em className="italic text-periwinkle">trust</em> is the product.
+            {audience.headline.lead}{" "}
+            <em className="italic text-periwinkle">{audience.headline.emphasis}</em>
+            {audience.headline.tail}
           </h1>
 
-          <p className="type-lede mt-8 max-w-xl text-mist">{profile.intro}</p>
+          <p className="type-lede mt-8 max-w-xl text-mist">{audience.intro}</p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
             <ButtonLink href="#work">View selected work</ButtonLink>
             <ButtonLink
@@ -124,10 +128,9 @@ function Hero() {
                 </p>
               </div>
               <ul className="type-label text-right leading-6 text-mist">
-                <li>Customer</li>
-                <li>Business</li>
-                <li>Risk</li>
-                <li>Technology</li>
+                {audience.lenses.map((lens) => (
+                  <li key={lens}>{lens}</li>
+                ))}
               </ul>
             </figcaption>
           </figure>
@@ -136,7 +139,7 @@ function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-5 md:px-8">
         <dl className="grid grid-cols-2 border-t border-white/10 lg:grid-cols-4">
-          {profile.heroProof.map((item, index) => (
+          {audience.heroProof.map((item, index) => (
             <div
               key={item.label}
               className={`py-8 pr-4 ${index % 2 === 1 ? "pl-4 sm:pl-6" : ""} ${
@@ -167,7 +170,7 @@ function Hero() {
             className="grid flex-1 grid-cols-4 items-center gap-x-6 gap-y-6 sm:gap-x-10 lg:flex lg:justify-between lg:gap-6"
             aria-label="Organisations David has worked with"
           >
-            {profile.clients.map((client) => (
+            {clients.map((client) => (
               <li key={client.name} className="flex items-center">
                 <img
                   src={client.logo}
@@ -188,9 +191,11 @@ function Hero() {
 function CaseStudyCard({
   study,
   index,
+  relevance,
 }: {
   study: CaseStudyDetail;
   index: number;
+  relevance: string;
 }) {
   const [lead, ...rest] = study.proof;
   const flipped = index % 2 === 1;
@@ -246,7 +251,7 @@ function CaseStudyCard({
               />
               <span>
                 <span className="sr-only">What this shows: </span>
-                {study.relevance}
+                {relevance}
               </span>
             </p>
           </div>
@@ -281,7 +286,12 @@ function CaseStudyCard({
   );
 }
 
-function SelectedWork() {
+function SelectedWork({ audience }: { audience: Audience }) {
+  const studies = audience.caseStudyOrder.flatMap((slug) => {
+    const study = caseStudyBySlug.get(slug);
+    return study ? [study] : [];
+  });
+
   return (
     <section
       id="work"
@@ -305,15 +315,20 @@ function SelectedWork() {
       </Reveal>
 
       <div className="mt-14 grid gap-6 md:mt-20 md:gap-8">
-        {caseStudies.map((study, index) => (
-          <CaseStudyCard key={study.slug} study={study} index={index} />
+        {studies.map((study, index) => (
+          <CaseStudyCard
+            key={study.slug}
+            study={study}
+            index={index}
+            relevance={audience.relevance[study.slug] ?? study.relevance}
+          />
         ))}
       </div>
     </section>
   );
 }
 
-function Leadership() {
+function Leadership({ audience }: { audience: Audience }) {
   return (
     <section
       id="leadership"
@@ -330,15 +345,13 @@ function Leadership() {
               </h2>
             </div>
             <p className="type-lede text-stone lg:col-span-5">
-              My work happens where the answer has to satisfy customers,
-              product, engineering, compliance, risk and the board. Four
-              principles keep it moving.
+              {audience.leadershipLede}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-ink/10 bg-ink/10 md:mt-20 md:grid-cols-2">
-          {leadershipPillars.map((pillar, index) => (
+          {audience.pillars.map((pillar, index) => (
             <Reveal key={pillar.title} delay={index * 0.05} className="bg-bone">
               <article className="flex h-full flex-col p-7 md:p-10">
                 <p className="type-label text-cobalt">
@@ -749,16 +762,18 @@ function Experience() {
   );
 }
 
+/** The home page; /saas and /design-leadership render audience versions of it. */
 export default function PortfolioV2() {
-  useDocumentMeta(pageMeta.home);
-  useInitialScroll();
+  const audience = useAudience();
+  useDocumentMeta(audience.meta);
+  useInitialScroll(audience.id);
 
   return (
     <SiteShell>
       <main id="main-content">
-        <Hero />
-        <SelectedWork />
-        <Leadership />
+        <Hero audience={audience} />
+        <SelectedWork audience={audience} />
+        <Leadership audience={audience} />
         <References />
         <AIPractice />
         <Writing />

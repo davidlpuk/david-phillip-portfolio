@@ -25,10 +25,17 @@ function setTag(html, pattern, replacement) {
   return html.replace(pattern, replacement);
 }
 
-function withMeta(template, { title, description }, url) {
+function withMeta(template, { title, description, image, noindex }, url, siteUrl) {
   const t = escapeHtml(title);
   const d = escapeHtml(description);
   let html = template;
+  if (image) {
+    html = setTag(html, /(<meta property="og:image" content=")[^"]*(")/, `$1${siteUrl}${image}$2`);
+    html = setTag(html, /(<meta name="twitter:image" content=")[^"]*(")/, `$1${siteUrl}${image}$2`);
+  }
+  if (noindex) {
+    html = html.replace("</title>", '</title>\n  <meta name="robots" content="noindex, follow" />');
+  }
   html = setTag(html, /<title>[^<]*<\/title>/, `<title>${t}</title>`);
   html = setTag(html, /(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${d}$2`);
   html = setTag(html, /(<meta property="og:title" content=")[^"]*(")/, `$1${t}$2`);
@@ -56,8 +63,9 @@ function preloadTags(manifest, entries) {
     .join("\n  ");
 }
 
+const homePaths = new Set(["/", "/saas", "/design-leadership"]);
 const routeChunk = (routePath) =>
-  routePath === "/"
+  homePaths.has(routePath)
     ? "src/views/PortfolioV2.tsx"
     : routePath === "/cv"
       ? "src/views/CV.tsx"
@@ -100,7 +108,7 @@ try {
     globalThis.__CV_SOURCE__ = route.path === "/cv" ? cvSource : undefined;
     const appHtml = await render(route.path);
     const url = route.path === "/" ? `${siteUrl}/` : `${siteUrl}${route.path}`;
-    let html = withMeta(template, route.meta, url);
+    let html = withMeta(template, route.meta, url, siteUrl);
     html = setTag(
       html,
       /<div id="root"><\/div>/,

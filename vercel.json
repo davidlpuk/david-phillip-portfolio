@@ -10,6 +10,14 @@
             "destination": "/api/index.ts"
         },
         {
+            "source": "/saas",
+            "destination": "/saas/index.html"
+        },
+        {
+            "source": "/design-leadership",
+            "destination": "/design-leadership/index.html"
+        },
+        {
             "source": "/cv",
             "destination": "/cv/index.html"
         },
