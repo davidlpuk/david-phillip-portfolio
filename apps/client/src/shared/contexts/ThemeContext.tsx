@@ -1,7 +1,12 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 export type ThemeMode = "light" | "dark";
-export type ThemePreset = "institutional-elegance" | "modern-tech" | "fresh-modern" | "theme-x";
+export type ThemePreset =
+  | "institutional-elegance"
+  | "modern-tech"
+  | "warm-minimal"
+  | "fresh-modern"
+  | "theme-x";
 
 export interface ThemeContextType {
   // Theme mode (light/dark)
@@ -174,6 +179,7 @@ export function ThemeProvider({
     const presetClassMap: Record<ThemePreset, string> = {
       "institutional-elegance": "",
       "modern-tech": "theme-modern-tech",
+      "warm-minimal": "theme-warm-minimal",
       "fresh-modern": "theme-fresh-modern",
       "theme-x": "theme-x",
     };
@@ -230,6 +236,7 @@ function isValidPreset(value: string): value is ThemePreset {
   return [
     "institutional-elegance",
     "modern-tech",
+    "warm-minimal",
     "fresh-modern",
     "theme-x",
   ].includes(value);
