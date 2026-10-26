@@ -18,6 +18,10 @@
             "destination": "/design-leadership/index.html"
         },
         {
+            "source": "/v2",
+            "destination": "/v2/index.html"
+        },
+        {
             "source": "/cv",
             "destination": "/cv/index.html"
         },

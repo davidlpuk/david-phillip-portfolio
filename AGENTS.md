@@ -73,6 +73,7 @@ load from Google Fonts on those pages only (`useLegacyFonts` in `App.tsx`).
 | Route | Page |
 | --- | --- |
 | `/`, `/saas`, `/design-leadership` | Home, one per audience |
+| `/v2` | Short one-page portfolio (`views/PortfolioShort.tsx`, copy in `rebuild/shortPortfolio.ts`) |
 | `/case-study/:slug` | coutts, hsbc-kinetic, cognism, ux-sidekick |
 | `/cv` | CV page; PDF at `/David-Phillip-CV.pdf` |
 | `/articles` | Writing (links to LinkedIn) |
@@ -84,7 +85,9 @@ load from Google Fonts on those pages only (`useLegacyFonts` in `App.tsx`).
 
 `audiences.ts` defines each version's headline, intro, proof row, case study
 order, "What this shows" lines, leadership framing, contact sentence and
-share image. `/saas` and `/design-leadership` are `noindex`. A visitor stays
+share image. `/v2` is also registered as an audience (`short`) so case
+studies opened from it link back to it. `/saas`, `/design-leadership` and
+`/v2` are `noindex`. A visitor stays
 in their version across pages (`useAudience`, sessionStorage). Adding a
 version also needs a route in `App.tsx`, an entry in `prerenderRoutes`
 (`meta.ts`), a rewrite in `vercel.json` and the path in `homePaths`

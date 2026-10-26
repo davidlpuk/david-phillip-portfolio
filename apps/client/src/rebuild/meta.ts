@@ -54,6 +54,7 @@ export const prerenderRoutes: Array<{ path: string; meta: PageMeta }> = [
   { path: "/", meta: pageMeta.home },
   { path: audiences.saas.path, meta: audiences.saas.meta },
   { path: audiences.general.path, meta: audiences.general.meta },
+  { path: audiences.short.path, meta: audiences.short.meta },
   { path: "/cv", meta: pageMeta.cv },
   { path: "/articles", meta: pageMeta.writing },
   ...caseStudies.map((study) => ({

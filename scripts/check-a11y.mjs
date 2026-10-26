@@ -19,6 +19,7 @@ const pages = [
   "/",
   "/saas",
   "/design-leadership",
+  "/v2",
   "/case-study/coutts",
   "/case-study/hsbc-kinetic",
   "/case-study/cognism",

@@ -73,6 +73,7 @@ same design, case studies, references and CV; only the framing changes.
 | `/` | Banks, wealth managers, fintech | Trust in financial products; Coutts first |
 | `/saas` | B2B SaaS, scale-ups, product-led companies | "Makes complex SaaS feel simple"; Cognism first |
 | `/design-leadership` | Any other sector | Complex products and the teams that build them; Cognism first |
+| `/v2` | Anyone short on time: a one-page, two-minute read | Three projects as problem, what I did, result; three references; contact |
 
 Each version has its own headline, intro, proof row, case-study order,
 "What this shows" lines, leadership framing, contact sentence and social
@@ -94,6 +95,16 @@ hydrates that HTML (`src/app/main.tsx`). Every other route gets the plain SPA
 shell, `spa.html`, through the catch-all rewrite in `vercel.json`. To add a
 public page, add it to `prerenderRoutes` in `rebuild/meta.ts` and add a
 matching rewrite in `vercel.json`.
+
+### The short portfolio (`/v2`)
+
+A second, deliberately brief portfolio on one page. It shares the design
+tokens, case studies and CV with the main site but is written for a two-minute
+read: a one-sentence promise, three proof numbers, three projects in a fixed
+problem / what I did / result format, three principles with evidence, three
+references quoted as complete sentences, recent roles and a single call to
+action. Every project links to its full case study, and those pages link back
+to `/v2`. Edit the copy in `apps/client/src/rebuild/shortPortfolio.ts`.
 
 ### Using it for applications
 

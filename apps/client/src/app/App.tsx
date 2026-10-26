@@ -29,6 +29,7 @@ const ExecutiveExplorer = adminEnabled
   ? lazy(() => import("@/views/ExecutiveExplorer"))
   : NotFound;
 const PortfolioV2 = lazy(() => import("@/views/PortfolioV2"));
+const PortfolioShort = lazy(() => import("@/views/PortfolioShort"));
 const PortfolioV2CaseStudy = lazy(() => import("@/views/PortfolioV2CaseStudy"));
 
 // The pre-2026 pages still use Montserrat and Material Symbols. Load them on
@@ -120,6 +121,11 @@ function Router() {
         <Route path="/design-leadership">
           <Suspense fallback={<PageLoader />}>
             <PortfolioV2 />
+          </Suspense>
+        </Route>
+        <Route path="/v2">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioShort />
           </Suspense>
         </Route>
         {/* The pre-2026 site (views/Home.tsx, views/CaseStudy.tsx) is kept in

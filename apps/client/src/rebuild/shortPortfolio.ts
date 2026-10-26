@@ -1,0 +1,134 @@
+import type { CaseStudySlug } from "@/rebuild/portfolioData";
+
+/**
+ * Copy for the short portfolio at /v2: one page a hiring manager can read in
+ * about two minutes. Facts and metrics come from portfolioData.ts and the CV;
+ * keep them in step.
+ */
+
+export const shortHero = {
+  headline: "I build design teams that make complex products",
+  emphasis: "simple",
+  tail: " to use.",
+  intro:
+    "Head of Design with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. I hire and grow teams, set up the systems they work in, and tie design to adoption, NPS and revenue.",
+  proof: [
+    { value: "−16 → +12", label: "NPS turnaround at Cognism" },
+    { value: "5 → 15", label: "Design team grown at Coutts" },
+    { value: "35%", label: "Adoption in 6 months at HSBC Kinetic, vs a 25% target" },
+  ],
+};
+
+export interface ShortProject {
+  slug: CaseStudySlug;
+  company: string;
+  role: string;
+  period: string;
+  title: string;
+  problem: string;
+  action: string;
+  result: string;
+  metric: { value: string; label: string };
+  image: string;
+  imageSmall?: string;
+  imageAlt: string;
+}
+
+export const shortProjects: ShortProject[] = [
+  {
+    slug: "cognism",
+    company: "Cognism",
+    role: "Head of UX",
+    period: "2022 – 2024",
+    title: "Built product design from zero through 4× growth",
+    problem: "Inconsistent workflows and an NPS of −16 had become a commercial risk.",
+    action: "Hired the team, set up DesignOps and redesigned the most-used workflows.",
+    result: "NPS rose to +12, with ease of use the main driver, as ARR grew from $20M to $80M.",
+    metric: { value: "−16 → +12", label: "NPS" },
+    image: "/images/site/cover-cognism.webp",
+    imageAlt: "Cognism usage dashboard showing credits remaining, active users and a bar chart of profile views",
+  },
+  {
+    slug: "coutts",
+    company: "Coutts",
+    role: "Design Director",
+    period: "2020 – 2022",
+    title: "Modernised private banking without losing its quiet confidence",
+    problem: "Younger clients wanted modern mobile banking. Existing clients needed reassurance.",
+    action: "Grew the team from 5 to 15, set up UX research and directed the new mobile app.",
+    result: "Digital adoption up 30% in six months. The app launched at 4.2★ with zero security incidents.",
+    metric: { value: "+30%", label: "Digital adoption" },
+    image: "/images/site/cover-coutts.webp",
+    imageSmall: "/images/site/cover-coutts-800.webp",
+    imageAlt: "Coutts mobile banking screens showing a personalised welcome, account balances and Coutts Rewards",
+  },
+  {
+    slug: "hsbc-kinetic",
+    company: "HSBC Kinetic",
+    role: "UX Lead (contract)",
+    period: "2019",
+    title: "Made SME lending fast enough for a mobile-first bank",
+    problem: "Five separate lending journeys had to become one fast, compliant mobile product.",
+    action: "Led UX across lending and integration, aligning Product, Engineering, Risk and Compliance on shared patterns.",
+    result: "35% adoption in six months against a 25% target, with 30% faster development cycles.",
+    metric: { value: "35%", label: "Adoption, target 25%" },
+    image: "/images/site/cover-hsbc-kinetic.webp",
+    imageAlt: "HSBC Kinetic app on a phone with the line ‘Let’s do business’ over a red wave graphic",
+  },
+];
+
+export const shortSideProject = {
+  slug: "ux-sidekick" as CaseStudySlug,
+  name: "UX Sidekick",
+  text: "An AI design critic I designed and built myself. It reviews a screen in about 30 seconds.",
+};
+
+export const shortPrinciples = [
+  {
+    title: "People before pixels",
+    proof: "100% design team retention over two years at Cognism.",
+  },
+  {
+    title: "Systems that scale quality",
+    proof: "Moved 280+ designers at NatWest Group to Figma, saving £400K+ a year.",
+  },
+  {
+    title: "Evidence over opinion",
+    proof: "Set up the first UX research practice at Coutts.",
+  },
+];
+
+/** Complete sentences only, quoted exactly from the references in portfolioData.ts. */
+export const shortReferences = [
+  {
+    quote:
+      "David built the team and instituted all the design processes that helped to lift our product from a −16 NPS to a positive 12.",
+    author: "Michelle Bradbury",
+    role: "Chief Product Officer, Cognism",
+    relationship: "David’s manager",
+  },
+  {
+    quote: "The team flourished under his leadership.",
+    author: "Jacqui Chadwick",
+    role: "Lead Product Designer, Coutts",
+    relationship: "Reported to David",
+  },
+  {
+    quote:
+      "His focus on the customer, paired with a deep understanding of UX and business objectives, meant we were not only able to orchestrate a highly compelling digital presence, but also optimise our performance post-live.",
+    author: "Jana Lowe",
+    role: "Global Head of Digital Sales, HSBC",
+    relationship: "Business stakeholder",
+  },
+];
+
+export const shortExperience = [
+  { period: "2024 – now", role: "Career break and AI product R&D", company: "Independent" },
+  { period: "2022 – 2024", role: "Head of UX, Product Design", company: "Cognism" },
+  { period: "2020 – 2022", role: "Design Director", company: "Coutts · NatWest Group" },
+  { period: "2019", role: "UX Lead, Product Design", company: "HSBC Kinetic" },
+  { period: "2016 – 2019", role: "UX Lead, Wealth & Investments", company: "Schroders" },
+];
+
+export const shortEarlierCareer =
+  "Earlier: Deutsche Bank, TSB, Barclays Wealth, HSBC and BlackRock (2006 – 2016).";

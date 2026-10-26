@@ -20,7 +20,7 @@ import {
  * Once a visitor lands on a version, navigation, "All work" links and the
  * contact copy stay in that version for the rest of their visit.
  */
-export type AudienceId = "financial" | "saas" | "general";
+export type AudienceId = "financial" | "saas" | "general" | "short";
 
 export interface Audience {
   id: AudienceId;
@@ -152,7 +152,21 @@ const general: Audience = {
   sectors: "product companies and digital teams in any sector",
 };
 
-export const audiences: Record<AudienceId, Audience> = { financial, saas, general };
+/** The short one-page portfolio (views/PortfolioShort.tsx); copy in shortPortfolio.ts. */
+const short: Audience = {
+  ...general,
+  id: "short",
+  path: "/v2",
+  meta: {
+    title: "David Phillip · Head of Design",
+    description:
+      "Head of Design with 20+ years in banking and B2B SaaS. Three projects, their results and how I lead, in a two-minute read.",
+    image: "/og-image-v2.jpg",
+    noindex: true,
+  },
+};
+
+export const audiences: Record<AudienceId, Audience> = { financial, saas, general, short };
 
 const audienceList = Object.values(audiences);
 const storageKey = "dp:audience";
