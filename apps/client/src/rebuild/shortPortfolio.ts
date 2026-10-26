@@ -12,7 +12,7 @@ export const shortHero = {
   emphasis: "simple",
   tail: " to use.",
   intro:
-    "Head of Design with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. I hire and grow teams, run design budgets of up to £2M, and tie design to adoption, NPS and revenue.",
+    "Head of Design with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. I hire and grow teams, set up the systems they work in, and tie design to adoption, NPS and revenue.",
   proof: [
     { value: "5 → 15", label: "Design team grown at Coutts" },
     { value: "100%", label: "Team retention over two years at Cognism" },
@@ -154,5 +154,6 @@ export const shortExperience = [
   { period: "2016 – 2019", role: "UX Lead, Wealth & Investments", company: "Schroders" },
 ];
 
+// The £2M budget was a Barclays contract and not a design budget; keep it worded that way.
 export const shortEarlierCareer =
-  "Earlier: Deutsche Bank, TSB, Barclays Wealth, HSBC and BlackRock (2006 – 2016).";
+  "Earlier: Deutsche Bank, TSB, Barclays Wealth, HSBC and BlackRock (2006 – 2016). At Barclays I was responsible for a budget of up to £2M.";
