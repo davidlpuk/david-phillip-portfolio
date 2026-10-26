@@ -7,15 +7,16 @@ import type { CaseStudySlug } from "@/rebuild/portfolioData";
  */
 
 export const shortHero = {
-  headline: "I build design teams that make complex products",
+  seeking: "Looking for Head of Design or Design Director roles",
+  headline: "I build design teams that make complex financial and SaaS products",
   emphasis: "simple",
   tail: " to use.",
   intro:
     "Head of Design with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. I hire and grow teams, set up the systems they work in, and tie design to adoption, NPS and revenue.",
   proof: [
-    { value: "−16 → +12", label: "NPS turnaround at Cognism" },
     { value: "5 → 15", label: "Design team grown at Coutts" },
-    { value: "35%", label: "Adoption in 6 months at HSBC Kinetic, vs a 25% target" },
+    { value: "100%", label: "Team retention over two years at Cognism" },
+    { value: "£400K+", label: "Saved a year moving 280+ NatWest Group designers to Figma" },
   ],
 };
 
@@ -43,7 +44,7 @@ export const shortProjects: ShortProject[] = [
     title: "Built product design from zero through 4× growth",
     problem: "Inconsistent workflows and an NPS of −16 had become a commercial risk.",
     action: "Hired the team, set up DesignOps and redesigned the most-used workflows.",
-    result: "NPS rose to +12, with ease of use the main driver, as ARR grew from $20M to $80M.",
+    result: "NPS turned positive, with ease of use the main driver, while ARR grew from $20M to $80M.",
     metric: { value: "−16 → +12", label: "NPS" },
     image: "/images/site/cover-cognism.webp",
     imageAlt: "Cognism usage dashboard showing credits remaining, active users and a bar chart of profile views",
@@ -55,7 +56,7 @@ export const shortProjects: ShortProject[] = [
     period: "2020 – 2022",
     title: "Modernised private banking without losing its quiet confidence",
     problem: "Younger clients wanted modern mobile banking. Existing clients needed reassurance.",
-    action: "Grew the team from 5 to 15, set up UX research and directed the new mobile app.",
+    action: "Scaled the team, set up UX research and directed the new mobile app.",
     result: "Digital adoption up 30% in six months. The app launched at 4.2★ with zero security incidents.",
     metric: { value: "+30%", label: "Digital adoption" },
     image: "/images/site/cover-coutts.webp",
@@ -77,24 +78,26 @@ export const shortProjects: ShortProject[] = [
   },
 ];
 
-export const shortSideProject = {
+/** What David is doing now, shown under the hero so the 2024 – now line is explained. */
+export const shortNow = {
   slug: "ux-sidekick" as CaseStudySlug,
-  name: "UX Sidekick",
-  text: "An AI design critic I designed and built myself. It reviews a screen in about 30 seconds.",
+  text: "Designing and building AI tools for design teams. Latest: UX Sidekick, which critiques a screen in about 30 seconds.",
+  link: "See how I built it",
 };
 
+/** Wording from leadershipPillars in portfolioData.ts. */
 export const shortPrinciples = [
   {
     title: "People before pixels",
-    proof: "100% design team retention over two years at Cognism.",
+    text: "Hire for trajectory, grow people with clear career paths and honest critique, and protect the team’s focus.",
   },
   {
     title: "Systems that scale quality",
-    proof: "Moved 280+ designers at NatWest Group to Figma, saving £400K+ a year.",
+    text: "Design systems, tooling and DesignOps so quality doesn’t depend on a few heroic individuals.",
   },
   {
     title: "Evidence over opinion",
-    proof: "Set up the first UX research practice at Coutts.",
+    text: "Research cadences, usability testing and product metrics that turn debates into decisions.",
   },
 ];
 
@@ -115,18 +118,18 @@ export const shortReferences = [
   },
   {
     quote:
-      "His focus on the customer, paired with a deep understanding of UX and business objectives, meant we were not only able to orchestrate a highly compelling digital presence, but also optimise our performance post-live.",
-    author: "Jana Lowe",
-    role: "Global Head of Digital Sales, HSBC",
-    relationship: "Business stakeholder",
+      "His work balancing the best experience for the user with technical constraints is exceptional, whilst ensuring quality is not compromised.",
+    author: "Usha Sanku",
+    role: "Product Consultant, HSBC Commercial Banking",
+    relationship: "Product partner",
   },
 ];
 
 export const shortExperience = [
-  { period: "2024 – now", role: "Career break and AI product R&D", company: "Independent" },
+  { period: "2024 – now", role: "Designing and building AI products", company: "Independent" },
   { period: "2022 – 2024", role: "Head of UX, Product Design", company: "Cognism" },
   { period: "2020 – 2022", role: "Design Director", company: "Coutts · NatWest Group" },
-  { period: "2019", role: "UX Lead, Product Design", company: "HSBC Kinetic" },
+  { period: "2019", role: "UX Lead, Product Design (contract)", company: "HSBC Kinetic" },
   { period: "2016 – 2019", role: "UX Lead, Wealth & Investments", company: "Schroders" },
 ];
 

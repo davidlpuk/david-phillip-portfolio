@@ -10,7 +10,7 @@ import {
   shortPrinciples,
   shortProjects,
   shortReferences,
-  shortSideProject,
+  shortNow,
   type ShortProject,
 } from "@/rebuild/shortPortfolio";
 import {
@@ -106,7 +106,7 @@ function Hero() {
           />
           <div>
             <p className="text-[15px] font-medium leading-6 text-ink">{profile.name}</p>
-            <p className="text-sm leading-5 text-stone">{profile.title}</p>
+            <p className="text-sm leading-5 text-stone">{shortHero.seeking}</p>
           </div>
           <div className="w-full sm:ml-auto sm:w-auto">
             <AvailabilityBadge tone="paper" />
@@ -137,6 +137,19 @@ function Hero() {
           </a>
         </div>
       </div>
+
+      <p className="mt-10 flex flex-col gap-2 border-l-2 border-cobalt pl-4 text-[15px] leading-6 text-ink sm:flex-row sm:gap-4">
+        <span className="type-label shrink-0 pt-0.5 text-cobalt">Now</span>
+        <span>
+          {shortNow.text}{" "}
+          <Link
+            href={`/case-study/${shortNow.slug}`}
+            className="font-medium text-cobalt underline underline-offset-4"
+          >
+            {shortNow.link}
+          </Link>
+        </span>
+      </p>
 
       <dl className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/10 sm:grid-cols-3">
         {shortHero.proof.map((item) => (
@@ -235,16 +248,6 @@ function Work() {
           <Project key={project.slug} project={project} index={index} />
         ))}
       </div>
-      <p className="rounded-2xl border border-ink/10 bg-bone p-5 text-[15px] leading-6 text-ink md:p-6">
-        <span className="font-medium">Side project: {shortSideProject.name}.</span>{" "}
-        {shortSideProject.text}{" "}
-        <Link
-          href={`/case-study/${shortSideProject.slug}`}
-          className="font-medium text-cobalt underline underline-offset-4"
-        >
-          See how I built it
-        </Link>
-      </p>
     </section>
   );
 }
@@ -263,7 +266,7 @@ function Leadership() {
         {shortPrinciples.map((item) => (
           <li key={item.title} className="border-t-2 border-cobalt pt-4">
             <h3 className="text-[17px] font-medium tracking-[-0.01em] text-ink">{item.title}</h3>
-            <p className="mt-2 text-[15px] leading-6 text-stone">{item.proof}</p>
+            <p className="mt-2 text-[15px] leading-6 text-stone">{item.text}</p>
           </li>
         ))}
       </ul>
@@ -357,8 +360,9 @@ function Contact() {
           Let’s <em className="italic text-periwinkle">talk</em>.
         </h2>
         <p className="type-lede mt-6 max-w-xl text-mist">
-          I’m looking for Head of Design and Design Director roles, based in
-          London. A 30-minute call is the quickest way to see if we’re a fit.
+          I’m based in London and looking for Head of Design or Design
+          Director roles. A 30-minute call is the quickest way to see if we’re
+          a fit.
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
           <ButtonLink href={profile.calendlyUrl} icon="external">
