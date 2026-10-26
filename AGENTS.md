@@ -8,9 +8,10 @@ production on every push, so treat `main` as live.
 
 ## Ground rules
 
-- **Don't change the content of `/`** (the financial-services version) unless
-  David asks. Framing for other audiences lives in the variants (see
-  Audience versions).
+- **`/` is the main portfolio: one short page** (`views/PortfolioShort.tsx`,
+  copy in `rebuild/shortPortfolio.ts`). Don't change its content, or that of
+  the full version at `/full`, unless David asks. Framing for other
+  audiences lives in the variants (see Audience versions).
 - Copy is UK English, plain and specific. Metrics must match the case studies
   and CV.
 - Before pushing, run `pnpm check && pnpm test && pnpm build`. The build ends
@@ -39,7 +40,8 @@ apps/client/            Vite root
     site.tsx            Header, footer, contact, Reveal, scroll handling
     writing.ts          Essays shown on /articles
     analytics.ts        Vercel Analytics with ?ref tracking
-  src/views/            Pages. Current: PortfolioV2, PortfolioV2CaseStudy, CV,
+  src/views/            Pages. Current: PortfolioShort (/), PortfolioV2 (/full
+                        and variants), PortfolioV2CaseStudy, CV,
                         LinkedInArticlesView, NotFound. The rest are legacy
                         or admin pages.
   src/features/cv-pdf/  CVPDF.tsx, the PDF CV (react-pdf)
@@ -72,8 +74,9 @@ load from Google Fonts on those pages only (`useLegacyFonts` in `App.tsx`).
 
 | Route | Page |
 | --- | --- |
-| `/`, `/saas`, `/design-leadership` | Home, one per audience |
-| `/v2` | Short one-page portfolio (`views/PortfolioShort.tsx`, copy in `rebuild/shortPortfolio.ts`) |
+| `/` | Main portfolio: the short one-page version |
+| `/full`, `/saas`, `/design-leadership` | Full portfolio, one per audience |
+| `/v2` | Redirects to `/` (keeps `?ref=`); the short page started here |
 | `/case-study/:slug` | coutts, hsbc-kinetic, cognism, ux-sidekick |
 | `/cv` | CV page; PDF at `/David-Phillip-CV.pdf` |
 | `/articles` | Writing (links to LinkedIn) |
@@ -85,9 +88,11 @@ load from Google Fonts on those pages only (`useLegacyFonts` in `App.tsx`).
 
 `audiences.ts` defines each version's headline, intro, proof row, case study
 order, "What this shows" lines, leadership framing, contact sentence and
-share image. `/v2` is also registered as an audience (`short`) so case
-studies opened from it link back to it. `/saas`, `/design-leadership` and
-`/v2` are `noindex`. A visitor stays
+share image. `short` (the main page at `/`) reuses the `general` framing so
+case studies opened from it link back to `/`; it is also the default for
+visitors who land straight on a case study. `financial` is the full
+portfolio at `/full`. `/saas` and `/design-leadership` are `noindex`. A
+visitor stays
 in their version across pages (`useAudience`, sessionStorage). Adding a
 version also needs a route in `App.tsx`, an entry in `prerenderRoutes`
 (`meta.ts`), a rewrite in `vercel.json` and the path in `homePaths`

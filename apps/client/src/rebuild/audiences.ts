@@ -40,11 +40,12 @@ export interface Audience {
   sectors: string;
 }
 
+/** The full portfolio for financial services, at /full. */
 const financial: Audience = {
   id: "financial",
-  path: "/",
+  path: "/full",
   meta: {
-    title: "David Phillip · Head of Design & Design Director, London",
+    title: "Full portfolio · David Phillip, Head of Design & Design Director",
     description:
       "David Phillip is a Head of Design and Design Director in London with 20+ years leading product design for Coutts, HSBC, BlackRock and Cognism. Design leadership for regulated, high-trust financial products.",
   },
@@ -152,17 +153,20 @@ const general: Audience = {
   sectors: "product companies and digital teams in any sector",
 };
 
-/** The short one-page portfolio (views/PortfolioShort.tsx); copy in shortPortfolio.ts. */
+/**
+ * The main portfolio at /: one short page (views/PortfolioShort.tsx, copy in
+ * shortPortfolio.ts). The longer versions stay at /full, /saas and
+ * /design-leadership.
+ */
 const short: Audience = {
   ...general,
   id: "short",
-  path: "/v2",
+  path: "/",
   meta: {
-    title: "David Phillip · Head of Design",
+    title: "David Phillip · Head of Design & Design Director, London",
     description:
-      "Head of Design with 20+ years in banking and B2B SaaS. Three projects, their results and how I lead, in a two-minute read.",
+      "David Phillip is a Head of Design in London with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. Selected work, results, references and CV.",
     image: "/og-image-v2.jpg",
-    noindex: true,
   },
 };
 
@@ -180,12 +184,12 @@ export function audienceForPath(path: string): Audience | undefined {
 /**
  * The audience for the current visit. On a home page it comes from the URL,
  * so prerendered HTML is correct. Elsewhere it is restored from the session
- * after hydration, falling back to financial services.
+ * after hydration, falling back to the main (short) portfolio.
  */
 export function useAudience(): Audience {
   const [location] = useLocation();
   const fromPath = audienceForPath(location);
-  const [stored, setStored] = useState<Audience>(financial);
+  const [stored, setStored] = useState<Audience>(short);
 
   useEffect(() => {
     try {

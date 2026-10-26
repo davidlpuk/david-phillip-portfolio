@@ -1,7 +1,7 @@
 import type { CaseStudySlug } from "@/rebuild/portfolioData";
 
 /**
- * Copy for the short portfolio at /v2: one page a hiring manager can read in
+ * Copy for the main portfolio at /: one page a hiring manager can read in
  * about two minutes. Facts and metrics come from portfolioData.ts and the CV;
  * keep them in step.
  */

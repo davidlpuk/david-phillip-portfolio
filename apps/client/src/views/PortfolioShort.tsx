@@ -22,7 +22,8 @@ import {
 } from "@/rebuild/site";
 
 /**
- * The short portfolio at /v2: one page, readable in about two minutes.
+ * The main portfolio at /: one page, readable in about two minutes. The
+ * longer versions live at /full, /saas and /design-leadership.
  * Shares the design tokens of the main site; copy lives in shortPortfolio.ts.
  */
 
@@ -270,6 +271,15 @@ function Leadership() {
           </li>
         ))}
       </ul>
+      <p id="writing" className="mt-10 text-[15px] leading-6 text-ink">
+        I also write about design leadership and AI.{" "}
+        <Link
+          href="/articles"
+          className="font-medium text-cobalt underline underline-offset-4"
+        >
+          Read the essays
+        </Link>
+      </p>
     </section>
   );
 }
@@ -400,7 +410,7 @@ function Footer() {
     <footer className="bg-ink text-mist">
       <div className="mx-auto flex max-w-5xl flex-col gap-3 border-t border-white/10 px-5 py-8 text-sm sm:flex-row sm:items-center sm:justify-between md:px-8">
         <p>© {new Date().getFullYear()} David Phillip</p>
-        <Link href="/" className="inline-flex items-center gap-1.5 text-bone underline-offset-4 hover:underline">
+        <Link href="/full" className="inline-flex items-center gap-1.5 text-bone underline-offset-4 hover:underline">
           See the full portfolio <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>

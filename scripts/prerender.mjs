@@ -65,9 +65,9 @@ function preloadTags(manifest, entries) {
     .join("\n  ");
 }
 
-const homePaths = new Set(["/", "/saas", "/design-leadership"]);
+const homePaths = new Set(["/full", "/saas", "/design-leadership"]);
 const routeChunk = (routePath) =>
-  routePath === "/v2"
+  routePath === "/"
     ? "src/views/PortfolioShort.tsx"
     : homePaths.has(routePath)
     ? "src/views/PortfolioV2.tsx"

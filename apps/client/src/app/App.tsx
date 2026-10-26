@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import NotFound from "@/views/NotFound";
-import { Redirect, Route, Router as WouterRouter, Switch, useLocation } from "wouter";
+import { Redirect, Route, Router as WouterRouter, Switch, useLocation, useSearch } from "wouter";
 import { ThemeProvider } from "@/shared/contexts/ThemeContext";
 import PageTransition from "@/shared/components/PageTransition";
 import { caseStudyBySlug, type CaseStudySlug } from "@/rebuild/portfolioData";
@@ -48,6 +48,12 @@ function useLegacyFonts(location: string) {
     link.href = LEGACY_FONTS;
     document.head.append(link);
   }, [location]);
+}
+
+/** /v2 moved to /; keep any ?ref= so tracking still works. */
+function ShortPortfolioRedirect() {
+  const search = useSearch();
+  return <Redirect to={search ? `/?${search}` : "/"} replace />;
 }
 
 // Loading fallback component
@@ -107,12 +113,18 @@ function Router() {
   return (
     <PageTransition>
       <Switch>
+        {/* The main portfolio: one short page */}
         <Route path="/">
+          <Suspense fallback={<PageLoader />}>
+            <PortfolioShort />
+          </Suspense>
+        </Route>
+        {/* Longer versions of the portfolio (see rebuild/audiences.ts) */}
+        <Route path="/full">
           <Suspense fallback={<PageLoader />}>
             <PortfolioV2 />
           </Suspense>
         </Route>
-        {/* Audience versions of the home page (see rebuild/audiences.ts) */}
         <Route path="/saas">
           <Suspense fallback={<PageLoader />}>
             <PortfolioV2 />
@@ -123,10 +135,9 @@ function Router() {
             <PortfolioV2 />
           </Suspense>
         </Route>
+        {/* The short portfolio started at /v2; links already sent keep working */}
         <Route path="/v2">
-          <Suspense fallback={<PageLoader />}>
-            <PortfolioShort />
-          </Suspense>
+          <ShortPortfolioRedirect />
         </Route>
         {/* The pre-2026 site (views/Home.tsx, views/CaseStudy.tsx) is kept in
             the repo for reference but no longer served. */}

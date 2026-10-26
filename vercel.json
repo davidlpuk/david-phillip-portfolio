@@ -4,6 +4,13 @@
     "installCommand": "npm install -g pnpm@10.4.1 && pnpm install --frozen-lockfile",
     "framework": null,
     "trailingSlash": false,
+    "redirects": [
+        {
+            "source": "/v2",
+            "destination": "/",
+            "permanent": false
+        }
+    ],
     "rewrites": [
         {
             "source": "/api/(.*)",
@@ -18,8 +25,8 @@
             "destination": "/design-leadership/index.html"
         },
         {
-            "source": "/v2",
-            "destination": "/v2/index.html"
+            "source": "/full",
+            "destination": "/full/index.html"
         },
         {
             "source": "/cv",
