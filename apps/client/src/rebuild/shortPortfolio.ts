@@ -12,7 +12,7 @@ export const shortHero = {
   emphasis: "simple",
   tail: " to use.",
   intro:
-    "Head of Design with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. I hire and grow teams, set up the systems they work in, and tie design to adoption, NPS and revenue.",
+    "Head of Design with 20+ years in banking and B2B SaaS, at Coutts, HSBC and Cognism. I hire and grow teams, run design budgets of up to £2M, and tie design to adoption, NPS and revenue.",
   proof: [
     { value: "5 → 15", label: "Design team grown at Coutts" },
     { value: "100%", label: "Team retention over two years at Cognism" },
@@ -103,6 +103,22 @@ export const shortPrinciples = [
   {
     title: "Evidence over opinion",
     text: "Research cadences, usability testing and product metrics that turn debates into decisions.",
+  },
+];
+
+/** Short leadership scenarios, from David's own account (October 2026). */
+export const shortStories = [
+  {
+    label: "With the CEO · Cognism",
+    title: "Took a new AI product from CEO brief to an agreed concept in a week",
+    text: "Cognism’s CEO wanted an AI tool, Jewel. I worked through the requirements with him, pulled evidence from customer calls recorded in Gong, and built a branded end-to-end journey with a working Figma prototype.",
+    result: "The concept was agreed, then built, tested and iterated. Its AI features went into the flagship product, made it more competitive and were well received by customers and sales.",
+  },
+  {
+    label: "Hiring · Cognism",
+    title: "Hired a design team before the company had a design reputation",
+    text: "As a young SaaS company, Cognism had no design brand to recruit on. I wrote a hiring pack covering the company, the vision for design, career progression across Design and Product, why UX mattered to the business, and the challenges a new designer would take on.",
+    result: "It helped build the team from zero to four, with 100% retention over two years.",
   },
 ];
 

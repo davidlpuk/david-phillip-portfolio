@@ -10,6 +10,7 @@ import {
   shortPrinciples,
   shortProjects,
   shortReferences,
+  shortStories,
   shortNow,
   type ShortProject,
 } from "@/rebuild/shortPortfolio";
@@ -273,8 +274,25 @@ function Leadership() {
           </li>
         ))}
       </ul>
+      <h3 className="type-label mt-14 text-stone">In practice</h3>
+      <div className="mt-4 grid gap-6 md:grid-cols-2">
+        {shortStories.map((story) => (
+          <article key={story.title} className="rounded-2xl border border-ink/10 bg-bone p-6">
+            <p className="type-label text-cobalt">{story.label}</p>
+            <h4 className="mt-3 text-[19px] font-medium leading-snug tracking-[-0.01em] text-ink">
+              {story.title}
+            </h4>
+            <p className="mt-3 text-[15px] leading-6 text-stone">{story.text}</p>
+            <p className="mt-3 text-[15px] leading-6 text-ink">
+              <span className="font-medium">Result: </span>
+              {story.result}
+            </p>
+          </article>
+        ))}
+      </div>
       <p id="writing" className="mt-10 text-[15px] leading-6 text-ink">
-        I also write about design leadership and AI.{" "}
+        I write on LinkedIn about design leadership, AI and how design teams
+        work.{" "}
         <Link
           href="/articles"
           className="font-medium text-cobalt underline underline-offset-4"
