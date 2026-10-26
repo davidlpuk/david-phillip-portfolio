@@ -43,14 +43,16 @@ Track record of scaling teams (5→15), launching award-winning products (Coutts
 
 ## Professional Experience
 
-### Career Break | Jun 2024 – Present
+### Designing & Building AI Products | Independent | Jun 2024 – Present
+*AI tools for design teams*
 
-Taking a strategic pause to deepen AI-native design expertise and identify next leadership opportunity aligned with long-term impact goals.
+Designing and building AI tools for design teams, and applying AI across research synthesis, prototyping and documentation.
 
-**Focus Areas:**
+- **UX Sidekick:** designed and built an AI design critic that reviews an interface in about 30 seconds and pins each issue to the element, with a suggested fix (React, TypeScript, Supabase Edge Functions)
 - Advanced exploration of AI orchestration in design workflows (research synthesis, prototyping automation, documentation)
 - Staying current with emerging design tools and AI-augmented practices
 - Contributing to design community through mentorship and thought leadership
+
 ### Head of UX – Product Design | Cognism | Jul 2022 – Jun 2024
 *B2B SaaS scale-up, sales intelligence platform*
 

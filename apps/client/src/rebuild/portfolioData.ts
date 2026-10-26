@@ -176,7 +176,7 @@ export const aiPractice = [
 export const experience: ExperienceEntry[] = [
   {
     period: "2024 – now",
-    role: "Career break and AI product R&D",
+    role: "Designing and building AI products",
     company: "Independent",
     summary:
       "Designing and building AI-assisted design tools, including UX Sidekick.",

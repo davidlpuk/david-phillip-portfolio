@@ -44,7 +44,7 @@ this folder (`PORTFOLIO_REBUILD_AUDIT.md`, `BNY_ROLE_FIT_AUDIT.md`,
 | "How I lead" principles, each with a proof point | Shows leadership philosophy backed by evidence. |
 | "The first 90 days" plan | Answers the hiring manager's real question: what happens if we hire you? |
 | References section with a featured CPO quote | Third-party proof from senior stakeholders and direct reports. |
-| Honest career timeline, including the 2024 career break | Recruiters check dates; framing it openly builds trust. |
+| Honest career timeline, with 2024 – now shown as independent AI product work (UX Sidekick) | Recruiters check dates; showing what filled them builds trust. |
 | Case study TL;DR (role, timeline, team, scope) and sticky contents | Fast scanning on long pages. |
 | Password gate redesigned, with "book a walkthrough" and "email me" | Confidential work still converts into a conversation. |
 
