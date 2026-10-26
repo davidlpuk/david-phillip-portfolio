@@ -129,7 +129,10 @@ WCAG 2.2 AA, desktop and phone) on every push.
 - Admin pages are swapped for the 404 page in production builds unless
   `VITE_ENABLE_ADMIN=true`.
 - Case study passwords are a client-side soft gate; the content ships in the
-  bundle. Don't put anything genuinely confidential in a case study.
+  bundle. Don't put anything genuinely confidential in a case study. The
+  shared password unlocks every study at once (remembered in localStorage),
+  and a `?key=<password>` link unlocks on arrival; the key is stripped from
+  the address bar and from analytics (`rebuild/password.ts`).
 
 ## Analytics
 

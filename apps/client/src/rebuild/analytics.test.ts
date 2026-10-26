@@ -24,6 +24,11 @@ describe("withVisitRef", () => {
     expect(view("https://x.dev/")).toBe("https://x.dev/ref/monzo-bank");
   });
 
+  it("never records the case-study key", () => {
+    expect(view("https://x.dev/?key=secret")).toBe("https://x.dev/");
+    expect(view("https://x.dev/v?ref=acme&key=secret")).toBe("https://x.dev/ref/acme/v");
+  });
+
   it("keeps other query parameters and drops unusable refs", () => {
     expect(view("https://x.dev/cv?ref=acme&utm_source=li")).toBe(
       "https://x.dev/ref/acme/cv?utm_source=li",

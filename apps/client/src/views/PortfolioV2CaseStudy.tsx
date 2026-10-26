@@ -20,11 +20,7 @@ import {
   type CaseStudyDetail,
   type CaseStudySlug,
 } from "@/rebuild/portfolioData";
-import {
-  isUnlocked,
-  rememberUnlock,
-  verifyCaseStudyPassword,
-} from "@/rebuild/password";
+import { isUnlocked, UNLOCK_EVENT, unlockWithPassword } from "@/rebuild/password";
 import { caseStudyMeta } from "@/rebuild/meta";
 import { useAudience } from "@/rebuild/audiences";
 import {
@@ -380,9 +376,7 @@ function PasswordGate({
     setError("");
     setIsSubmitting(true);
 
-    const valid = await verifyCaseStudyPassword(study.slug, password);
-    if (valid) {
-      rememberUnlock(study.slug);
+    if (await unlockWithPassword(study.slug, password)) {
       onUnlock();
     } else {
       setError(
@@ -581,7 +575,12 @@ export default function PortfolioV2CaseStudy() {
   useInitialScroll(slug);
 
   useEffect(() => {
-    setUnlocked(Boolean(study && (!study.protected || isUnlocked(study.slug))));
+    const check = () =>
+      setUnlocked(Boolean(study && (!study.protected || isUnlocked(study.slug))));
+    check();
+    // A ?key= link can unlock after this page has rendered
+    window.addEventListener(UNLOCK_EVENT, check);
+    return () => window.removeEventListener(UNLOCK_EVENT, check);
   }, [study]);
 
   const locked = Boolean(study?.protected && !unlocked);

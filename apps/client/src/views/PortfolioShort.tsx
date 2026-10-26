@@ -168,6 +168,7 @@ function Hero() {
 
 function Project({ project, index }: { project: ShortProject; index: number }) {
   const rows = [
+    { label: "Mandate", text: project.mandate },
     { label: "Problem", text: project.problem },
     { label: "What I did", text: project.action },
     { label: "Result", text: project.result },
@@ -242,7 +243,7 @@ function Work() {
         Selected work
       </SectionHeading>
       <p className="mt-4 max-w-xl text-[15px] leading-6 text-stone">
-        Three projects, each with the problem, my part and the result.
+        Three projects, each with the brief, the problem, my part and the result.
       </p>
       <div className="mt-8">
         {shortProjects.map((project, index) => (
@@ -261,7 +262,8 @@ function Leadership() {
       </SectionHeading>
       <p className="type-lede mt-6 max-w-2xl text-ink">
         Good design teams need clear standards, honest critique and a seat with
-        Product and Engineering. I set those up first.
+        Product and Engineering. I set those up first, and I’m equally
+        comfortable hands-on in a critique or leading multidisciplinary teams.
       </p>
       <ul className="mt-10 grid gap-6 md:grid-cols-3">
         {shortPrinciples.map((item) => (

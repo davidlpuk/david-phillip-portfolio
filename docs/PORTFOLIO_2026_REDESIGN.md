@@ -115,6 +115,11 @@ to `/`. The footer links to the full portfolio at `/full`. Edit the copy in `app
   open the project's Analytics tab: the Pages list shows `/ref/monzo/saas`,
   `/ref/monzo/case-study/cognism` and so on. Turn on Web Analytics in the
   project settings once.
+- **Skip the password box.** Add your case-study password to the link as
+  `key`, e.g. `/?ref=monzo&key=YOUR-PASSWORD`. The reader's browser unlocks
+  every case study on arrival, the key disappears from the address bar and
+  is never recorded in analytics. Typing the password once also unlocks all
+  of them, in every tab.
 - **CV as a link.** `/David-Phillip-CV.pdf` is rebuilt from
   `public/docs/DP CV - Download.md` on every deploy, in the site's
   typefaces, with whole words only so applicant tracking systems can match

@@ -26,6 +26,8 @@ export interface ShortProject {
   role: string;
   period: string;
   title: string;
+  /** Company stage, the brief and David's remit */
+  mandate: string;
   problem: string;
   action: string;
   result: string;
@@ -42,8 +44,9 @@ export const shortProjects: ShortProject[] = [
     role: "Head of UX",
     period: "2022 – 2024",
     title: "Built product design from zero through 4× growth",
+    mandate: "B2B SaaS scale-up growing 4×. First design hire, reporting to the CPO with full budget responsibility.",
     problem: "Inconsistent workflows and an NPS of −16 had become a commercial risk.",
-    action: "Hired the team, set up DesignOps and redesigned the most-used workflows.",
+    action: "Hired the team, created career pathways, set up DesignOps and redesigned the most-used workflows.",
     result: "NPS turned positive, with ease of use the main driver, while ARR grew from $20M to $80M.",
     metric: { value: "−16 → +12", label: "NPS" },
     image: "/images/site/cover-cognism.webp",
@@ -55,6 +58,7 @@ export const shortProjects: ShortProject[] = [
     role: "Design Director",
     period: "2020 – 2022",
     title: "Modernised private banking without losing its quiet confidence",
+    mandate: "Digital transformation at a 320-year-old private bank. Design Director across four brands with full budget responsibility.",
     problem: "Younger clients wanted modern mobile banking. Existing clients needed reassurance.",
     action: "Scaled the team, set up UX research and directed the new mobile app.",
     result: "Digital adoption up 30% in six months. The app launched at 4.2★ with zero security incidents.",
@@ -69,6 +73,7 @@ export const shortProjects: ShortProject[] = [
     role: "UX Lead (contract)",
     period: "2019",
     title: "Made SME lending fast enough for a mobile-first bank",
+    mandate: "New mobile-first venture inside a global bank, part of a multi-billion-pound initiative. UX lead across five lending products.",
     problem: "Five separate lending journeys had to become one fast, compliant mobile product.",
     action: "Led UX across lending and integration, aligning Product, Engineering, Risk and Compliance on shared patterns.",
     result: "35% adoption in six months against a 25% target, with 30% faster development cycles.",

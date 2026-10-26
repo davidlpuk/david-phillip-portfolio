@@ -30,8 +30,10 @@ function visitRef(url: URL): string | null {
  */
 export function withVisitRef(event: BeforeSendEvent): BeforeSendEvent {
   const url = new URL(event.url);
+  // ?key= carries the case-study password; never record it
+  url.searchParams.delete("key");
   const ref = visitRef(url);
-  if (!ref) return event;
+  if (!ref) return { ...event, url: url.toString() };
   url.searchParams.delete("ref");
   url.pathname = `/ref/${ref}${url.pathname === "/" ? "" : url.pathname}`;
   return { ...event, url: url.toString() };

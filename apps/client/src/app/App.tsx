@@ -6,6 +6,7 @@ import { Redirect, Route, Router as WouterRouter, Switch, useLocation, useSearch
 import { ThemeProvider } from "@/shared/contexts/ThemeContext";
 import PageTransition from "@/shared/components/PageTransition";
 import { caseStudyBySlug, type CaseStudySlug } from "@/rebuild/portfolioData";
+import { unlockFromUrl } from "@/rebuild/password";
 
 // Lazy-loaded page components for code splitting
 const Articles = lazy(() => import("@/views/LinkedInArticlesView"));
@@ -77,6 +78,9 @@ const PageLoader = React.memo(function PageLoader() {
 function Router() {
   const [location] = useLocation();
   useLegacyFonts(location);
+  useEffect(() => {
+    void unlockFromUrl();
+  }, []);
 
   // Handle anchor scrolling when location changes
   useEffect(() => {
